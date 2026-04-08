@@ -1,0 +1,174 @@
+/**
+ * list-view.css
+ * Replicated from list-view.html using global variables.
+ */
+
+.lef-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 48px 64px;
+}
+
+.lef-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.lef-section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--leb-secondary-color);
+}
+
+/* Property Grid */
+.lef-property-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+}
+
+.lef-property-card {
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border-radius: 20px;
+    background: var(--leb-white);
+}
+
+.lef-property-card:hover .lef-card-image {
+    transform: scale(1.05);
+}
+
+.lef-card-image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.lef-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.lef-card-image.lef-is-placeholder {
+    object-fit: contain;
+    padding: 40px;
+    background: var(--leb-bg-light);
+    opacity: 0.6;
+}
+
+.lef-favorite-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    background: var(--leb-overlay-bg);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.lef-favorite-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--leb-text-color);
+    stroke-width: 2;
+}
+
+.lef-favorite-btn.active svg {
+    fill: var(--leb-primary-color);
+    stroke: var(--leb-primary-color);
+}
+
+/* Image Navigation */
+.lef-image-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    background: var(--leb-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border: 1px solid var(--leb-border-color);
+    z-index: 2;
+}
+
+.lef-card-image-container:hover .lef-image-nav {
+    opacity: 1;
+}
+
+.lef-nav-prev { left: 8px; }
+.lef-nav-next { right: 8px; }
+
+.lef-card-body {
+    padding: 12px 4px;
+}
+
+.lef-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.lef-property-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--leb-text-color);
+    margin: 0;
+}
+
+.lef-property-summary {
+    font-size: 14px;
+    color: var(--leb-text-muted);
+    margin: 0px;
+}
+
+.lef-property-price {
+    margin: 0px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.lef-price-period {
+    font-weight: 400;
+    color: var(--leb-text-muted);
+}
+
+/* Empty State */
+.lef-no-properties {
+    padding: 64px 0;
+    text-align: left;
+    color: var(--leb-text-muted);
+    font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .lef-property-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px) {
+    .lef-property-grid { grid-template-columns: repeat(2, 1fr); }
+    .lef-main { padding: 24px 20px; }
+}
+
+@media (max-width: 600px) {
+    .lef-property-grid { grid-template-columns: 1fr; }
+}
