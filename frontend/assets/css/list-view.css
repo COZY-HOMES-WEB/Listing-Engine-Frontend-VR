@@ -59,7 +59,7 @@
 }
 
 .lef-card-image.lef-is-placeholder {
-    background: var(--leb-border-default);
+    background: var(--leb-border-color);
 }
 
 .lef-favorite-btn {

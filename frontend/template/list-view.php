@@ -122,7 +122,7 @@ $listings = $wpdb->get_results($query);
                         <p class="lef-property-summary"><?php echo esc_html($summary); ?></p>
                         <div class="lef-property-price">
                             <span class="lef-price-amount">₹<?php echo esc_html($listing->price); ?></span>
-                            <span class="lef-price-period">/ Night</span>
+                            <span class="lef-price-period">/ night</span>
                         </div>
                     </div>
                 </div>
