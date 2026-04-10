@@ -16,12 +16,42 @@ global $wpdb;
 $location_param = isset($_GET['location']) ? sanitize_text_field($_GET['location']) : '';
 $type_param     = isset($_GET['type'])     ? sanitize_text_field($_GET['type'])     : '';
 $guests_param   = isset($_GET['guests'])   ? intval($_GET['guests'])                : 0;
+$checkin_param  = isset($_GET['checkin'])  ? sanitize_text_field($_GET['checkin'])  : '';
+$checkout_param = isset($_GET['checkout']) ? sanitize_text_field($_GET['checkout']) : '';
 $amenities_raw  = isset($_GET['amenities']) ? sanitize_text_field($_GET['amenities']) : '';
 $min_price      = isset($_GET['min-price']) ? floatval($_GET['min-price'])           : 0;
 $max_price      = isset($_GET['max-price']) ? floatval($_GET['max-price'])           : 0;
 $sort           = isset($_GET['sort'])      ? sanitize_text_field($_GET['sort'])      : '';
 
-// 2. Map Name-Based Parameters to IDs.
+// 2. Availability Check (Date Blocking Logic).
+$blocked_property_ids = array();
+if ($checkin_param && $checkout_param) {
+    // Generate dates in the requested range.
+    $start_date = new DateTime($checkin_param);
+    $end_date   = new DateTime($checkout_param);
+    $requested_dates = array();
+    
+    $interval = new DateInterval('P1D');
+    $date_period = new DatePeriod($start_date, $interval, $end_date->modify('+1 day'));
+    foreach ($date_period as $date) {
+        $requested_dates[] = $date->format('Y-m-d');
+    }
+
+    // Fetch blocked dates from DB.
+    $blocks = $wpdb->get_results("SELECT property_id, dates FROM {$wpdb->prefix}ls_block_date");
+    foreach ($blocks as $block) {
+        $blocked_json = json_decode($block->dates, true);
+        if (is_array($blocked_json)) {
+            // Check for intersection between requested dates and blocked dates.
+            $intersection = array_intersect($requested_dates, $blocked_json);
+            if (! empty($intersection)) {
+                $blocked_property_ids[] = intval($block->property_id);
+            }
+        }
+    }
+}
+
+// 3. Map Name-Based Parameters to IDs.
 $location_id = 0;
 if ($location_param) {
     if (is_numeric($location_param)) {
@@ -54,7 +84,7 @@ if ($amenities_raw) {
     }
 }
 
-// 3. Build Dynamic Query.
+// 4. Build Dynamic Query.
 $query = "
 	SELECT l.*, t.name as type_name, loc.name as location_name 
 	FROM {$wpdb->prefix}ls_listings l
@@ -78,8 +108,7 @@ if ($type_id > 0) {
 }
 
 if ($guests_param > 0) {
-    // Note: Assuming 'guest' column exists in wp_ls_listings
-    $query .= $wpdb->prepare(" AND l.guest >= %d", $guests_param);
+    $query .= $wpdb->prepare(" AND l.guests >= %d", $guests_param);
 }
 
 if ($min_price > 0) {
@@ -97,7 +126,13 @@ if (! empty($amenity_ids)) {
     }
 }
 
-// 4. Sorting & Execution.
+// Exclude Blocked Properties.
+if (! empty($blocked_property_ids)) {
+    $blocked_ids_str = implode(',', array_map('intval', array_unique($blocked_property_ids)));
+    $query .= " AND l.id NOT IN ($blocked_ids_str)";
+}
+
+// 5. Sorting & Execution.
 if ($sort === 'price_low_to_high') {
     $query .= " ORDER BY l.price ASC";
 } elseif ($sort === 'price_high_to_low') {

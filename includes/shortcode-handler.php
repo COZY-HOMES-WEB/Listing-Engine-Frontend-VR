@@ -15,8 +15,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 function lef_register_shortcodes() {
 	add_shortcode( 'listing_engine_view', 'lef_render_list_view' );
 	add_shortcode( 'selected_list_view', 'lef_render_selected_list_view' );
+	add_shortcode( 'premium_search_bar', 'lef_render_premium_search_bar' );
 }
 add_action( 'init', 'lef_register_shortcodes' );
+
+/**
+ * Render the Premium Search Bar.
+ * @return string The rendered HTML.
+ */
+function lef_render_premium_search_bar() {
+	ob_start();
+	
+	$template_path = LEF_PLUGIN_DIR . 'frontend/template/search-bar.php';
+	
+	if ( file_exists( $template_path ) ) {
+		include $template_path;
+	} else {
+		echo '<p>Search bar template not found.</p>';
+	}
+	
+	return ob_get_clean();
+}
 
 /**
  * Render the List View.

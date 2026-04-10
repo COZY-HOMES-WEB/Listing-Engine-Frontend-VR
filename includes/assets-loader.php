@@ -63,6 +63,38 @@ function lef_enqueue_assets() {
 			);
 		}
 
+		// Assets for [premium_search_bar]
+		if ( has_shortcode( $post->post_content, 'premium_search_bar' ) ) {
+			wp_enqueue_style(
+				'lef-search-bar',
+				LEF_PLUGIN_URL . 'frontend/assets/css/search-bar.css',
+				array( 'lef-global-styles' ),
+				filemtime( LEF_PLUGIN_DIR . 'frontend/assets/css/search-bar.css' )
+			);
+
+			wp_enqueue_script(
+				'lef-search-bar-js',
+				LEF_PLUGIN_URL . 'frontend/assets/js/search-bar.js',
+				array( 'jquery' ),
+				filemtime( LEF_PLUGIN_DIR . 'frontend/assets/js/search-bar.js' ),
+				true
+			);
+
+			// Localize search bar data
+			global $wpdb;
+			$archive_page_id = $wpdb->get_var( $wpdb->prepare(
+				"SELECT page_id FROM {$wpdb->prefix}admin_management WHERE name = %s",
+				'Listing Archive'
+			) );
+			$archive_url = $archive_page_id ? get_permalink( $archive_page_id ) : home_url( '/' );
+
+			wp_localize_script( 'lef-search-bar-js', 'lefSearchData', array(
+				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+				'archiveUrl' => $archive_url,
+				'nonce'      => wp_create_nonce( 'lef_search_nonce' )
+			) );
+		}
+
 		// Pass localized data to JS (if either script is enqueued)
 		if ( wp_script_is( 'lef-list-view-js', 'enqueued' ) || wp_script_is( 'lef-selected-view-js', 'enqueued' ) ) {
 			wp_localize_script( 
