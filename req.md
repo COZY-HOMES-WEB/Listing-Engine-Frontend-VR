@@ -1,43 +1,41 @@
- * Plugin Name: Listing Engine Frontend
- * Plugin URI: https://arttechfuzion.com
- * Author: Art-Tech Fuzion
+sun ab ek screens folder mein `selected-list-view.html` ko read kar and usme tujhe 2 view show honge ek grid view and ek carousel view to first ye kaam hai tera ki ek template create kar `selected-list-view.php` se jisme dono view design kar deifferent different and ye file ka css and js bhi alag bana.
+
+Now shortcode design karne mein lag ja jisse ye view show hoga jaha paster karunga.
+[selected_list_view] - isse show hoga frontend mein samjha. ab isme kuchh modification hai. 
+
+[selected_list_view view="grid"] - isse grid view show hoga.
+[selected_list_view view="carousel"] - isse carousel view show hoga.
+(by deafult grid view hona chahiye so grid wale shortcode ki need nhi hai)
+
+ab inme bhi kuchh changes hai like if admin wants to show specific amount of list like usko 10 show karne ho ya 5 to uske liye wo shortcode mein hi value dalega and phir uske according show hoga 
+
+[selected_list_view view="grid" count="10"] - isse grid view show hoga 10 list ke sath.
+[selected_list_view view="carousel" count="5"] - isse carousel view show hoga 5 list ke sath. (By default 10 value hogi means if user value nhi deta hai to 10 hi show hoga by default)
+
+ab maan le user ko specific location ke list show karne ho to uske liye bhi ek hona chahiye 
+
+[selected_list_view view="grid" count="10" location="new york"] - isse grid view show hoga 10 list ke sath new york ke. 
+
+tab ye db mein search karega `wp_ls_location` table mein and jab mil jaega tab uska id le kar jaega `wp_ls_listings` table mein and iske `location` column mein search karega or match karega same id and jo match hoga wo list utha kar show karega.
+
+ab maan le usko show karna hai koii specific type ka list like usko show karna hai ki "home", "apartment" etc to uske liye bhi ek hona chahiye ek shortcode jisme wo type pass karega like 
+
+[selected_list_view view="grid" count="10" location="new york" type="home"] - isse grid view show hoga 10 list ke sath new york ke and type home ka. 
+
+abhi isme hoga ye ki ye db mein `wp_ls_types`, `wp_ls_location` ye dono table mein shortcode mein jo type and location ka value hai unko match karega name naam ke column mein and then `wp_ls_listings` table mein `type` and `location` column mein match karega or jo match hoga wo list utha kar show karega. 
+
+isme ek varient ye bhi hoga like if user without location sirf type se karega like [selected_list_view view="grid" count="10" type="home"] kuchh aesa tab ye sirf `wp_ls_types` table mein type ko match karega or jo match hoga wo list utha kar show karega. 
+(listen upper agar user koii parameter nhi deta hai type and location ka so by default latest entry show hongi)
 
 
- sun ab plugin banana hai jisme mene ek template banaya hai screen folder mein list-view.html se uska replica karna hai and color mene pehle se set kar rkhe hai global-assets/css/global.css mein and font family ke liye inherit use karna hai taki wordpress mein jo font family ho wo use ho sake and make sure sare file seperated ho and sare path define karne ke liye and konse page par konsa assets load hoga uske liye proper assets-loader.php includes ke andar bana and also ek file url routing bhi bana if needed hoga future mein to samjha. 
+ab sun sare listing ke last mein ek see all ka card hoga tujhe ye usme bhi milega jo ui refrence ke liye follow karega usme. to wo card hold karega kuchh parameter according to the shortcode.
 
- ab sun kaam ye hai ki ek shortcode bana jisko website mein jaha paste karu waha par wo template render ho jaye property list show ho and property par click karne par uski detail page open ho and wo detail page konsa hai wo pata chalega db se tu db mein request bhjega ki "wp_admin_management" mein name column mein "Listing Single View" name se koii entry hai ki nhi agar nhi hai to toaster aa jae page not found and agar hai to page_id se page ka id nikal kar wo page par redirect kar dega with url mein property id bhi pass kar dena but in a hidden way.
+1. agar shortcode mein koii parameter nhi hai then wo normal `wp_admin_management` table mein jaega and ek entry dhundega `name` columns mein `Listing Archive` and phir uska value `page_id` column se mil jaega phir isko wo see all card hold karke rkhega and jaise hi user click karega to wo waha redirect kar dega. 
 
-
- ab sun list view page ki jaha sare list show honge shortcode se to ek to shortcode bana jisse render hoga jaha bhi wo shortcode mein dalu website mein to sare property and ab sun ek property ka kya kya detail hoga and kaise milega. 
-
- sabse pehle to tujhe `wp_ls_listings' mein se nikalna hoga kitna list hai and then ab ek list mein image, title, little detail, price hai to ab sun one by one kaise milega detail.
-
- IMAGE=>
- pehle to tu property id ke sath jaega  `wp_ls_img` table mein and isme wo property id se attavh entry dhundega property_id column mein and phir wo milne ke baad image column se data lega jo json mein hoga usko decode kar ke milega tujhe images (id, url, sort_order) aese aur bhi image hogi wo jason mein sabke pass ye detail hogi jisme sort_oder tere ko image ka order define karega and url se tu path pata laga sakta hai image ka and make sure jo sort_order mein hoga wese hi show karna hai image like 0 wala obvious cover image hoga sabse pehle phir 1 aese karke.
-
- TITLE=>
- ye to tujhko title banana hai like {type} in {location} aesa hoga title ab ye type milega tujhe `wp_ls_listings` ke type column se value and phir wo value le kar jaega `wp_ls_types` table mein and yaha id match karne ke baad `name` column se data mil jaega wo show karna hai and ab {location} iske liye same apne `wp_ls_listings` ke `location` column se data le lena and then `wp_ls_locations` table mein ja kar wo location id se match kar ke `name` column se data le lena wo show karna hai.
+2. Agar shotcode mein koii parameter hai like "type" "location" then uska value bhi hold karega see all card mein and jaise hi user click karega to wo uss page par redirect karega and uss page par bhi same filter apply hoga jo shortcode mein tha. (www.website.com/page_id?location=new+york&type=home) aesa kuchh samjha.
 
 
- LITTLE_TITTLE=>
-yaha tujhe data show karna hai 2 like "1 bedroom, 1 bed" iske liye tujhe apne `wp_ls_listings` ke `bedroom` column se data le lena and then `bed` column se data le lena and then "1 bedroom" and "1 bed" ko " , " se join kar ke show karna hai.
+NOTE: mene upper jitna bhi sab likha hai wo implement hona chahiye ek structure way mein with proper comments and proper coding style. Also make sure sare files seperated ho and dependent na ho kisi par taki in future changes karna easy rhe.
 
 
-PRICE =>
 
-iske liye tujhe `wp_ls_listings` mein hi `price` mein se value mil jaega bas show aese karega {price}/night samjha. 
-
-ab sun page ke top mein ek title hai "Over 1,000 homes in Noida" ye aesa show hoga like url agar clear hai sirf page ka name hai then "Premium Property" show hoga and agar url mein kuchh parameters passs ho rhe honge tab wo parameters mein ye find karega location kya hai and then "Over {count} homes in {location}" aesa show karega like "Over 1,000 homes in Noida" samjha. ye count to wo hai ki kitna list hai uss location mein like agar 10 list hai to "Over 10 homes in Noida" aesa show hoga samjha.
-
-card mein ek heart icon bhi hai wo wishlist ke liye hai but abhi wo feature baad mein dalenge tab karenge to abhi sirf heart svg laga kar rkh de jo bs.
-
-IMPORTANT POINTS:
-
-make sure global.css se hi color use ho only and not any inline css in the code and also no rgba color and direct color in the code and font-family should be inhereted.
-
-code should be crystal clear and all should have seperated files and folders and also make sure all the files are properly linked and all the paths are properly defined in assets-loader.php.
-
-Make sure provide comments in the code show that we can identify easily ki konsa code kya kar rha hai.
-
- 
-ek toaster and confirmation ka bhi bana gloabl-assets mein css mein css and js mein js and whi use ho like toaster mein hamesa msg pass kiya jaega and call kiya jaega then ye show ho jaega jo 2 second baad automatically close ho jaega and confirmation mein ek msg and two button yes and no and yes par click karne par true jaega and phir usko jo function call karna ho kar sakta hai and no par false yani nhi karna hai. inka bhi ek template create karna hai global-assets mein hi template folder ke andar jo globally use honge mene bata diya hai.

@@ -1,0 +1,256 @@
+/**
+ * selected-list-view.css
+ * 
+ * Styles for the [selected_list_view] shortcode.
+ * Supports both .lef-view-grid and .lef-view-carousel.
+ */
+
+/* ── Container Logic ── */
+.lef-selected-container {
+    width: 100%;
+    margin: 20px 0;
+    font-family: var(--leb-font-main);
+    overflow: hidden; /* Prevent horizontal scroll on page */
+}
+
+/* ── Grid Layout (6 Columns) ── */
+.lef-grid-wrapper {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+@media (max-width: 1400px) {
+    .lef-grid-wrapper { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 1024px) {
+    .lef-grid-wrapper { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .lef-grid-wrapper { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .lef-grid-wrapper { grid-template-columns: 1fr; }
+}
+
+/* ── Carousel Layout ── */
+.lef-carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.lef-carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    padding: 10px 0;
+}
+
+.lef-carousel-track::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+.lef-carousel-track .lef-property-card {
+    flex: 0 0 calc(100% / 6 - 17px); /* Align with 6-col grid */
+    scroll-snap-align: start;
+    min-width: 200px;
+}
+
+@media (max-width: 1400px) {
+    .lef-carousel-track .lef-property-card { flex: 0 0 calc(100% / 4 - 15px); }
+}
+
+@media (max-width: 1024px) {
+    .lef-carousel-track .lef-property-card { flex: 0 0 calc(100% / 3 - 14px); }
+}
+
+@media (max-width: 768px) {
+    .lef-carousel-track .lef-property-card { flex: 0 0 calc(100% / 2 - 10px); }
+}
+
+@media (max-width: 480px) {
+    .lef-carousel-track .lef-property-card { flex: 0 0 100%; }
+}
+
+/* ── Navigation Arrows ── */
+.lef-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--leb-white);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--leb-secondary-color);
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.lef-carousel-nav:hover {
+    opacity: 1;
+    background: var(--leb-bg-light);
+}
+
+.lef-carousel-nav.lef-nav-prev { left: -20px; }
+.lef-carousel-nav.lef-nav-next { right: -20px; }
+
+/* Hide arrows if on edges (Handled by JS later) */
+.lef-carousel-nav.is-hidden { display: none; }
+
+/* ── Card Styling (Consistent with list-view.css but unique classes) ── */
+.lef-property-card {
+    background: var(--leb-white);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--leb-border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.lef-property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--leb-card-shadow);
+}
+
+.lef-card-image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #f0f0f0;
+}
+
+.lef-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Placeholder Specifics */
+.lef-has-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+}
+
+.lef-is-placeholder {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: contain !important;
+    opacity: 0.5;
+}
+
+.lef-favorite-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.lef-favorite-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--leb-secondary-color);
+    stroke-width: 2;
+}
+
+.lef-favorite-btn:hover {
+    transform: scale(1.1);
+}
+
+.lef-favorite-btn.is-active svg {
+    fill: var(--leb-primary-color);
+    stroke: var(--leb-primary-color);
+}
+
+.lef-card-body {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.lef-property-title {
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--leb-secondary-color);
+}
+
+.lef-property-summary {
+    margin: 0 0 10px;
+    font-size: 13px;
+    color: var(--leb-text-muted);
+}
+
+.lef-property-price {
+    margin-top: auto;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.lef-price-period {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--leb-text-muted);
+}
+
+/* ── See All Card ── */
+.lef-see-all-card {
+    background: var(--leb-bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.lef-see-all-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.lef-see-all-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--leb-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.lef-see-all-text {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--leb-secondary-color);
+}

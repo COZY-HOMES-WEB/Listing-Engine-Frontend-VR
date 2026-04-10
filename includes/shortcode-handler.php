@@ -10,10 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Register the [listing_engine_view] shortcode.
+ * Register the shortcodes.
  */
 function lef_register_shortcodes() {
 	add_shortcode( 'listing_engine_view', 'lef_render_list_view' );
+	add_shortcode( 'selected_list_view', 'lef_render_selected_list_view' );
 }
 add_action( 'init', 'lef_register_shortcodes' );
 
@@ -32,6 +33,36 @@ function lef_render_list_view() {
 		include $template_path;
 	} else {
 		echo '<p>Template not found.</p>';
+	}
+	
+	return ob_get_clean();
+}
+
+/**
+ * Render the Selected List View.
+ * 
+ * @param array $atts Shortcode attributes.
+ * @return string The rendered HTML.
+ */
+function lef_render_selected_list_view( $atts ) {
+	$atts = shortcode_atts( array(
+		'view'     => 'grid',
+		'count'    => 10,
+		'location' => '',
+		'type'     => '',
+	), $atts, 'selected_list_view' );
+
+	ob_start();
+	
+	// Include the template.
+	$template_path = LEF_PLUGIN_DIR . 'frontend/template/selected-list-view.php';
+	
+	if ( file_exists( $template_path ) ) {
+		// Pass attributes to the template.
+		set_query_var( 'lef_selected_atts', $atts );
+		include $template_path;
+	} else {
+		echo '<p>Template not found: ' . esc_html( $template_path ) . '</p>';
 	}
 	
 	return ob_get_clean();
