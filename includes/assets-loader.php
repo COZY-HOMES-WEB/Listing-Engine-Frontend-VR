@@ -88,8 +88,8 @@ function lef_enqueue_assets() {
 			) );
 			$archive_url = $archive_page_id ? get_permalink( $archive_page_id ) : home_url( '/' );
 
-			wp_localize_script( 'lef-search-bar-js', 'lefSearchData', array(
-				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
+			wp_localize_script( 'lef-search-bar-js', 'lef_ajax_obj', array(
+				'ajax_url'    => admin_url( 'admin-ajax.php' ),
 				'archiveUrl' => $archive_url,
 				'nonce'      => wp_create_nonce( 'lef_search_nonce' )
 			) );

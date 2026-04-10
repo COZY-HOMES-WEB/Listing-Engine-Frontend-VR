@@ -26,7 +26,7 @@ function lef_handle_search_suggestions() {
 
 	// 1. Search in Locations
 	$locations = $wpdb->get_results($wpdb->prepare(
-		"SELECT name FROM {$wpdb->prefix}ls_location WHERE name LIKE %s AND status = 'published' LIMIT 5",
+		"SELECT name FROM {$wpdb->prefix}ls_location WHERE name LIKE %s LIMIT 5",
 		'%' . $wpdb->esc_like($query) . '%'
 	));
 

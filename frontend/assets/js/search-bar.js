@@ -32,16 +32,18 @@ window.SearchBar = (function($) {
     function openSection(sectionId) {
         state.activeSection = sectionId;
         
-        // Setup popup visibility
-        $('#mainPopup').addClass('active');
+        // For location, we only show the popup if there's something to show (suggestions)
+        // This will be handled by showSuggestions() which is triggered on input/click
+        if (sectionId !== 'location') {
+            $('#mainPopup').addClass('active');
+        }
+        
         $('.popup-section').removeClass('active');
         $('#' + sectionId + 'Section').addClass('active');
 
         // Apply active class to trigger fields for visual feedback
         $('.search-field').removeClass('field-active');
-        $('#' + sectionId + (sectionId === 'guests' ? 'Field' : 'Field')).addClass('field-active'); 
         
-        // Note: The HTML uses singular 'guestField' and 'dateField'
         const specificFieldId = (sectionId === 'location') ? 'locationField' : 
                                 (sectionId === 'date') ? 'dateField' : 'guestField';
         $('#' + specificFieldId).addClass('field-active');
@@ -49,11 +51,12 @@ window.SearchBar = (function($) {
         positionPopup(specificFieldId);
         
         if (sectionId === 'location') {
-            // Focus remains on the main pill input which calls this
             const $mainInput = $('#locationDisplay');
             if (!$mainInput.is(':focus')) {
                 $mainInput.focus();
             }
+            // Trigger suggestion check immediately on click
+            showSuggestions($mainInput.val());
         }
     }
 
@@ -97,8 +100,13 @@ window.SearchBar = (function($) {
 
     function showSuggestions(query) {
         const $list = $('#suggestionsList');
+        
+        // If query is empty, hide and don't show popup for location
         if (!query.trim()) {
             $list.empty().hide();
+            if (state.activeSection === 'location') {
+                $('#mainPopup').removeClass('active');
+            }
             return;
         }
 
@@ -126,8 +134,22 @@ window.SearchBar = (function($) {
                             </div>`;
                     });
                     $list.html(html).show();
+                    // Show popup since we have results
+                    if (state.activeSection === 'location') {
+                        $('#mainPopup').addClass('active');
+                    }
                 } else {
                     $list.empty().hide();
+                    // Hide popup if no results found
+                    if (state.activeSection === 'location') {
+                        $('#mainPopup').removeClass('active');
+                    }
+                }
+            },
+            error: function() {
+                // Hide on error too
+                if (state.activeSection === 'location') {
+                    $('#mainPopup').removeClass('active');
                 }
             }
         });
