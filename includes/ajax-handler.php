@@ -40,13 +40,22 @@ function lef_handle_search_suggestions() {
 
 	// 2. Search in Listing Addresses
 	$addresses = $wpdb->get_results($wpdb->prepare(
-		"SELECT address FROM {$wpdb->prefix}ls_listings WHERE address LIKE %s AND status = 'published' LIMIT 5",
+		"SELECT l.address, loc.name as location_name 
+		 FROM {$wpdb->prefix}ls_listings l
+		 LEFT JOIN {$wpdb->prefix}ls_location loc ON l.location = loc.id
+		 WHERE l.address LIKE %s AND l.status = 'published' LIMIT 5",
 		'%' . $wpdb->esc_like($query) . '%'
 	));
 
 	foreach ($addresses as $addr) {
+		$display_name = $addr->address;
+		if (! empty($addr->location_name)) {
+			$display_name .= ', ' . $addr->location_name;
+		}
 		$results[] = array(
-			'name' => $addr->address,
+			'name' => $display_name,
+			'address' => $addr->address,
+			'location' => $addr->location_name,
 			'type' => 'Property',
 			'subtitle' => 'Street Address'
 		);

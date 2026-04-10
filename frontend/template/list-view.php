@@ -14,6 +14,7 @@ global $wpdb;
 
 // 1. Extract and Sanitize Parameters.
 $location_param = isset($_GET['location']) ? sanitize_text_field($_GET['location']) : '';
+$address_param  = isset($_GET['address'])  ? sanitize_text_field($_GET['address'])  : '';
 $type_param     = isset($_GET['type'])     ? sanitize_text_field($_GET['type'])     : '';
 $guests_param   = isset($_GET['guests'])   ? intval($_GET['guests'])                : 0;
 $checkin_param  = isset($_GET['checkin'])  ? sanitize_text_field($_GET['checkin'])  : '';
@@ -93,13 +94,18 @@ $query = "
 	WHERE l.status = 'published'
 ";
 
-// Location Fallback: Exact/Similar Location ID OR Partial Address Match.
+// Location/Address Filtering.
 if ($location_id > 0) {
     $query .= $wpdb->prepare(" AND l.location = %d", $location_id);
 } elseif ($location_param) {
-    $query .= $wpdb->prepare(" AND (l.address LIKE %s OR loc.name LIKE %s)", 
-        '%' . $wpdb->esc_like($location_param) . '%',
+    $query .= $wpdb->prepare(" AND loc.name LIKE %s", 
         '%' . $wpdb->esc_like($location_param) . '%'
+    );
+}
+
+if ($address_param) {
+    $query .= $wpdb->prepare(" AND l.address LIKE %s", 
+        '%' . $wpdb->esc_like($address_param) . '%'
     );
 }
 
@@ -153,10 +159,15 @@ if ( empty($_GET) ) {
     // Determine the property type display (e.g., 'Apartments' or 'homes')
     $display_type = ! empty($type_param) ? esc_html($type_param) . 's' : 'homes';
     
-    // Determine location display
-    $display_location = ! empty($location_param) ? ' in ' . esc_html($location_param) : '';
+    // Determine location/address display
+    $display_location = '';
+    if (! empty($location_param)) {
+        $display_location = ' in ' . esc_html($location_param);
+    } elseif (! empty($address_param)) {
+        $display_location = ' at ' . esc_html($address_param);
+    }
     
-    // Final output: e.g., "Over 5 Apartments in Jaipur" or "Over 5 homes"
+    // Final output: e.g., "Over 5 Apartments in Jaipur" or "Over 5 homes at Street 1"
     $count_text = sprintf("Over %d %s%s", $total_count, $display_type, $display_location);
 }
 

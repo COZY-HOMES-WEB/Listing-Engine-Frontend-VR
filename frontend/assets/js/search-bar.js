@@ -9,6 +9,9 @@ window.SearchBar = (function($) {
 
     const state = {
         location: '',
+        locationType: 'Location', // 'Location' or 'Property'
+        selectedAddress: '',
+        selectedLocation: '',
         checkin: '',
         checkout: '',
         adults: 1,
@@ -123,7 +126,7 @@ window.SearchBar = (function($) {
                     let html = '';
                     response.data.forEach(item => {
                         html += `
-                            <div class="suggestion-item" onclick="SearchBar.selectLocation('${item.name}', '${item.type}')">
+                            <div class="suggestion-item" onclick="SearchBar.selectLocation('${item.name.replace(/'/g, "\\'")}', '${item.type}', '${(item.address || "").replace(/'/g, "\\'")}', '${(item.location || "").replace(/'/g, "\\'")}')">
                                 <div class="suggestion-icon">
                                     <svg viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                                 </div>
@@ -155,8 +158,11 @@ window.SearchBar = (function($) {
         });
     }
 
-    function selectLocation(name) {
+    function selectLocation(name, type, address, location) {
         state.location = name;
+        state.locationType = type || 'Location';
+        state.selectedAddress = address || '';
+        state.selectedLocation = location || '';
         $('#locationDisplay').val(name).addClass('has-value');
         $('#locationWrapper').addClass('has-value');
         // Popup persists as requested until outside click
@@ -165,6 +171,9 @@ window.SearchBar = (function($) {
     function clearLocation(e) {
         e.stopPropagation();
         state.location = '';
+        state.locationType = 'Location';
+        state.selectedAddress = '';
+        state.selectedLocation = '';
         $('#locationDisplay').val('').removeClass('has-value');
         $('#locationWrapper').removeClass('has-value');
         // Remove redundant popup input ref
@@ -367,7 +376,16 @@ window.SearchBar = (function($) {
 
     function handleSearch() {
         const query = new URLSearchParams();
-        if (state.location) query.set('location', state.location);
+        
+        if (state.location) {
+            if (state.locationType === 'Property') {
+                query.set('address', state.selectedAddress);
+                query.set('location', state.selectedLocation);
+            } else {
+                query.set('location', state.location);
+            }
+        }
+        
         if (state.checkin) query.set('checkin', state.checkin);
         if (state.checkout) query.set('checkout', state.checkout);
         
