@@ -109,12 +109,20 @@ if ($sort === 'price_low_to_high') {
 
 $listings = $wpdb->get_results($query);
 
-// 5. Update Header Text based on count and location.
-$count_text = sprintf("%d %s", count($listings), count($listings) === 1 ? 'Premium Property' : 'Premium Properties');
-if ($location_param) {
-    $count_text .= sprintf(" in %s", esc_html($location_param));
-} elseif ($type_param) {
-    $count_text .= sprintf(" of type %s", esc_html($type_param));
+// 5. Update Header Text based on parameters.
+if ( empty($_GET) ) {
+    $count_text = 'Premium Property';
+} else {
+    $total_count = count($listings);
+    
+    // Determine the property type display (e.g., 'Apartments' or 'homes')
+    $display_type = ! empty($type_param) ? esc_html($type_param) . 's' : 'homes';
+    
+    // Determine location display
+    $display_location = ! empty($location_param) ? ' in ' . esc_html($location_param) : '';
+    
+    // Final output: e.g., "Over 5 Apartments in Jaipur" or "Over 5 homes"
+    $count_text = sprintf("Over %d %s%s", $total_count, $display_type, $display_location);
 }
 
 ?>
