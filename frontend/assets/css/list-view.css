@@ -25,15 +25,16 @@
 .lef-property-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 25px 20px;
+    gap: 20px 12px;
 }
 
 .lef-property-card {
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 20px;
     background: var(--leb-white);
+    border: 1px solid var(--leb-border-color);
 }
 
 .lef-property-card:hover .lef-card-image {
@@ -43,9 +44,9 @@
 .lef-card-image-container {
     position: relative;
     width: 100%;
-    aspect-ratio: 1;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 0px;
     display: flex;
 }
 
@@ -57,7 +58,8 @@
 }
 
 .lef-card-image.lef-is-placeholder {
-    background: var(--leb-border-color);
+    object-fit: cover !important;
+    background: var(--leb-bg-light);
 }
 
 .lef-favorite-btn {
@@ -120,7 +122,7 @@
 }
 
 .lef-card-body {
-    padding: 12px 4px;
+    padding: 12px 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -135,7 +137,7 @@
 
 .lef-property-title {
     font-size: 1.45rem;
-    font-weight: 500;
+    font-weight: 550;
     color: var(--leb-text-color);
     margin: 0;
     line-height: 1.8rem;
@@ -155,10 +157,6 @@
     margin-top: -4px;
 }
 
-.lef-price-amount {
-    text-decoration: underline;
-}
-
 .lef-price-period {
     font-weight: 400;
     color: var(--leb-text-muted);
@@ -172,21 +170,24 @@
     font-size: 16px;
 }
 
-/* Responsive */
-@media (max-width: 1200px) {
-    .lef-property-grid {
+/* ── Responsive Breakpoints ── */
+
+/* <= 1250px: 4 Items */
+@media (max-width: 1250px) {
+.lef-property-grid {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-@media (max-width: 900px) {
+
+@media (max-width: 910px) {
     .lef-property-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
     .lef-property-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -197,14 +198,14 @@
     }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 400px) {
 
     .lef-property-title {
         font-size: 1.3rem;
     }
 
-    .lef-property-summary{
-        font-size: 1.25rem;
+    .lef-property-summary {
+        font-size: 1.1rem;
     }
 
     .lef-property-price {
@@ -215,4 +216,10 @@
     }
 
 
+}
+
+@media (max-width: 320px){
+     .lef-property-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }

@@ -109,8 +109,8 @@ if ( ! empty( $location_slug ) || ! empty( $type_slug ) ) {
                     }
                 }
 
-                $fallback_svg = LEF_PLUGIN_URL . 'global-assets/images/no-image.svg';
-                $main_image = ! empty( $images ) ? $images[0] : $fallback_svg;
+                $fallback_img = LEF_PLUGIN_URL . 'global-assets/images/placeholder.png';
+                $main_image = ! empty( $images ) ? $images[0] : $fallback_img;
                 $is_placeholder = empty( $images );
 
                 $type_display = $listing->type_name ? $listing->type_name : 'Property';
@@ -129,7 +129,8 @@ if ( ! empty( $location_slug ) || ! empty( $type_slug ) ) {
                         <img src="<?php echo esc_url( $main_image ); ?>" 
                              alt="<?php echo esc_attr( $title ); ?>" 
                              class="lef-card-image <?php echo $is_placeholder ? 'lef-is-placeholder' : ''; ?>"
-                             loading="lazy">
+                             loading="lazy"
+                             onerror="this.src='<?php echo esc_url($fallback_img); ?>'; this.classList.add('lef-is-placeholder'); this.parentElement.classList.add('lef-has-placeholder');">
                         
                         <button class="lef-favorite-btn" aria-label="Add to wishlist">
                             <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -169,9 +170,9 @@ if ( ! empty( $location_slug ) || ! empty( $type_slug ) ) {
             }
         }
         // Fill defaults if less than 3
-        $fallback_svg = LEF_PLUGIN_URL . 'global-assets/images/no-image.svg';
+        $fallback_img = LEF_PLUGIN_URL . 'global-assets/images/placeholder.png';
         while ( count( $collage_images ) < 3 ) {
-            $collage_images[] = $fallback_svg;
+            $collage_images[] = $fallback_img;
         }
         ?>
 

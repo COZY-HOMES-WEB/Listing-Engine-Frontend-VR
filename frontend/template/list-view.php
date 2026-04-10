@@ -200,9 +200,9 @@ if ( empty($_GET) ) {
                 }
 
                 // Fallback image (SVG) if none found in DB.
-                $fallback_svg = LEF_PLUGIN_URL . 'global-assets/images/no-image.svg';
+                $fallback_img = LEF_PLUGIN_URL . 'global-assets/images/placeholder.png';
                 if (empty($images)) {
-                    $images = array($fallback_svg);
+                    $images = array($fallback_img);
                 }
 
                 $type_display = $listing->type_name ? $listing->type_name : 'Property';
@@ -225,7 +225,7 @@ if ( empty($_GET) ) {
                         <img src="<?php echo esc_url($images[0]); ?>" 
                              alt="<?php echo esc_attr($title); ?>" 
                              class="lef-card-image"
-                             onerror="this.src='<?php echo esc_url($fallback_svg); ?>'; this.classList.add('lef-is-placeholder');">
+                             onerror="this.src='<?php echo esc_url($fallback_img); ?>'; this.classList.add('lef-is-placeholder');">
 
                         <button class="lef-favorite-btn" aria-label="Add to wishlist">
                             <svg viewBox="0 0 24 24">
