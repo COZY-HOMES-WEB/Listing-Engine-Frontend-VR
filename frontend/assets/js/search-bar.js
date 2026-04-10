@@ -1,343 +1,384 @@
-(function($) {
+/**
+ * search-bar.js
+ * 
+ * Exact replica of search.html logic with WordPress AJAX integration.
+ */
+
+window.SearchBar = (function($) {
     'use strict';
 
-    const SearchBar = {
-        state: {
-            location: '',
-            checkin: '',
-            checkout: '',
-            guests: {
-                adults: 1,
-                children: 0,
-                infants: 0
-            },
-            activeSection: null,
-            currentMonth: new Date(),
-            selectedRange: { start: null, end: null }
-        },
-
-        init: function() {
-            this.cacheDOM();
-            this.bindEvents();
-            this.renderCalendar();
-            this.updateDisplay();
-        },
-
-        cacheDOM: function() {
-            this.$container = $('#lefSearchBar');
-            
-            // Triggers/Fields
-            this.$locationTrigger = $('#locationTrigger');
-            this.$checkinTrigger = $('#checkinTrigger');
-            this.$checkoutTrigger = $('#checkoutTrigger');
-            this.$guestsTrigger = $('#guestsTrigger');
-            
-            // Inputs
-            this.$locationInput = $('#locationInput');
-            this.$displayCheckin = $('#displayCheckin');
-            this.$displayCheckout = $('#displayCheckout');
-            this.$displayGuests = $('#displayGuests');
-
-            // Clear Buttons
-            this.$clearLocation = $('#clearLocation');
-            this.$clearCheckin = $('#clearCheckin');
-            this.$clearCheckout = $('#clearCheckout');
-            this.$clearGuests = $('#clearGuests');
-            
-            // Popups
-            this.$popup = $('#searchPopup');
-            this.$popupSections = $('.popup-section');
-            this.$suggestionsList = $('#suggestionsList');
-            
-            // Mobile
-            this.$mobileTrigger = $('#mobileSearchTrigger');
-            this.$mobileModal = $('#mobileModal');
-            this.$mobileTabs = $('.mobile-tab');
-            this.$mobileTabContents = $('.mobile-tab-content');
-            this.$mobLocationInput = $('#mobLocationInput');
-            this.$mobSuggestionsList = $('#mobSuggestionsList');
-
-            this.$executeSearch = $('#executeSearch, #mobileExecuteSearch');
-        },
-
-        bindEvents: function() {
-            const _this = this;
-
-            // Location interaction
-            this.$locationInput.on('focus input', function() {
-                _this.openSection('location');
-                const val = $(this).val();
-                if (val.length === 0) _this.renderDefaultSuggestions();
-                else _this.handleLocationSearch(val);
-                _this.toggleClearBtn(_this.$clearLocation, val.length > 0);
-            });
-
-            // Date interaction
-            this.$checkinTrigger.add(this.$checkoutTrigger).on('click', () => this.openSection('date'));
-            
-            // Guest interaction
-            this.$guestsTrigger.on('click', () => this.openSection('guests'));
-
-            // Clear functionality
-            this.$clearLocation.on('click', (e) => {
-                e.stopPropagation();
-                this.state.location = '';
-                this.$locationInput.val('').focus();
-                this.renderDefaultSuggestions();
-                this.toggleClearBtn(this.$clearLocation, false);
-                this.updateDisplay();
-            });
-
-            this.$clearCheckin.add(this.$clearCheckout).on('click', (e) => {
-                e.stopPropagation();
-                this.state.selectedRange = { start: null, end: null };
-                this.state.checkin = '';
-                this.state.checkout = '';
-                this.updateDisplay();
-                this.renderCalendar();
-                this.renderCalendar(true);
-            });
-
-            this.$clearGuests.on('click', (e) => {
-                e.stopPropagation();
-                this.state.guests = { adults: 1, children: 0, infants: 0 };
-                this.updateDisplay();
-            });
-
-            // Outside click to close
-            $(document).on('click', (e) => {
-                if (!$(e.target).closest('#lefSearchBar, #searchPopup').length) {
-                    this.closePopup();
-                }
-            });
-
-            // Suggestions selection
-            $(document).on('click', '.suggestion-item', function() {
-                const val = $(this).data('value');
-                _this.setLocation(val);
-                if (!_this.$mobileModal.hasClass('active')) _this.closePopup();
-            });
-
-            // Guest Controls
-            $('.guest-btn').on('click', function(e) {
-                e.stopPropagation();
-                const type = $(this).data('type');
-                const guestType = $(this).data('guest-type');
-                _this.updateGuests(guestType, type);
-            });
-
-            // Search execution
-            this.$executeSearch.on('click', () => this.executeSearch());
-
-            // Mobile logic
-            this.$mobileTrigger.on('click', () => this.$mobileModal.addClass('active'));
-            $('#closeMobileModal').on('click', () => this.$mobileModal.removeClass('active'));
-            this.$mobileTabs.on('click', function() {
-                const tab = $(this).data('tab');
-                _this.$mobileTabs.removeClass('active');
-                $(this).addClass('active');
-                _this.$mobileTabContents.removeClass('active');
-                $('#mob-' + tab).addClass('active');
-            });
-
-            this.$mobLocationInput.on('focus input', function() {
-                const val = $(this).val();
-                if (val.length === 0) _this.renderDefaultSuggestions(true);
-                else _this.handleLocationSearch(val, true);
-            });
-
-            // Calendar Nav
-            $('#prevMonth').on('click', () => { this.state.currentMonth.setMonth(this.state.currentMonth.getMonth() - 1); this.renderCalendar(); });
-            $('#nextMonth').on('click', () => { this.state.currentMonth.setMonth(this.state.currentMonth.getMonth() + 1); this.renderCalendar(); });
-            $('#mobPrevMonth').on('click', () => { this.state.currentMonth.setMonth(this.state.currentMonth.getMonth() - 1); this.renderCalendar(true); });
-            $('#mobNextMonth').on('click', () => { this.state.currentMonth.setMonth(this.state.currentMonth.getMonth() + 1); this.renderCalendar(true); });
-
-            $('#clearDatesPopup').on('click', () => {
-                this.state.selectedRange = { start: null, end: null };
-                this.state.checkin = '';
-                this.state.checkout = '';
-                this.updateDisplay();
-                this.renderCalendar();
-            });
-
-            $('#applyDates').on('click', () => this.closePopup());
-
-            $('#resetMobile').on('click', () => {
-                this.state.location = '';
-                this.state.checkin = '';
-                this.state.checkout = '';
-                this.state.guests = { adults: 1, children: 0, infants: 0 };
-                this.updateDisplay();
-                this.renderCalendar(true);
-                this.$mobLocationInput.val('');
-            });
-        },
-
-        openSection: function(section) {
-            this.state.activeSection = section;
-            this.$popup.addClass('active');
-            this.$popupSections.removeClass('active');
-            $('#' + section + 'Popup').addClass('active');
-            this.positionPopup(section);
-        },
-
-        positionPopup: function(section) {
-            const trigger = $('#' + section + 'Trigger');
-            if (!trigger.length) return;
-            const triggerRect = trigger[0].getBoundingClientRect();
-            const containerRect = this.$container[0].getBoundingClientRect();
-            
-            // Align popup under the active field or center it
-            let left = triggerRect.left - containerRect.left;
-            const popupWidth = this.$popup.outerWidth();
-            const maxLeft = containerRect.width - popupWidth;
-            
-            if (left > maxLeft) left = maxLeft;
-            if (left < 0) left = 0;
-            
-            this.$popup.css({
-                'left': left + 'px',
-                'transform': 'none'
-            });
-        },
-
-        closePopup: function() {
-            this.state.activeSection = null;
-            this.$popup.removeClass('active');
-        },
-
-        toggleClearBtn: function($btn, show) {
-            $btn.css('display', show ? 'flex' : 'none');
-        },
-
-        renderDefaultSuggestions: function(isMobile = false) {
-            const defaults = [
-                { name: 'Mumbai, India', type: 'Popular' },
-                { name: 'Goa, India', type: 'Beach' },
-                { name: 'Jaipur, India', type: 'Heritage' },
-                { name: 'Bangalore, India', type: 'City' }
-            ];
-            this.renderSuggestions(defaults, isMobile);
-        },
-
-        handleLocationSearch: function(query, isMobile = false) {
-            $.post(lefSearchData.ajaxurl, {
-                action: 'lef_search_suggestions',
-                query: query,
-                nonce: lefSearchData.nonce
-            }, (response) => {
-                if (response.success) this.renderSuggestions(response.data, isMobile);
-            });
-        },
-
-        renderSuggestions: function(data, isMobile = false) {
-            let html = '';
-            data.forEach(item => {
-                html += `
-                    <div class="suggestion-item" data-value="${item.name}">
-                        <div class="suggestion-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                        <div class="suggestion-text">
-                            <strong>${item.name}</strong>
-                            <span>${item.type}</span>
-                        </div>
-                    </div>
-                `;
-            });
-            if (isMobile) this.$mobSuggestionsList.html(html);
-            else this.$suggestionsList.html(html);
-        },
-
-        setLocation: function(val) {
-            this.state.location = val;
-            this.$locationInput.val(val);
-            this.$mobLocationInput.val(val);
-            $('#mobileDisplayLocation').text(val);
-            this.toggleClearBtn(this.$clearLocation, true);
-            this.updateDisplay();
-        },
-
-        updateGuests: function(guestType, action) {
-            if (action === 'plus') this.state.guests[guestType]++;
-            else if (this.state.guests[guestType] > (guestType === 'adults' ? 1 : 0)) this.state.guests[guestType]--;
-            
-            this.updateDisplay();
-        },
-
-        renderCalendar: function(isMobile = false) {
-            const date = new Date(this.state.currentMonth);
-            const month = date.getMonth();
-            const year = date.getFullYear();
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            
-            (isMobile ? $('#mobMonthYear') : $('#monthYear')).text(monthNames[month] + " " + year);
-            
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const today = new Date(); today.setHours(0,0,0,0);
-
-            let html = '<div class="cal-day-header">Su</div><div class="cal-day-header">Mo</div><div class="cal-day-header">Tu</div><div class="cal-day-header">We</div><div class="cal-day-header">Th</div><div class="cal-day-header">Fr</div><div class="cal-day-header">Sa</div>';
-            for (let i = 0; i < firstDay; i++) html += '<div class="cal-day empty"></div>';
-            
-            for (let i = 1; i <= daysInMonth; i++) {
-                const current = new Date(year, month, i);
-                let classes = 'cal-day';
-                if (current < today) classes += ' disabled';
-                const time = current.getTime();
-                if (this.state.selectedRange.start && time === this.state.selectedRange.start.getTime()) classes += ' selected';
-                if (this.state.selectedRange.end && time === this.state.selectedRange.end.getTime()) classes += ' selected';
-                if (this.state.selectedRange.start && this.state.selectedRange.end && time > this.state.selectedRange.start.getTime() && time < this.state.selectedRange.end.getTime()) classes += ' range';
-                html += `<div class="${classes}" data-date="${year}-${String(month+1).padStart(2,'0')}-${String(i).padStart(2,'0')}">${i}</div>`;
-            }
-            
-            (isMobile ? $('#mobCalendarGrid') : $('#calendarGrid')).html(html);
-            const _this = this;
-            $('.cal-day:not(.disabled):not(.empty)').on('click', function() { _this.handleDateClick($(this).data('date'), isMobile); });
-        },
-
-        handleDateClick: function(dateStr, isMobile = false) {
-            const date = new Date(dateStr);
-            if (!this.state.selectedRange.start || (this.state.selectedRange.start && this.state.selectedRange.end)) {
-                this.state.selectedRange.start = date; this.state.selectedRange.end = null;
-            } else if (date < this.state.selectedRange.start) {
-                this.state.selectedRange.start = date;
-            } else {
-                this.state.selectedRange.end = date;
-            }
-            this.state.checkin = this.state.selectedRange.start ? this.formatDate(this.state.selectedRange.start) : '';
-            this.state.checkout = this.state.selectedRange.end ? this.formatDate(this.state.selectedRange.end) : '';
-            this.updateDisplay();
-            this.renderCalendar(); this.renderCalendar(true);
-        },
-
-        formatDate: function(date) { return date.toISOString().split('T')[0]; },
-
-        updateDisplay: function() {
-            this.$displayCheckin.val(this.state.checkin || '');
-            this.$displayCheckout.val(this.state.checkout || '');
-            this.toggleClearBtn(this.$clearCheckin, this.state.checkin || this.state.checkout);
-            
-            const total = this.state.guests.adults + this.state.guests.children;
-            this.$displayGuests.val(total > 0 ? total + (total === 1 ? ' guest' : ' guests') : '');
-            this.toggleClearBtn(this.$clearGuests, total > 1 || this.state.guests.children > 0 || this.state.guests.infants > 0);
-            
-            $('#adultsCount, #mobAdultsCount').text(this.state.guests.adults);
-            $('#childrenCount, #mobChildrenCount').text(this.state.guests.children);
-            $('#infantsCount, #mobInfantsCount').text(this.state.guests.infants);
-        },
-
-        executeSearch: function() {
-            let url = lefSearchData.archiveUrl;
-            const params = [];
-            if (this.state.location) params.push('location=' + encodeURIComponent(this.state.location));
-            if (this.state.checkin) params.push('checkin=' + this.state.checkin);
-            if (this.state.checkout) params.push('checkout=' + this.state.checkout);
-            const total = this.state.guests.adults + this.state.guests.children + this.state.guests.infants;
-            if (total > 0) params.push('guests=' + total);
-            if (params.length > 0) url += (url.indexOf('?') > -1 ? '&' : '?') + params.join('&');
-            window.location.href = url;
-        }
+    const state = {
+        location: '',
+        checkin: '',
+        checkout: '',
+        adults: 1,
+        children: 0,
+        infants: 0,
+        activeSection: null,
+        calendarMonth: new Date(),
+        mobileCalendarMonth: new Date(),
+        archiveUrl: $('#lefSearchBar').data('archive-url') || window.location.origin
     };
 
-    $(document).ready(() => SearchBar.init());
+    function init() {
+        $(document).on('click', handleOutsideClick);
+        renderCalendar();
+        updateGuestButtons();
+        updateGuestDisplay();
+    }
+
+    // ==================== CORE UI ACTIONS ====================
+
+    function openSection(sectionId) {
+        state.activeSection = sectionId;
+        
+        // Setup popup visibility
+        $('#mainPopup').addClass('active');
+        $('.popup-section').removeClass('active');
+        $('#' + sectionId + 'Section').addClass('active');
+
+        // Apply active class to trigger fields for visual feedback
+        $('.search-field').removeClass('field-active');
+        $('#' + sectionId + (sectionId === 'guests' ? 'Field' : 'Field')).addClass('field-active'); 
+        
+        // Note: The HTML uses singular 'guestField' and 'dateField'
+        const specificFieldId = (sectionId === 'location') ? 'locationField' : 
+                                (sectionId === 'date') ? 'dateField' : 'guestField';
+        $('#' + specificFieldId).addClass('field-active');
+
+        positionPopup(specificFieldId);
+        
+        if (sectionId === 'location') {
+            setTimeout(() => $('#popupLocationInput').focus(), 100);
+        }
+    }
+
+    function closePopup() {
+        $('#mainPopup').removeClass('active');
+        $('.search-field').removeClass('field-active');
+        state.activeSection = null;
+    }
+
+    function positionPopup(fieldId) {
+        const $trigger = $('#' + fieldId);
+        if (!$trigger.length) return;
+        
+        const triggerRect = $trigger[0].getBoundingClientRect();
+        const containerRect = $('#lefSearchBar')[0].getBoundingClientRect();
+        
+        let left = (triggerRect.left - containerRect.left);
+        const popupWidth = $('#mainPopup').outerWidth();
+        const containerWidth = $('#lefSearchBar').width();
+
+        // Adjust for boundaries
+        if (left + popupWidth > containerWidth) {
+            left = containerWidth - popupWidth;
+        }
+        if (left < 0) left = 0;
+
+        $('#mainPopup').css({ 'left': left + 'px' });
+    }
+
+    function handleOutsideClick(e) {
+        if (!$(e.target).closest('.search-bar, #mainPopup, .mobile-search-trigger, #mobileModal').length) {
+            closePopup();
+        }
+    }
+
+    // ==================== LOCATION (WP AJAX) ====================
+
+    function showSuggestions(query) {
+        const $list = $('#suggestionsList');
+        if (!query.trim()) {
+            $list.empty().hide();
+            return;
+        }
+
+        $.ajax({
+            url: lef_ajax_obj.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'lef_search_suggestions',
+                query: query,
+                nonce: lef_ajax_obj.nonce
+            },
+            success: function(response) {
+                if (response.success && response.data.length > 0) {
+                    let html = '';
+                    response.data.forEach(item => {
+                        html += `
+                            <div class="suggestion-item" onclick="SearchBar.selectLocation('${item.title}', '${item.type}')">
+                                <div class="suggestion-icon">
+                                    <svg viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                </div>
+                                <div class="suggestion-text">
+                                    <strong>${item.title}</strong>
+                                    <span>${item.subtitle || ''}</span>
+                                </div>
+                            </div>`;
+                    });
+                    $list.html(html).show();
+                } else {
+                    $list.html('<div class="suggestion-item"><span>No results found</span></div>').show();
+                }
+            }
+        });
+    }
+
+    function selectLocation(name) {
+        state.location = name;
+        $('#locationDisplay').val(name).addClass('has-value');
+        $('#locationWrapper').addClass('has-value');
+        closePopup();
+    }
+
+    function clearLocation(e) {
+        e.stopPropagation();
+        state.location = '';
+        $('#locationDisplay').val('').removeClass('has-value');
+        $('#locationWrapper').removeClass('has-value');
+        $('#popupLocationInput').val('');
+    }
+
+    // ==================== DATES ====================
+
+    function renderCalendar() {
+        const $grid = $('#calendarGrid');
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+        
+        $('#calendarMonthYear').text(`${months[state.calendarMonth.getMonth()]} ${state.calendarMonth.getFullYear()}`);
+        
+        let html = '';
+        days.forEach(d => html += `<div class="calendar-day-header">${d}</div>`);
+        
+        const firstDay = new Date(state.calendarMonth.getFullYear(), state.calendarMonth.getMonth(), 1).getDay();
+        for (let i = 0; i < firstDay; i++) html += '<div></div>';
+        
+        const daysInMonth = new Date(state.calendarMonth.getFullYear(), state.calendarMonth.getMonth() + 1, 0).getDate();
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+            const date = new Date(state.calendarMonth.getFullYear(), state.calendarMonth.getMonth(), day);
+            const dateStr = date.toISOString().split('T')[0];
+            const isPast = date < today;
+            const isToday = date.getTime() === today.getTime();
+            const isCheckin = dateStr === state.checkin;
+            const isCheckout = dateStr === state.checkout;
+            
+            let inRange = false;
+            if (state.checkin && state.checkout) {
+                const cin = new Date(state.checkin);
+                const cout = new Date(state.checkout);
+                inRange = date > cin && date < cout;
+            }
+            
+            let classes = 'calendar-day';
+            if (isPast) classes += ' disabled';
+            if (isToday && !isCheckin && !isCheckout) classes += ' today';
+            if (isCheckin || isCheckout) classes += ' selected';
+            if (inRange) classes += ' in-range';
+            
+            html += `<button class="${classes}" ${isPast ? 'disabled' : ''} onclick="SearchBar.selectDate('${dateStr}')">${day}</button>`;
+        }
+        
+        $grid.html(html);
+    }
+
+    function selectDate(dateStr) {
+        if (!state.checkin || (state.checkin && state.checkout)) {
+            state.checkin = dateStr;
+            state.checkout = '';
+        } else {
+            if (new Date(dateStr) <= new Date(state.checkin)) {
+                state.checkin = dateStr;
+                state.checkout = '';
+            } else {
+                state.checkout = dateStr;
+            }
+        }
+        renderCalendar();
+    }
+
+    function applyDates() {
+        if (state.checkin) {
+            let text = formatDate(state.checkin);
+            if (state.checkout) text += ' - ' + formatDate(state.checkout);
+            $('#dateDisplay').val(text).addClass('has-value');
+            $('#dateWrapper').addClass('has-value');
+        }
+        closePopup();
+    }
+
+    function clearDates(e) {
+        if(e) e.stopPropagation();
+        state.checkin = '';
+        state.checkout = '';
+        $('#dateDisplay').val('').removeClass('has-value');
+        $('#dateWrapper').removeClass('has-value');
+        renderCalendar();
+    }
+
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return `${months[date.getMonth()]} ${date.getDate()}`;
+    }
+
+    function prevMonth() { state.calendarMonth.setMonth(state.calendarMonth.getMonth() - 1); renderCalendar(); }
+    function nextMonth() { state.calendarMonth.setMonth(state.calendarMonth.getMonth() + 1); renderCalendar(); }
+
+    // ==================== GUESTS ====================
+
+    function updateGuests(type, delta) {
+        const min = (type === 'adults') ? 1 : 0;
+        state[type] = Math.max(min, state[type] + delta);
+        $('#' + type + 'Count').text(state[type]);
+        updateGuestButtons();
+        updateGuestDisplay();
+    }
+
+    function updateGuestButtons() {
+        $('#adultsMinus').prop('disabled', state.adults <= 1);
+        $('#childrenMinus').prop('disabled', state.children <= 0);
+        $('#infantsMinus').prop('disabled', state.infants <= 0);
+    }
+
+    function updateGuestDisplay() {
+        const total = state.adults + state.children;
+        if (total > 0) {
+            let text = `${total} guest${total > 1 ? 's' : ''}`;
+            if (state.infants > 0) text += `, ${state.infants} infant${state.infants > 1 ? 's' : ''}`;
+            $('#guestDisplay').val(text).addClass('has-value');
+            $('#guestWrapper').addClass('has-value');
+        } else {
+            $('#guestDisplay').val('').removeClass('has-value');
+            $('#guestWrapper').removeClass('has-value');
+        }
+    }
+
+    function clearGuests(e) {
+        e.stopPropagation();
+        state.adults = 1; state.children = 0; state.infants = 0;
+        $('#adultsCount').text('1'); $('#childrenCount').text('0'); $('#infantsCount').text('0');
+        updateGuestButtons(); updateGuestDisplay();
+    }
+
+    // ==================== MOBILE MODAL ====================
+
+    function openMobileModal() {
+        $('#mobileModal').addClass('active');
+        $('body').css('overflow', 'hidden');
+        switchMobileTab('location');
+        renderMobileCalendar();
+    }
+
+    function closeMobileModal() {
+        $('#mobileModal').removeClass('active');
+        $('body').css('overflow', '');
+        updateMobileTrigger();
+    }
+
+    function switchMobileTab(tab) {
+        $('.mobile-tab').removeClass('active');
+        $('.mobile-tab-content').removeClass('active');
+        $(`.mobile-tab[data-tab="${tab}"]`).addClass('active');
+        $('#mobile' + tab.charAt(0).toUpperCase() + tab.slice(1) + 'Tab').addClass('active');
+    }
+
+    function renderMobileCalendar() {
+        const $grid = $('#mobileCalendarGrid');
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        $('#mobileCalendarMonth').text(`${months[state.mobileCalendarMonth.getMonth()]} ${state.mobileCalendarMonth.getFullYear()}`);
+        
+        let html = '';
+        const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+        days.forEach(d => html += `<div class="calendar-day-header">${d}</div>`);
+        
+        const firstDay = new Date(state.mobileCalendarMonth.getFullYear(), state.mobileCalendarMonth.getMonth(), 1).getDay();
+        for (let i = 0; i < firstDay; i++) html += '<div></div>';
+        
+        const daysInMonth = new Date(state.mobileCalendarMonth.getFullYear(), state.mobileCalendarMonth.getMonth() + 1, 0).getDate();
+        for (let day = 1; day <= daysInMonth; day++) {
+            const date = new Date(state.mobileCalendarMonth.getFullYear(), state.mobileCalendarMonth.getMonth(), day);
+            const dateStr = date.toISOString().split('T')[0];
+            const isCheckin = dateStr === state.checkin;
+            const isCheckout = dateStr === state.checkout;
+            let classes = 'calendar-day';
+            if (isCheckin || isCheckout) classes += ' selected';
+            html += `<button class="${classes}" onclick="SearchBar.mobileSelectDate('${dateStr}')">${day}</button>`;
+        }
+        $grid.html(html);
+    }
+
+    function mobileSelectDate(dateStr) {
+        selectDate(dateStr);
+        renderMobileCalendar();
+        updateMobileTrigger();
+    }
+
+    function updateMobileTrigger() {
+        $('#mobileLocationText').text(state.location || 'Anywhere');
+        let dText = (state.checkin) ? formatDate(state.checkin) : 'Any week';
+        if (state.checkout) dText += ' - ' + formatDate(state.checkout);
+        const gText = (state.adults + state.children > 0) ? `${state.adults + state.children} guests` : 'Add guests';
+        $('#mobileDetailText').text(`${dText} · ${gText}`);
+    }
+
+    function resetMobile() {
+        state.location = ''; state.checkin = ''; state.checkout = ''; state.adults = 1; state.children = 0; state.infants = 0;
+        $('#mobileLocationInput').val('');
+        updateMobileTrigger();
+        renderMobileCalendar();
+    }
+
+    // ==================== SEARCH HANDLING ====================
+
+    function handleSearch() {
+        const query = new URLSearchParams();
+        if (state.location) query.set('location', state.location);
+        if (state.checkin) query.set('checkin', state.checkin);
+        if (state.checkout) query.set('checkout', state.checkout);
+        query.set('adults', state.adults);
+        query.set('children', state.children);
+        query.set('infants', state.infants);
+
+        const target = state.archiveUrl + (state.archiveUrl.includes('?') ? '&' : '?') + query.toString();
+        window.location.href = target;
+    }
+
+    function handleMobileSearch() {
+        const mobLoc = $('#mobileLocationInput').val();
+        if (mobLoc) state.location = mobLoc;
+        handleSearch();
+    }
+
+    $(document).ready(init);
+
+    return {
+        openSection,
+        closePopup,
+        showSuggestions,
+        selectLocation,
+        clearLocation,
+        prevMonth,
+        nextMonth,
+        selectDate,
+        applyDates,
+        clearDates,
+        updateGuests,
+        clearGuests,
+        openMobileModal,
+        closeMobileModal,
+        switchMobileTab,
+        mobilePrevMonth: () => { state.mobileCalendarMonth.setMonth(state.mobileCalendarMonth.getMonth() - 1); renderMobileCalendar(); },
+        mobileNextMonth: () => { state.mobileCalendarMonth.setMonth(state.mobileCalendarMonth.getMonth() + 1); renderMobileCalendar(); },
+        mobileSelectDate,
+        updateMobileGuests: (t, d) => { updateGuests(t, d); $('#mobile' + t.charAt(0).toUpperCase() + t.slice(1) + 'Count').text(state[t]); },
+        resetMobile,
+        handleSearch,
+        handleMobileSearch
+    };
 
 })(jQuery);
