@@ -49,7 +49,11 @@ window.SearchBar = (function($) {
         positionPopup(specificFieldId);
         
         if (sectionId === 'location') {
-            setTimeout(() => $('#popupLocationInput').focus(), 100);
+            // Focus remains on the main pill input which calls this
+            const $mainInput = $('#locationDisplay');
+            if (!$mainInput.is(':focus')) {
+                $mainInput.focus();
+            }
         }
     }
 
@@ -80,6 +84,10 @@ window.SearchBar = (function($) {
     }
 
     function handleOutsideClick(e) {
+        // If the clicked element is no longer in the document (e.g., it was re-rendered),
+        // we skip the outside click check to avoid accidentally closing the popup.
+        if (!document.body.contains(e.target)) return;
+
         if (!$(e.target).closest('.search-bar, #mainPopup, .mobile-search-trigger, #mobileModal').length) {
             closePopup();
         }
@@ -107,19 +115,19 @@ window.SearchBar = (function($) {
                     let html = '';
                     response.data.forEach(item => {
                         html += `
-                            <div class="suggestion-item" onclick="SearchBar.selectLocation('${item.title}', '${item.type}')">
+                            <div class="suggestion-item" onclick="SearchBar.selectLocation('${item.name}', '${item.type}')">
                                 <div class="suggestion-icon">
                                     <svg viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                                 </div>
                                 <div class="suggestion-text">
-                                    <strong>${item.title}</strong>
+                                    <strong>${item.name}</strong>
                                     <span>${item.subtitle || ''}</span>
                                 </div>
                             </div>`;
                     });
                     $list.html(html).show();
                 } else {
-                    $list.html('<div class="suggestion-item"><span>No results found</span></div>').show();
+                    $list.empty().hide();
                 }
             }
         });
@@ -129,7 +137,7 @@ window.SearchBar = (function($) {
         state.location = name;
         $('#locationDisplay').val(name).addClass('has-value');
         $('#locationWrapper').addClass('has-value');
-        closePopup();
+        // Popup persists as requested until outside click
     }
 
     function clearLocation(e) {
@@ -137,7 +145,7 @@ window.SearchBar = (function($) {
         state.location = '';
         $('#locationDisplay').val('').removeClass('has-value');
         $('#locationWrapper').removeClass('has-value');
-        $('#popupLocationInput').val('');
+        // Remove redundant popup input ref
     }
 
     // ==================== DATES ====================
@@ -340,9 +348,10 @@ window.SearchBar = (function($) {
         if (state.location) query.set('location', state.location);
         if (state.checkin) query.set('checkin', state.checkin);
         if (state.checkout) query.set('checkout', state.checkout);
-        query.set('adults', state.adults);
-        query.set('children', state.children);
-        query.set('infants', state.infants);
+        
+        // Unified guests parameter
+        const totalGuests = state.adults + state.children + state.infants;
+        query.set('guests', totalGuests);
 
         const target = state.archiveUrl + (state.archiveUrl.includes('?') ? '&' : '?') + query.toString();
         window.location.href = target;

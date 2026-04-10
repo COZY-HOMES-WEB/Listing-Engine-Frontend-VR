@@ -26,10 +26,12 @@ $archive_url = $archive_page_id ? get_permalink($archive_page_id) : home_url('/'
     <section class="search-section desktop-only">
         <div class="search-bar">
             <!-- Location -->
-            <div class="search-field" id="locationField" onclick="SearchBar.openSection('location')">
-                <label>Where</label>
+            <div class="search-field" id="locationField">
+                <label for="locationDisplay">Where</label>
                 <div class="search-field-wrapper" id="locationWrapper">
-                    <input type="text" id="locationDisplay" placeholder="Search destination" autocomplete="off">
+                    <input type="text" id="locationDisplay" placeholder="Search destination" autocomplete="off" 
+                           onclick="SearchBar.openSection('location')" 
+                           oninput="SearchBar.showSuggestions(this.value)">
                     <button class="field-clear-btn" type="button" onclick="SearchBar.clearLocation(event)">
                         <svg viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
@@ -84,16 +86,10 @@ $archive_url = $archive_page_id ? get_permalink($archive_page_id) : home_url('/'
 
     <!-- Shared Popup (Desktop) -->
     <div class="search-popup" id="mainPopup">
-        <button class="popup-close" type="button" onclick="SearchBar.closePopup()">
-            <svg viewBox="0 0 24 24" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
 
         <!-- Location Section -->
         <div class="popup-section location-section" id="locationSection">
-            <div class="location-input-wrapper">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <input type="text" class="location-input" id="popupLocationInput" placeholder="Search destinations" oninput="SearchBar.showSuggestions(this.value)">
-            </div>
+            <!-- Redundant input removed as requested -->
             <div class="suggestions-list" id="suggestionsList"></div>
         </div>
 
