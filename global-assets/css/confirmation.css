@@ -24,10 +24,11 @@
 
 .lef-modal-content {
     background: var(--leb-white);
-    padding: 32px;
+    padding: 25px;
+    margin: 1rem;
     border-radius: 20px;
     width: 100%;
-    max-width: 450px;
+    max-width: 350px;
     font-family: var(--leb-font-main);
     box-shadow: var(--leb-card-shadow);
     transform: translateY(20px);
@@ -41,13 +42,13 @@
 
 .lef-modal-content h3 {
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 500;
     margin-bottom: 12px;
     color: var(--leb-secondary-color);
 }
 
 .lef-modal-content p {
-    font-size: 15px;
+    font-size: 13.5px;
     color: var(--leb-text-muted);
     line-height: 1.6;
     margin-bottom: 24px;
@@ -72,6 +73,7 @@
 .lef-btn-secondary {
     background: var(--leb-bg-light);
     color: var(--leb-text-muted);
+    border: solid 1px var(--leb-border-color);
 }
 
 .lef-btn-secondary:hover {
@@ -85,4 +87,29 @@
 
 .lef-btn-primary:hover {
     background: var(--leb-primary-dark);
+}
+
+
+@media (max-width: 400px) {
+
+    .lef-modal-content {
+        padding: 26px 15px;
+    }
+
+
+    .lef-modal-content h3 {
+        font-size: 19px;
+    }
+
+    .lef-modal-content p {
+        font-size: 13px;
+    }
+
+    .lef-btn {
+        padding: 10px 24px;
+        font-size: 12px;
+    }
+
+
+
 }

@@ -41,7 +41,7 @@ function lef_handle_search_suggestions() {
 	// 2. Search in Listing Addresses
 	$addresses = $wpdb->get_results($wpdb->prepare(
 		"SELECT l.address, loc.name as location_name 
-		 FROM {$wpdb->prefix}ls_listings l
+		 FROM {$wpdb->prefix}ls_property l
 		 LEFT JOIN {$wpdb->prefix}ls_location loc ON l.location = loc.id
 		 WHERE l.address LIKE %s AND l.status = 'published' LIMIT 5",
 		'%' . $wpdb->esc_like($query) . '%'

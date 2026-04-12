@@ -47,7 +47,7 @@ if ( ! empty( $type_slug ) ) {
 // 3. Build Listing Query.
 $query = "
 	SELECT l.*, t.name as type_name, loc.name as location_name 
-	FROM {$wpdb->prefix}ls_listings l
+	FROM {$wpdb->prefix}ls_property l
 	LEFT JOIN {$wpdb->prefix}ls_types t ON l.type = t.id
 	LEFT JOIN {$wpdb->prefix}ls_location loc ON l.location = loc.id
 	WHERE l.status = 'published'

@@ -108,6 +108,44 @@ function lef_enqueue_assets() {
 		}
 	}
 }
+
+/**
+ * Enqueue Admin Assets.
+ */
+function lef_admin_enqueue_assets( $hook ) {
+	// Register and enqueue global styles for backend as well
+	wp_enqueue_style(
+		'lef-global-styles',
+		LEF_PLUGIN_URL . 'global-assets/css/global.css',
+		array(),
+		filemtime( LEF_PLUGIN_DIR . 'global-assets/css/global.css' )
+	);
+
+	// Enqueue global components for admin area
+	lef_enqueue_global_components();
+
+	// Enqueue database management screen assets
+	wp_enqueue_style(
+		'lef-database-css',
+		LEF_PLUGIN_URL . 'backend/assets/css/database.css',
+		array( 'lef-global-styles' ),
+		filemtime( LEF_PLUGIN_DIR . 'backend/assets/css/database.css' )
+	);
+
+	wp_enqueue_script(
+		'lef-database-js',
+		LEF_PLUGIN_URL . 'backend/assets/js/database.js',
+		array( 'jquery' ),
+		filemtime( LEF_PLUGIN_DIR . 'backend/assets/js/database.js' ),
+		true
+	);
+
+	// Localize admin ajax URL if not exist
+	wp_localize_script( 'lef-database-js', 'lef_admin_obj', array(
+		'ajax_url' => admin_url( 'admin-ajax.php' )
+	) );
+}
+add_action( 'admin_enqueue_scripts', 'lef_admin_enqueue_assets' );
 add_action( 'wp_enqueue_scripts', 'lef_enqueue_assets' );
 
 /**
