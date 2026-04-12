@@ -62,7 +62,8 @@ class LEF_DB_Handler {
 		if ( ! empty( $matches[1] ) ) {
 			foreach ( $matches[1] as $col ) {
 				$col_lower = strtolower( $col );
-				if ( $col_lower !== 'primary' && $col_lower !== 'key' && $col_lower !== 'unique' ) {
+				$ignore_keywords = [ 'primary', 'key', 'unique', 'create', 'table', 'constraint', 'foreign', 'index', 'default' ];
+				if ( ! in_array( $col_lower, $ignore_keywords ) ) {
 					$expected_columns[] = $col_lower;
 				}
 			}
