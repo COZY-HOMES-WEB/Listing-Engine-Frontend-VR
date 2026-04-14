@@ -250,11 +250,12 @@
     }
 
     function initModalCloseButtons() {
-        // Close via ✕ button
-        $(document).on('click', '.lef-spv-modal-close', function () {
+        // Close via element with [data-close] attribute
+        $(document).on('click', '[data-close]', function () {
             const id = $(this).data('close');
             if (id) hideModal(id);
         });
+
 
         // Close via overlay click
         $(document).on('click', '.lef-spv-modal', function (e) {
@@ -269,32 +270,55 @@
     /* ==================== CALENDAR ==================== */
     // Calendar IDs for desktop, mobile page, and mobile reservation modal
     const calendarConfigs = [
-        { grid: '#lef-spv-calendarGrid',     month: '#lef-spv-currentMonth',     prev: '#lef-spv-prevMonth',     next: '#lef-spv-nextMonth',     clear: '#lef-spv-clearDates' },
-        { grid: '#lef-spv-calendarGrid-mb',   month: '#lef-spv-currentMonth-mb',  prev: '#lef-spv-prevMonth-mb',  next: '#lef-spv-nextMonth-mb',  clear: '#lef-spv-clearDates-mb' },
-        { grid: '#lef-spv-calendarGrid-mbr',  month: '#lef-spv-currentMonth-mbr', prev: '#lef-spv-prevMonth-mbr', next: '#lef-spv-nextMonth-mbr', clear: null },
+        { grid: '#lef-spv-calendarGrid',     month: '#lef-spv-currentMonth',     prev: '#lef-spv-prevMonth',     next: '#lef-spv-nextMonth',     clear: '#lef-spv-clearDates', offset: 0 },
+        { grid: '#lef-spv-calendarGrid-mb',   month: '#lef-spv-currentMonth-mb',  prev: '#lef-spv-prevMonth-mb',  next: '#lef-spv-nextMonth-mb',  clear: '#lef-spv-clearDates-mb', offset: 0 },
+        { grid: '#lef-spv-calendarGrid-mbr',  month: '#lef-spv-currentMonth-mbr', prev: '#lef-spv-prevMonth-mbr', next: '#lef-spv-nextMonth-mbr', clear: null, offset: 0 },
+        // Dual-month modal (Desktop)
+        { grid: '#lef-spv-cal-modal-grid1', month: '#lef-spv-cal-modal-month1', prev: '#lef-spv-cal-modal-prev', next: null, clear: null, offset: 0 },
+        { grid: '#lef-spv-cal-modal-grid2', month: '#lef-spv-cal-modal-month2', prev: null, next: '#lef-spv-cal-modal-next', clear: null, offset: 1 },
     ];
 
     function initCalendars() {
+        // Desktop date field triggers
+        $('#lef-spv-checkin-field, #lef-spv-checkout-field').on('click', function () {
+            showModal('lef-spv-calendar-modal');
+            renderAllCalendars();
+        });
+
+        // Modal Clear dates
+        $('#lef-spv-cal-modal-clear').on('click', function () {
+            calState.checkIn  = null;
+            calState.checkOut = null;
+            renderAllCalendars();
+            syncDatesToForm();
+        });
+
         calendarConfigs.forEach(function (cfg) {
             renderCalendar(cfg);
 
-            $(cfg.prev).on('click', function () {
-                calState.currentMonth--;
-                if (calState.currentMonth < 0) {
-                    calState.currentMonth = 11;
-                    calState.currentYear--;
-                }
-                renderAllCalendars();
-            });
+            if (cfg.prev) {
+                $(cfg.prev).on('click', function (e) {
+                    e.stopPropagation();
+                    calState.currentMonth--;
+                    if (calState.currentMonth < 0) {
+                        calState.currentMonth = 11;
+                        calState.currentYear--;
+                    }
+                    renderAllCalendars();
+                });
+            }
 
-            $(cfg.next).on('click', function () {
-                calState.currentMonth++;
-                if (calState.currentMonth > 11) {
-                    calState.currentMonth = 0;
-                    calState.currentYear++;
-                }
-                renderAllCalendars();
-            });
+            if (cfg.next) {
+                $(cfg.next).on('click', function (e) {
+                    e.stopPropagation();
+                    calState.currentMonth++;
+                    if (calState.currentMonth > 11) {
+                        calState.currentMonth = 0;
+                        calState.currentYear++;
+                    }
+                    renderAllCalendars();
+                });
+            }
 
             if (cfg.clear) {
                 $(cfg.clear).on('click', function () {
@@ -318,8 +342,19 @@
         const $month = $(cfg.month);
         if (!$grid.length) return;
 
-        const year  = calState.currentYear;
-        const month = calState.currentMonth;
+        let year  = calState.currentYear;
+        let month = calState.currentMonth + (cfg.offset || 0);
+
+        // Handle overflow for dual-month (e.g. Dec -> Jan next year)
+        if (month > 11) {
+            month = 0;
+            year++;
+        }
+        if (month < 0) {
+            month = 11;
+            year--;
+        }
+
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -418,9 +453,23 @@
         const ciStr = calState.checkIn  ? formatDisplayDate(calState.checkIn)  : 'Add date';
         const coStr = calState.checkOut ? formatDisplayDate(calState.checkOut) : 'Add date';
 
-        // Desktop
-        $('#lef-spv-checkin-label').text(ciStr);
-        $('#lef-spv-checkout-label').text(coStr);
+        // Desktop main form
+        $('#lef-spv-checkin-label').text(ciStr).toggleClass('has-date', !!calState.checkIn);
+        $('#lef-spv-checkout-label').text(coStr).toggleClass('has-date', !!calState.checkOut);
+
+        // Desktop modal header
+        $('#lef-spv-cmh-checkin').text(ciStr).toggleClass('has-date', !!calState.checkIn);
+        $('#lef-spv-cmh-checkout').text(coStr).toggleClass('has-date', !!calState.checkOut);
+
+        // Update modal title (e.g. "2 nights")
+        if (calState.checkIn && calState.checkOut) {
+            const nights = Math.round((calState.checkOut - calState.checkIn) / (1000 * 60 * 60 * 24));
+            $('#lef-spv-cal-modal-title').text(nights + ' night' + (nights > 1 ? 's' : ''));
+            $('#lef-spv-cal-modal-subtitle').text(formatDisplayDate(calState.checkIn) + ' – ' + formatDisplayDate(calState.checkOut));
+        } else {
+            $('#lef-spv-cal-modal-title').text('Select dates');
+            $('#lef-spv-cal-modal-subtitle').text('Add your travel dates for exact pricing');
+        }
 
         // Mobile reservation modal
         $('#lef-spv-mb-checkin-label').text(ciStr);
@@ -664,11 +713,11 @@
         return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
     }
 
-    /** Format Date → 'DD/MM/YYYY' for display */
+    /** Format Date → 'D MMM YYYY' for display */
     function formatDisplayDate(d) {
-        const dd = String(d.getDate()).padStart(2, '0');
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        return dd + '/' + mm + '/' + d.getFullYear();
+        const dd = d.getDate();
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return dd + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
     }
 
     /** Basic HTML escape */

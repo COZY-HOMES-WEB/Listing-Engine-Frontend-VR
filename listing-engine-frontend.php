@@ -3,11 +3,11 @@
  * Plugin Name: Listing Engine Frontend
  * Plugin URI: https://arttechfuzion.com
  * Description: Replicates property listing engine UI with dynamic data.
- * Version: 1.8.0
+ * Version: 1.8.3
  * Author: Art-Tech Fuzion
  * Author URI: https://arttechfuzion.com
  * Text Domain: listing-engine-frontend
- * Last Modified: 2026-04-14 - Added Single Property View (template, CSS, JS, AJAX handlers, reservation + email system, wishlist table)
+ * Last Modified: 2026-04-14 - Fixed calendar modal visibility issue where it was appearing on page load due to CSS specificity.
  *
  * @package ListingEngineFrontend
  */

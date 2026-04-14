@@ -818,3 +818,63 @@ function lef_format_review_date( $date_str ) {
 </div>
 
 </div><!-- /#lef-spv-root -->
+    <!-- ─────────────────────────────────────────────────────────────
+         CALENDAR MODAL (DESKTOP)
+         ───────────────────────────────────────────────────────────── -->
+    <div id="lef-spv-calendar-modal" class="lef-spv-modal">
+        <div class="lef-spv-modal-content lef-spv-cal-modal-box">
+            <button class="lef-spv-modal-close" data-close="lef-spv-calendar-modal">✕</button>
+
+            <div class="lefdk-cal-modal-header">
+                <div class="lefdk-cmh-left">
+                    <h2 id="lef-spv-cal-modal-title">Select dates</h2>
+                    <p id="lef-spv-cal-modal-subtitle">Add your travel dates for exact pricing</p>
+                </div>
+                <div class="lefdk-cmh-right">
+                    <div class="lefdk-cmh-date-box">
+                        <div class="lefdk-cmh-date-field">
+                            <label>CHECK-IN</label>
+                            <span id="lef-spv-cmh-checkin">Add date</span>
+                        </div>
+                        <div class="lefdk-cmh-date-field">
+                            <label>CHECK-OUT</label>
+                            <span id="lef-spv-cmh-checkout">Add date</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lefdk-cal-dual-container">
+                <!-- Month 1 -->
+                <div class="lefdk-cal-month-box">
+                    <div class="lefdk-cal-header">
+                        <button class="lefdk-cal-nav-btn" id="lef-spv-cal-modal-prev">
+                            <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                        </button>
+                        <span class="lefdk-cal-month" id="lef-spv-cal-modal-month1"></span>
+                        <span></span> <!-- Spacer for alignment -->
+                    </div>
+                    <div class="lefdk-cal-grid" id="lef-spv-cal-modal-grid1"></div>
+                </div>
+
+                <!-- Month 2 -->
+                <div class="lefdk-cal-month-box">
+                    <div class="lefdk-cal-header">
+                        <span></span> <!-- Spacer -->
+                        <span class="lefdk-cal-month" id="lef-spv-cal-modal-month2"></span>
+                        <button class="lefdk-cal-nav-btn" id="lef-spv-cal-modal-next">
+                            <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                        </button>
+                    </div>
+                    <div class="lefdk-cal-grid" id="lef-spv-cal-modal-grid2"></div>
+                </div>
+            </div>
+
+            <div class="lefdk-cal-modal-footer">
+                <button class="lefdk-cal-clear-btn" id="lef-spv-cal-modal-clear">Clear dates</button>
+                <button class="lefdk-cal-close-btn" data-close="lef-spv-calendar-modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- .lef-spv-dk-active or .lef-spv-mb-active -->

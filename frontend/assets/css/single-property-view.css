@@ -8,16 +8,6 @@
  * @package ListingEngineFrontend
  */
 
-/* ─────────────────────────────────────────────────────────────
-   Base Reset & Wrapper
-   ───────────────────────────────────────────────────────────── */
-#lef-spv-root *,
-#lef-spv-root *::before,
-#lef-spv-root *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
 
 /* ==================== DESKTOP CONTAINER ==================== */
 .lef-dk-main-cont {
@@ -427,11 +417,30 @@ list.lefdk-am-li-list {
     width: 36px;
     height: auto;
     margin: auto;
+    position: relative;
+    overflow: hidden;
 }
 
 .lefdk-cal-day:hover:not(.lefdk-cal-day-disabled):not(.lefdk-cal-day-blocked) {
     background: var(--leb-bg-light);
     border: 1px solid var(--leb-primary-color);
+}
+
+.lefdk-cal-day-blocked {
+    color: #b0b0b0;
+    cursor: not-allowed !important;
+}
+
+/* The diagonal "cut mark" for blocked dates */
+.lefdk-cal-day-blocked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    width: 60%;
+    height: 1px;
+    background: #b0b0b0;
+    transform: rotate(-45deg);
 }
 
 .lefdk-cal-day-selected {
@@ -445,7 +454,7 @@ list.lefdk-am-li-list {
 
 .lefdk-cal-day-in-range {
     background: var(--leb-primary-light-bg);
-    border-radius: 50%;
+    border-radius: 0;
 }
 
 .lefdk-cal-day-disabled {
@@ -1430,7 +1439,7 @@ list.lefmb-am-li-list svg {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 9999;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     animation: lefSpvFadeIn 0.25s ease;
@@ -1489,7 +1498,6 @@ list.lefmb-am-li-list svg {
 
 /* Non-fullscreen modals get a centered card */
 .lef-spv-modal:not(.lef-spv-fullscreen) {
-    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -1610,4 +1618,163 @@ list.lefmb-am-li-list svg {
 #lef-spv-review-text:focus {
     border-color: var(--leb-primary-color) !important;
     outline: none !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CALENDAR MODAL (DESKTOP DUAL-MONTH)
+   ───────────────────────────────────────────────────────────── */
+.lef-spv-cal-modal-box {
+    max-width: 900px;
+    width: 95%;
+    background: var(--leb-white);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    position: relative;
+}
+
+.lefdk-cal-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+}
+
+.lefdk-cmh-left h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 0 0.4rem 0;
+    color: var(--leb-text-color);
+}
+
+.lefdk-cmh-left p {
+    font-size: 0.95rem;
+    color: var(--leb-text-muted);
+    margin: 0;
+}
+
+.lefdk-cmh-date-box {
+    display: flex;
+    border: 1px solid var(--leb-border-default);
+    border-radius: 12px;
+    background: var(--leb-white);
+    overflow: hidden;
+}
+
+.lefdk-cmh-date-field {
+    padding: 0.8rem 1.2rem;
+    min-width: 140px;
+}
+
+.lefdk-cmh-date-field:first-child {
+    border-right: 1px solid var(--leb-border-default);
+}
+
+.lefdk-cmh-date-field label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--leb-text-color);
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+}
+
+.lefdk-cmh-date-field span {
+    font-size: 0.9rem;
+    color: var(--leb-text-muted);
+}
+
+.lefdk-cmh-date-field span.has-date {
+    color: var(--leb-text-color);
+    font-weight: 500;
+}
+
+.lefdk-cal-dual-container {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.lefdk-cal-month-box {
+    flex: 1;
+}
+
+/* Modal specific calendar header adjustments */
+.lef-spv-cal-modal-box .lefdk-cal-header {
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+}
+
+.lefdk-cal-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.lefdk-cal-modal-footer .lefdk-cal-clear-btn {
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--leb-text-color);
+    cursor: pointer;
+    padding: 0;
+}
+
+.lefdk-cal-close-btn {
+    background: var(--leb-text-color);
+    color: var(--leb-white);
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.lefdk-cal-close-btn:hover {
+    opacity: 0.9;
+}
+
+/* ── Calendar Grid Polish (Modal) ── */
+.lef-spv-cal-modal-box .lefdk-cal-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 50%;
+    margin: 2px;
+}
+
+.lefdk-cal-day-in-range {
+    background: #f7f7f7;
+    border-radius: 0 !important;
+}
+
+.lefdk-cal-day-selected {
+    background: var(--leb-text-color) !important;
+    color: var(--leb-white) !important;
+}
+
+/* Desktop Modal specific responsive */
+@media (max-width: 850px) {
+    .lefdk-cal-dual-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .lef-spv-cal-modal-box {
+        padding: 1.5rem;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    .lefdk-cal-modal-header {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
 }
