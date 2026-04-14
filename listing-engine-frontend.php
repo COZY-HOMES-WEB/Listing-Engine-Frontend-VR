@@ -3,10 +3,11 @@
  * Plugin Name: Listing Engine Frontend
  * Plugin URI: https://arttechfuzion.com
  * Description: Replicates property listing engine UI with dynamic data.
- * Version: 1.7.0
+ * Version: 1.7.1
  * Author: Art-Tech Fuzion
  * Author URI: https://arttechfuzion.com
  * Text Domain: listing-engine-frontend
+ * Last Modified: 2026-04-13 - Added Dashboard submenu and redirected settings link
  *
  * @package ListingEngineFrontend
  */
@@ -16,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define Constants.
-define( 'LEF_VERSION', '1.7.0' );
+define( 'LEF_VERSION', '1.7.1' );
 define( 'LEF_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LEF_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
@@ -47,3 +48,21 @@ function lef_initialize_plugin() {
 }
 add_action( 'plugins_loaded', 'lef_initialize_plugin' );
 
+// ─────────────────────────────────────────────────────────────
+// Plugin Setup
+// ─────────────────────────────────────────────────────────────
+
+/* ==================== ACTION LINKS ==================== */
+
+/**
+ * Add Settings link on the plugins page.
+ *
+ * @param array $links Array of plugin action links.
+ * @return array
+ */
+function lef_add_plugin_action_links( $links ) {
+	$settings_link = '<a href="' . admin_url( 'admin.php?page=lef-dashboard' ) . '">' . __( 'Settings', 'listing-engine-frontend' ) . '</a>';
+	array_unshift( $links, $settings_link );
+	return $links;
+}
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'lef_add_plugin_action_links' );

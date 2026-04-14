@@ -9,6 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// ─────────────────────────────────────────────────────────────
+// Admin Menus Registration
+// ─────────────────────────────────────────────────────────────
+
+/* ==================== MENUS ==================== */
+
 /**
  * Register LEF Admin Menu and Submenus.
  */
@@ -20,8 +26,18 @@ function lef_register_admin_menus() {
 		'manage_options',                   // Capability
 		'lef-main-menu',                    // Menu slug
 		'lef_render_main_page',             // Callback function
-		'dashicons-admin-generic',          // Icon
+		'dashicons-building',               // Icon
 		26                                  // Position
+	);
+
+	// Add submenu "Dashboard" under "LEF"
+	add_submenu_page(
+		'lef-main-menu',                    // Parent slug
+		'Listing Engine Dashboard',         // Page title
+		'Dashboard',                        // Menu title
+		'manage_options',                   // Capability
+		'lef-dashboard',                    // Menu slug
+		'lef_render_dashboard_page'         // Callback function
 	);
 
 	// Add submenu "Database" under "LEF"
@@ -39,11 +55,30 @@ function lef_register_admin_menus() {
 }
 add_action( 'admin_menu', 'lef_register_admin_menus' );
 
+// ─────────────────────────────────────────────────────────────
+// Admin Pages Callbacks
+// ─────────────────────────────────────────────────────────────
+
+/* ==================== PAGES ==================== */
+
 /**
- * Callback for Main Menu Page (Fallback if needed, though removed above, it's good practice)
+ * Callback for Main Menu Page (Fallback if needed, redirects to dashboard)
  */
 function lef_render_main_page() {
-	echo '<div class="wrap"><h1>Listing Engine Frontend Dashboard</h1><p>Welcome to LEF Management.</p></div>';
+	echo '<script>window.location.replace("admin.php?page=lef-dashboard");</script>';
+}
+
+/**
+ * Callback for Dashboard Submenu Page
+ */
+function lef_render_dashboard_page() {
+	$template_path = LEF_PLUGIN_DIR . 'backend/template/dashboard.php';
+	
+	if ( file_exists( $template_path ) ) {
+		require_once $template_path;
+	} else {
+		echo '<div class="wrap"><div class="error"><p>Dashboard template not found.</p></div></div>';
+	}
 }
 
 /**

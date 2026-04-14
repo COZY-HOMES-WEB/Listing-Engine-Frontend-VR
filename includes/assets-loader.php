@@ -124,6 +124,22 @@ function lef_admin_enqueue_assets( $hook ) {
 	// Enqueue global components for admin area
 	lef_enqueue_global_components();
 
+	// Enqueue dashboard screen assets
+	wp_enqueue_style(
+		'lef-dashboard-css',
+		LEF_PLUGIN_URL . 'backend/assets/css/dashboard.css',
+		array( 'lef-global-styles' ),
+		filemtime( LEF_PLUGIN_DIR . 'backend/assets/css/dashboard.css' )
+	);
+
+	wp_enqueue_script(
+		'lef-dashboard-js',
+		LEF_PLUGIN_URL . 'backend/assets/js/dashboard.js',
+		array( 'jquery' ),
+		filemtime( LEF_PLUGIN_DIR . 'backend/assets/js/dashboard.js' ),
+		true
+	);
+
 	// Enqueue database management screen assets
 	wp_enqueue_style(
 		'lef-database-css',

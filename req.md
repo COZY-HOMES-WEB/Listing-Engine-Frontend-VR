@@ -14,3 +14,5 @@ NOTE=>
 2. ab jo colors hai wo direct color code nhi hone chahiye wo sare global-assets/css/global.css se lega as a variable and font-family bhi samjha "strictly keh rha hu koii direct color code, direct rgba, inline css nhi hona chahiye code mein".
 
 3. ab sun global-assets mein tujhe toaster and confirmation popup bhi mil jaega unko use kar sakta hai for notification and confirmation and make sure use karne se pehle dekh liyo wo work kaise karta hai.
+
+
