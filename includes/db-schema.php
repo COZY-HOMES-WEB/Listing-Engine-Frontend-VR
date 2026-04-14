@@ -33,6 +33,17 @@ function lef_get_db_schemas() {
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
             updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY  (id)
+        ) $charset_collate;",
+        'wp_ls_reviews' => "CREATE TABLE wp_ls_reviews (
+            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            user_id bigint(20) unsigned NOT NULL,
+            property_id bigint(20) unsigned NOT NULL,
+            rating decimal(3,1) NOT NULL,
+            review text NOT NULL,
+            status varchar(20) NOT NULL DEFAULT 'pending',
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id)
         ) $charset_collate;"
 	);
 
