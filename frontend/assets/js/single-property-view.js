@@ -157,7 +157,22 @@
     /* ==================== PHOTO MODAL ==================== */
     function initPhotoModal() {
         $('#lef-spv-show-photos').on('click', function () {
-            showModal('lef-spv-photo-modal');
+            $('#lefg-photo-modal').css('display', 'flex');
+            $('body').css('overflow', 'hidden');
+        });
+
+        // Close via close button
+        $('#lefg-close-photo-modal').on('click', function() {
+            $('#lefg-photo-modal').css('display', 'none');
+            $('body').css('overflow', '');
+        });
+
+        // Close via overlay click
+        $(document).on('click', '.lefg-gallery-overlay', function (e) {
+            if (e.target === this) {
+                $(this).css('display', 'none');
+                $('body').css('overflow', '');
+            }
         });
     }
 

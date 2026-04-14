@@ -642,14 +642,23 @@ function lef_format_review_date( $date_str ) {
      ============================== -->
 
 <!-- Photo Gallery Modal -->
-<div class="lef-spv-modal" id="lef-spv-photo-modal" style="display:none;">
-    <div class="lef-spv-modal-header">
-        <span class="lef-spv-modal-close" data-close="lef-spv-photo-modal">✕</span>
+<div class="lefg-gallery-overlay" id="lefg-photo-modal">
+    <div class="lefg-gallery-header">
+        <div class="lefg-header-left">
+            <h2 class="lefg-gallery-title">Photo Gallery</h2>
+        </div>
+        <button class="lefg-close-btn" id="lefg-close-photo-modal" data-close="lefg-photo-modal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
     </div>
-    <div class="lef-spv-modal-body lef-spv-photo-gallery" id="lef-spv-photo-gallery">
-        <?php foreach ( $images as $img_url ) : ?>
-        <img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo $title; ?>">
-        <?php endforeach; ?>
+    <div class="lefg-gallery-body">
+        <div class="lefg-masonry-container" id="lefg-photo-gallery">
+            <?php foreach ( $images as $img_url ) : ?>
+            <img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo $title; ?>">
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
 

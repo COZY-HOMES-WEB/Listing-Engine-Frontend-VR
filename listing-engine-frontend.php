@@ -3,11 +3,11 @@
  * Plugin Name: Listing Engine Frontend
  * Plugin URI: https://arttechfuzion.com
  * Description: Replicates property listing engine UI with dynamic data.
- * Version:     1.9.5
+ * Version:     1.9.6
  * Author:      Art-Tech Fuzion
  * Author URI:  https://arttechfuzion.com
  * Text Domain: listing-engine-frontend
- * Last Modified: 2026-04-15 - Updated price display formatting in the booking widget to show total price for selected nights (e.g., '₹1,999 for 3 nights').
+ * Last Modified: 2026-04-15 - Separated photo gallery from shared modal classes and isolated its layout with lefg- prefix to prevent styling conflicts, enforcing intrinsic height to prevent image pixelation.
  *
  * @package ListingEngineFrontend
  */
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define Constants.
-define( 'LEF_VERSION', '1.9.5' );
+define( 'LEF_VERSION', '1.9.6' );
 define( 'LEF_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LEF_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 

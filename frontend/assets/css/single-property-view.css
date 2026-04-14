@@ -94,7 +94,7 @@ h1.lefdk-title {
     object-position: center center;
 }
 
-.lefdk-img-cont img:hover{
+.lefdk-img-cont img:hover {
     cursor: pointer;
 }
 
@@ -1461,11 +1461,12 @@ list.lefmb-am-li-list svg {
 }
 
 /* ====== IMAGE POPUP MODEL =========== */
-#lef-spv-photo-modal > * {
-    max-width: 100vw;
+#lef-spv-photo-modal>* {
+    max-width: 100vw !important;
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
+
 }
 
 .lef-spv-modal-header {
@@ -1527,10 +1528,14 @@ list.lefmb-am-li-list svg {
 } */
 
 /* Use an inner wrapper approach: the modal IS the overlay, the children are the card */
-/* .lef-spv-modal {
+.lef-spv-modal {
     flex-direction: column;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
+/* 
 .lef-spv-modal:not(.lef-spv-fullscreen) {
     padding: 2rem;
 } */
@@ -1566,19 +1571,139 @@ list.lefmb-am-li-list svg {
     flex: 1;
 }
 
-/* ── Photo Gallery inside Modal ── */
-.lef-spv-photo-gallery {
-    display: flex;
+/* ── Photo Gallery Redesign (Premium Fullscreen) ── */
+.lef-spv-gallery-modal {
+    background: var(--leb-white) !important;
+    display: none;
     flex-direction: column;
-    gap: 0.5rem;
-    align-items: center;
+    z-index: 10000 !important;
 }
 
-.lef-spv-photo-gallery img {
+.lef-spv-gallery-header {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    padding: 1.5rem 2rem !important;
+    width: 100% !important;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-radius: 0 !important;
+}
+
+.lef-spv-gallery-header-content {
+    max-width: 1400px;
+    margin: 0 auto;
     width: 100%;
-    max-width: 800px;
-    border-radius: 10px;
-    object-fit: cover;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.lef-spv-gallery-close {
+    width: 44px !important;
+    height: 44px !important;
+    background: var(--leb-bg-light);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--leb-text-color);
+}
+
+.lef-spv-gallery-close:hover {
+    background: var(--leb-text-color);
+    color: var(--leb-white);
+    transform: rotate(90deg);
+}
+
+.lef-spv-gallery-close svg {
+    width: 24px;
+    height: 24px;
+}
+
+.lef-spv-gallery-title {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: var(--leb-text-color);
+    margin: 0;
+}
+
+.lef-spv-gallery-body {
+    padding: 2rem 1rem !important;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 100vh !important;
+    width: 100% !important;
+    background: var(--leb-white);
+    scrollbar-width: thin;
+    scrollbar-color: var(--leb-border-color) transparent;
+}
+
+.lef-spv-gallery-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    column-count: 2;
+    column-gap: 1.5rem;
+    padding-bottom: 5rem;
+}
+
+.lef-spv-gallery-item {
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--leb-bg-light);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: zoom-in;
+    animation: lefGallerySlideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.lef-spv-gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.lef-spv-gallery-item img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block;
+    transition: transform 0.6s ease;
+}
+
+.lef-spv-gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+@keyframes lefGallerySlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Grid */
+@media (max-width: 900px) {
+    .lef-spv-gallery-grid {
+        column-count: 1;
+        gap: 1rem;
+    }
+
+    .lef-spv-gallery-header {
+        padding: 1rem !important;
+    }
+
+    .lef-spv-gallery-title {
+        font-size: 1.25rem !important;
+    }
 }
 
 /* ── Full description in modal ── */
@@ -1586,6 +1711,140 @@ list.lefmb-am-li-list svg {
     font-size: 1rem;
     line-height: 1.7;
     color: var(--leb-text-muted);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ISOLATED PHOTO GALLERY (lefg- prefix)
+   ───────────────────────────────────────────────────────────── */
+.lefg-gallery-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--leb-white);
+    z-index: 10000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: lefgFadeIn 0.3s ease-out;
+}
+
+@keyframes lefgFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.lefg-gallery-header {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 10010;
+}
+
+.lefg-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.lefg-gallery-title {
+    font-size: 1.4rem !important;
+    font-weight: 600 !important;
+    color: var(--leb-text-color) !important;
+    margin: 0 !important;
+}
+
+.lefg-close-btn {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background: var(--leb-bg-light) !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    color: var(--leb-text-color) !important;
+}
+
+.lefg-close-btn:hover {
+    background: var(--leb-text-color) !important;
+    color: var(--leb-white) !important;
+    transform: rotate(90deg) !important;
+}
+
+.lefg-close-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.lefg-gallery-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+    background: var(--leb-white);
+}
+
+.lefg-masonry-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    column-count: 3;
+    column-gap: 1.5rem;
+    padding-bottom: 4rem;
+}
+
+.lefg-masonry-container img {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    display: block; 
+    margin: 0 auto 1.5rem auto;
+    border-radius: 12px !important;
+    cursor: zoom-in;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+    animation: lefgSlideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+    break-inside: avoid;
+}
+
+.lefg-masonry-container img:hover {
+    transform: scale(1.02) translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+@keyframes lefgSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 900px) {
+    .lefg-masonry-container {
+        column-count: 1;
+    }
+
+    .lefg-gallery-header {
+        padding: 0.8rem 1.2rem;
+    }
 }
 
 /* ── Reviews in modal ── */
