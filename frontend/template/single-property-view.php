@@ -436,7 +436,7 @@ function lef_format_review_date( $date_str ) {
             <?php foreach ( $reviews_visible as $rev ) : ?>
             <div class="lefdk-rc-card">
                 <div class="lefdk-rc-header">
-                    <img src="<?php echo esc_url( $rev['avatar'] ); ?>" alt="Avatar" class="lefdk-rc-avatar">
+                    <img src="<?php echo esc_url( $rev['avatar'] ); ?>" alt="Avatar" class="lefdk-rc-avatar" onerror="this.src='<?php echo esc_url( $placeholder_pic ); ?>';">
                     <div class="lefdk-rc-info">
                         <span class="lefdk-rc-name"><?php echo esc_html( $rev['name'] ); ?></span>
                         <div class="lefdk-rc-date"><?php echo lef_format_review_date( $rev['created_at'] ); ?> <span class="lefdk-rc-rating"><?php echo $star_svg_review; ?><?php echo $rev['rating']; ?></span></div>

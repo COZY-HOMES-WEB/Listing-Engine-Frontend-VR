@@ -436,23 +436,24 @@ function lef_get_similar_properties() {
 	$result = array();
 	if ( ! empty( $similar ) ) {
 		foreach ( $similar as $prop ) {
-			// Fetch first image
-			$img_row = $wpdb->get_row( $wpdb->prepare(
-				"SELECT image FROM {$wpdb->prefix}ls_img WHERE property_id = %d ORDER BY sort_order ASC LIMIT 1",
+			// Fetch property image (match property_id with id column in ls_img as per requirement)
+			$img_data_json = $wpdb->get_var( $wpdb->prepare(
+				"SELECT image FROM {$wpdb->prefix}ls_img WHERE id = %d",
 				$prop->id
 			) );
+
 			$img_url = '';
-			if ( $img_row && $img_row->image ) {
-				$img_data = json_decode( $img_row->image, true );
+			if ( $img_data_json ) {
+				$img_data = json_decode( $img_data_json, true );
 				if ( is_array( $img_data ) ) {
-					// Handle array format: search for sort_order === 0
+					// Strictly find sort_order == 0
 					foreach ( $img_data as $img_obj ) {
-						if ( isset( $img_obj['sort_order'] ) && intval( $img_obj['sort_order'] ) === 0 ) {
-							$img_url = $img_obj['url'];
+						if ( isset( $img_obj['sort_order'] ) && (int) $img_obj['sort_order'] === 0 ) {
+							$img_url = ! empty( $img_obj['url'] ) ? $img_obj['url'] : '';
 							break;
 						}
 					}
-					// If no sort_order 0 found, just take the first one with a URL
+					// Fallback: If no sort_order 0, take first available with URL
 					if ( empty( $img_url ) ) {
 						foreach ( $img_data as $img_obj ) {
 							if ( ! empty( $img_obj['url'] ) ) {
@@ -461,7 +462,7 @@ function lef_get_similar_properties() {
 							}
 						}
 					}
-					// Check for legacy single-object format
+					// Extra fallback for single object format
 					if ( empty( $img_url ) && isset( $img_data['url'] ) ) {
 						$img_url = $img_data['url'];
 					}
