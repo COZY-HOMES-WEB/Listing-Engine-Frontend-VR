@@ -483,7 +483,7 @@
         if (calState.checkIn && calState.checkOut) {
             const nights = Math.round((calState.checkOut - calState.checkIn) / (1000 * 60 * 60 * 24));
             const total  = PRICE * nights;
-            const priceHtml = '₹' + PRICE.toLocaleString('en-IN') + ' <span class="lefdk-lf-price-unit">/ night</span>';
+            const priceHtml = '₹' + total.toLocaleString('en-IN') + ' <span class="lefdk-lf-price-unit">for ' + nights + ' night' + (nights > 1 ? 's' : '') + '</span>';
 
             $('#lef-spv-price-display').html(priceHtml);
             $('#lef-spv-mb-price').text('₹' + total.toLocaleString('en-IN'));

@@ -11,9 +11,7 @@
 
 /* ==================== DESKTOP CONTAINER ==================== */
 .lef-dk-main-cont {
-    max-width: 1200px;
     margin: auto;
-    padding: 1rem;
     overflow: visible;
 }
 
@@ -28,8 +26,9 @@
 }
 
 h1.lefdk-title {
-    font-size: 1.6rem;
-    font-weight: 500;
+    font-size: 2.5rem;
+    font-weight: 550;
+    margin: 0;
 }
 
 .lefdk-extra-cont {
@@ -37,7 +36,7 @@ h1.lefdk-title {
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
     color: var(--leb-text-color);
 }
 
@@ -48,7 +47,7 @@ h1.lefdk-title {
     align-items: center;
     justify-content: flex-start;
     gap: 0.4rem;
-    font-size: 0.9rem;
+    font-size: 1.45rem;
     font-weight: 400;
     cursor: pointer;
     text-decoration: underline;
@@ -68,38 +67,35 @@ h1.lefdk-title {
     position: relative;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    height: 450px;
-    gap: 0.5rem;
+    gap: 0.8rem;
     overflow: clip;
 }
 
-@media (max-width: 1000px) {
-    .lefdk-img-cont {
-        height: 380px;
-    }
-}
-
 .lefdk-img-1 img {
-    border-radius: 15px 0 0 15px;
+    border-radius: 20px 0 0 20px !important;
 }
 
 .lefdk-img-2 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
+    gap: 0.8rem;
 }
 
 .lefdk-img-2 img:nth-of-type(2),
 .lefdk-img-2 img:nth-of-type(4) {
-    border-radius: 0 15px 15px 0;
+    border-radius: 0 20px 20px 0 !important;
 }
 
 .lefdk-img-cont img {
     aspect-ratio: 4 / 3;
     width: 100%;
-    height: 100%;
+    height: 100% !important;
     object-fit: cover;
     object-position: center center;
+}
+
+.lefdk-img-cont img:hover{
+    cursor: pointer;
 }
 
 .lefdk-all-photo-btn {
@@ -114,10 +110,10 @@ h1.lefdk-title {
     background-color: var(--leb-white);
     padding: 0.5rem;
     border-radius: 0.5rem;
-    font-size: 0.8rem;
-    gap: 0.5rem;
+    font-size: 1.4rem;
+    gap: 0.7rem;
     cursor: pointer;
-    opacity: 0.85;
+    opacity: 0.9;
 }
 
 .lefdk-all-photo-btn:hover {
@@ -1391,9 +1387,11 @@ list.lefmb-am-li-list svg {
     h1.lefmb-prop-d-heading {
         font-size: 1.4rem;
     }
+
     ol.lefmb-am-lists {
         grid-template-columns: 1fr;
     }
+
     .lefmb-review-cards {
         grid-template-columns: 1fr;
     }
@@ -1403,25 +1401,31 @@ list.lefmb-am-li-list svg {
     h1.lefmb-prop-d-heading {
         font-size: 1.2rem;
     }
+
     h1.lefmb-prop-title {
         font-size: 0.8rem;
     }
+
     ol.lefmb-list-order,
     .lefmb-r-number,
     .lefmb-r-total-revi {
         font-size: 0.7rem;
     }
+
     .lefmb-description {
         font-size: 0.85rem;
     }
+
     h1.lefmb-am-heading,
     .lefdk-cal-heading,
     .lefmb-sm-heading {
         font-size: 1.3rem;
     }
+
     .lefdk-cal-day {
         width: 30px;
     }
+
     .lefmb-rc-text {
         width: 100%;
     }
@@ -1443,11 +1447,25 @@ list.lefmb-am-li-list svg {
     align-items: center;
     justify-content: center;
     animation: lefSpvFadeIn 0.25s ease;
+    overflow: hidden;
 }
 
 @keyframes lefSpvFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* ====== IMAGE POPUP MODEL =========== */
+#lef-spv-photo-modal > * {
+    max-width: 100vw;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .lef-spv-modal-header {
@@ -1491,32 +1509,33 @@ list.lefmb-am-li-list svg {
     max-height: calc(100vh - 200px);
 }
 
-.lef-spv-modal > .lef-spv-modal-header,
-.lef-spv-modal > .lef-spv-modal-body {
+.lef-spv-modal>.lef-spv-modal-header,
+.lef-spv-modal>.lef-spv-modal-body {
     background: var(--leb-white);
 }
 
 /* Non-fullscreen modals get a centered card */
-.lef-spv-modal:not(.lef-spv-fullscreen) {
+/* .lef-spv-modal:not(.lef-spv-fullscreen) {
     align-items: center;
     justify-content: center;
-}
+} */
 
-.lef-spv-modal:not(.lef-spv-fullscreen) > .lef-spv-modal-header,
-.lef-spv-modal:not(.lef-spv-fullscreen) > .lef-spv-modal-body {
-    width: 100%; /* they are inside a flex container that IS the card */
-}
+/* .lef-spv-modal:not(.lef-spv-fullscreen)>.lef-spv-modal-header,
+.lef-spv-modal:not(.lef-spv-fullscreen)>.lef-spv-modal-body {
+    width: 100%;
+   
+} */
 
 /* Use an inner wrapper approach: the modal IS the overlay, the children are the card */
-.lef-spv-modal {
+/* .lef-spv-modal {
     flex-direction: column;
 }
 
 .lef-spv-modal:not(.lef-spv-fullscreen) {
     padding: 2rem;
-}
+} */
 
-.lef-spv-modal:not(.lef-spv-fullscreen) .lef-spv-modal-header,
+/* .lef-spv-modal:not(.lef-spv-fullscreen) .lef-spv-modal-header,
 .lef-spv-modal:not(.lef-spv-fullscreen) .lef-spv-modal-body {
     max-width: 600px;
     width: 100%;
@@ -1529,7 +1548,7 @@ list.lefmb-am-li-list svg {
 
 .lef-spv-modal:not(.lef-spv-fullscreen) .lef-spv-modal-body {
     border-radius: 0 0 20px 20px;
-}
+} */
 
 /* ── Fullscreen modals (mobile reservation) ── */
 .lef-spv-fullscreen {
@@ -1629,7 +1648,7 @@ list.lefmb-am-li-list svg {
     background: var(--leb-white);
     border-radius: 24px;
     padding: 2.5rem;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     position: relative;
 }
 
@@ -1768,11 +1787,13 @@ list.lefmb-am-li-list svg {
         flex-direction: column;
         gap: 2rem;
     }
+
     .lef-spv-cal-modal-box {
         padding: 1.5rem;
         max-height: 90vh;
         overflow-y: auto;
     }
+
     .lefdk-cal-modal-header {
         flex-direction: column;
         gap: 1.5rem;
