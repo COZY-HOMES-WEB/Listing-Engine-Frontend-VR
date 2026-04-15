@@ -77,7 +77,7 @@
 }
 
 /* Reset WordPress default paragraph margin and set base typography color */
-h1, h2, h3, h4, h5, h6, p {
+body, h1, h2, h3, h4, h5, h6, p {
     margin: 0;
     color: var(--leb-text-color);
 }

@@ -890,38 +890,39 @@ function lef_render_review_stars($rating)
         </div>
 
         <div class="lefdk-cal-dual-container">
-            <!-- Month 1 -->
-            <div class="lefdk-cal-month-box">
-                <div class="lefdk-cal-header">
-                    <button class="lefdk-cal-nav-btn" id="lef-spv-cal-modal-prev">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-                        </svg>
-                    </button>
-                    <span class="lefdk-cal-month" id="lef-spv-cal-modal-month1"></span>
-                    <span></span> <!-- Spacer for alignment -->
+            <div class="lefsk-cal-months-two">
+                <!-- Month 1 -->
+                <div class="lefdk-cal-month-box">
+                    <div class="lefdk-cal-header">
+                        <button class="lefdk-cal-nav-btn" id="lef-spv-cal-modal-prev">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                            </svg>
+                        </button>
+                        <span class="lefdk-cal-month" id="lef-spv-cal-modal-month1"></span>
+                        <span></span> <!-- Spacer for alignment -->
+                    </div>
+                    <div class="lefdk-cal-grid" id="lef-spv-cal-modal-grid1"></div>
                 </div>
-                <div class="lefdk-cal-grid" id="lef-spv-cal-modal-grid1"></div>
-            </div>
 
-            <!-- Month 2 -->
-            <div class="lefdk-cal-month-box">
-                <div class="lefdk-cal-header">
-                    <span></span> <!-- Spacer -->
-                    <span class="lefdk-cal-month" id="lef-spv-cal-modal-month2"></span>
-                    <button class="lefdk-cal-nav-btn" id="lef-spv-cal-modal-next">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-                        </svg>
-                    </button>
+                <!-- Month 2 -->
+                <div class="lefdk-cal-month-box">
+                    <div class="lefdk-cal-header">
+                        <span></span> <!-- Spacer -->
+                        <span class="lefdk-cal-month" id="lef-spv-cal-modal-month2"></span>
+                        <button class="lefdk-cal-nav-btn" id="lef-spv-cal-modal-next">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="lefdk-cal-grid" id="lef-spv-cal-modal-grid2"></div>
                 </div>
-                <div class="lefdk-cal-grid" id="lef-spv-cal-modal-grid2"></div>
             </div>
-        </div>
-
-        <div class="lefdk-cal-modal-footer">
-            <button class="lefdk-cal-clear-btn" id="lef-spv-cal-modal-clear">Clear dates</button>
-            <button class="lefdk-cal-close-btn" data-close="lef-spv-calendar-modal">Close</button>
+            <div class="lefdk-cal-modal-footer">
+                <button class="lefdk-cal-clear-btn" id="lef-spv-cal-modal-clear">Clear dates</button>
+                <button class="lefdk-cal-close-btn" data-close="lef-spv-calendar-modal">Close</button>
+            </div>
         </div>
     </div>
 </div>

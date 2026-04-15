@@ -16,7 +16,6 @@
     min-width: 300px;
     max-width: 400px;
     background: var(--leb-white);
-    color: var(--leb-text-color);
     padding: 16px 20px;
     border-radius: 12px;
     box-shadow: var(--leb-card-shadow);

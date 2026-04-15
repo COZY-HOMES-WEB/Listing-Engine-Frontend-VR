@@ -57,7 +57,6 @@
     font-weight: 500;
     text-transform: capitalize;
     letter-spacing: 0.5px;
-    color: var(--leb-text-color);
 }
 
 .search-field input {
@@ -73,7 +72,7 @@
 }
 
 .search-field input::placeholder { color: var(--leb-text-muted); font-size: 13px;}
-.search-field input.has-value { color: var(--leb-text-color); font-weight: 500; }
+.search-field input.has-value { font-weight: 500; }
 
 .search-field-wrapper {
     display: flex;
@@ -172,7 +171,7 @@
 }
 
 .location-input-wrapper svg { width: 20px; height: 20px; stroke: var(--leb-text-color); stroke-width: 2; flex-shrink: 0; }
-.location-input { flex: 1; border: none; background: transparent; font-size: 16px; color: var(--leb-text-color); outline: none; }
+.location-input { flex: 1; border: none; background: transparent; font-size: 16px; outline: none; }
 
 /* Suggestions */
 .suggestions-list {max-height: 280px; overflow-y: auto; }
@@ -183,13 +182,13 @@
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 .suggestion-icon svg { width: 20px; height: 20px; stroke: var(--leb-text-color); stroke-width: 2; }
-.suggestion-text strong { font-size: 14px; font-weight: 500; color: var(--leb-text-color); display: block; }
+.suggestion-text strong { font-size: 14px; font-weight: 500; display: block; }
 .suggestion-text span { font-size: 12px; color: var(--leb-text-muted); }
 
 /* Calendar */
 .calendar-wrapper { border-radius: 16px; padding: 10px; background: var(--leb-white); }
 .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-.calendar-month-year { font-size: 14px; font-weight: 500; color: var(--leb-text-color); }
+.calendar-month-year { font-size: 14px; font-weight: 500; }
 .calendar-nav-btn {
     width: 32px; height: 32px; border: 1px solid var(--leb-border-color); background: var(--leb-white);
     border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
@@ -200,7 +199,7 @@
 .calendar-day-header { font-size: 11px; font-weight: 600; color: var(--leb-text-muted); padding: 8px 0; }
 .calendar-day {
     width: 36px; height: 36px; border: none; background: transparent; border-radius: 50%;
-    cursor: pointer; font-size: 14px; color: var(--leb-text-color); transition: all 0.2s; justify-self: center;
+    cursor: pointer; font-size: 14px; transition: all 0.2s; justify-self: center;
 }
 .calendar-day:hover:not(:disabled):not(.selected) { background: var(--leb-bg-light); }
 .calendar-day:disabled { color: var(--leb-border-default); cursor: not-allowed; }
@@ -216,14 +215,14 @@
 /* Guests */
 .guest-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 10px; border-bottom: 1px solid var(--leb-border-color); }
 .guest-row:last-child { border-bottom: none; }
-.guest-info h4 { font-size: 15px; font-weight: 500; color: var(--leb-text-color); margin: 0; }
+.guest-info h4 { font-size: 15px; font-weight: 500; margin: 0; }
 .guest-info p { font-size: 12px; color: var(--leb-text-muted); }
 .guest-controls { display: flex; align-items: center; gap: 16px; }
 .guest-btn {
     width: 36px; height: 36px; border: 1px solid var(--leb-border-color); background: var(--leb-white);
     border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--leb-text-muted);
 }
-.guest-count { font-size: 16px; font-weight: 600; color: var(--leb-text-color); min-width: 24px; text-align: center; }
+.guest-count { font-size: 16px; font-weight: 600; min-width: 24px; text-align: center; }
 
 /* ==================== MOBILE ==================== */
 .mobile-only { display: none; }
@@ -236,7 +235,7 @@
 }
 .mobile-search-trigger svg { width: 20px; height: 20px; stroke: var(--leb-text-color); stroke-width: 2; flex-shrink: 0; }
 .mobile-search-text { flex: 1; }
-.mobile-search-text span:first-child { font-size: 14px; font-weight: 500; color: var(--leb-text-color); display: block; line-height: 16px;}
+.mobile-search-text span:first-child { font-size: 14px; font-weight: 500; display: block; line-height: 16px;}
 .mobile-search-text span:last-child { font-size: 12px; color: var(--leb-text-muted); }
 .mobile-search-icon { width: 40px; height: 40px; background: var(--leb-primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .mobile-search-icon svg { stroke: var(--leb-white); width: 18px; height: 18px; }
@@ -247,12 +246,12 @@
 .mobile-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--leb-border-color); }
 .mobile-modal-back { width: 32px; height: 32px; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .mobile-modal-back svg { width: 20px; height: 20px; stroke: var(--leb-text-color); stroke-width: 2.5; }
-.mobile-modal-title { font-size: 16px; font-weight: 500; color: var(--leb-text-color); }
-.mobile-modal-clear { font-size: 14px; font-weight: 500; color: var(--leb-text-color); background: none; border: none; cursor: pointer; text-decoration: underline; }
+.mobile-modal-title { font-size: 16px; font-weight: 500; }
+.mobile-modal-clear { font-size: 14px; font-weight: 500; background: none; border: none; cursor: pointer; text-decoration: underline; }
 
 .mobile-tabs { display: flex; border-bottom: 1px solid var(--leb-border-color); background: var(--leb-white); }
 .mobile-tab { flex: 1; padding: 10px 8px; text-align: center; font-size: 14px; font-weight: 500; color: var(--leb-text-muted); border-bottom: 2px solid transparent; cursor: pointer; }
-.mobile-tab.active { color: var(--leb-text-color); border-bottom-color: var(--leb-text-color); }
+.mobile-tab.active { border-bottom-color: var(--leb-text-color); }
 
 .mobile-content { height: calc(100vh - 120px - 80px); overflow-y: auto; padding: 20px; padding-bottom: 100px; }
 .mobile-tab-content { display: none; }
@@ -260,16 +259,16 @@
 
 .mobile-location-input { display: flex; align-items: center; gap: 12px; background: var(--leb-bg-light); border: 1px solid var(--leb-border-color); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; }
 .mobile-location-input svg { width: 20px; height: 20px; stroke: var(--leb-text-color); stroke-width: 2; flex-shrink: 0; }
-.mobile-location-input input { flex: 1; border: none; background: transparent; font-size: 16px; color: var(--leb-text-color); outline: none; }
+.mobile-location-input input { flex: 1; border: none; background: transparent; font-size: 16px; outline: none; }
 
 .mobile-suggestion-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--leb-border-color); cursor: pointer; }
 .mobile-suggestion-icon { width: 40px; height: 40px; background: var(--leb-bg-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
 .mobile-suggestion-icon svg { width: 20px; height: 20px; stroke: var(--leb-text-color); stroke-width: 2; }
-.mobile-suggestion-text strong { font-size: 15px; font-weight: 500; color: var(--leb-text-color); display: block; }
+.mobile-suggestion-text strong { font-size: 15px; font-weight: 500; display: block; }
 .mobile-suggestion-text span { font-size: 13px; color: var(--leb-text-muted); }
 
 
-.mobile-calendar-month { font-size: 15px; font-weight: 500; color: var(--leb-text-color); }
+.mobile-calendar-month { font-size: 15px; font-weight: 500; }
 .mobile-calendar-nav { display: flex; justify-content: space-between; align-items: center; padding: 0 16px 16px; }
 .mobile-calendar-nav-btn { width: 36px; height: 36px; border: 1px solid var(--leb-border-color); background: var(--leb-white); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .mobile-calendar-nav-btn svg { width: 20px; height: 20px; stroke: var(--leb-text-color); stroke-width: 2.5; }
