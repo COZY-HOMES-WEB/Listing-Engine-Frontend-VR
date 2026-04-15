@@ -18,8 +18,6 @@
 /* ── Title Bar ── */
 .lefdk-title-cont {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
     padding: 1.4rem 0.4rem;
@@ -43,10 +41,7 @@ h1.lefdk-title {
 
 .lefdk-h-btn {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.4rem;
     font-size: 1.45rem;
     font-weight: 400;
@@ -104,8 +99,6 @@ h1.lefdk-title {
     bottom: 20px;
     right: 20px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-end;
     background-color: var(--leb-white);
@@ -126,8 +119,6 @@ h1.lefdk-title {
 /* ── Details Container ── */
 .lefdk-details-cont {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     justify-content: space-between;
     padding: 2.2rem 1rem;
 }
@@ -140,9 +131,7 @@ h1.lefdk-title {
 .lefdk-d-right {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
     align-items: flex-start;
-    justify-content: flex-start;
     width: 60%;
     gap: 2rem;
 }
@@ -150,9 +139,7 @@ h1.lefdk-title {
 .lefdk-d-title-cont {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
     align-items: flex-start;
-    justify-content: flex-start;
     width: 100%;
     gap: 2px;
     margin: 0;
@@ -185,18 +172,13 @@ ol.lefdk-list-order {
 
 .lefdk-review {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.5rem;
 }
 
 .lefdk-r-number,
 .lefdk-r-total-revi {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
     font-size: 1.5rem;
     font-weight: 500;
@@ -207,10 +189,7 @@ ol.lefdk-list-order {
 .lefdk-host-details {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 1rem;
     padding: 0.8rem 0;
     border: solid var(--leb-border-default);
@@ -234,8 +213,6 @@ ol.lefdk-list-order {
 .lefdk-hd-info {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
     justify-content: center;
     gap: 4px;
     line-height: 18px;
@@ -258,9 +235,6 @@ span.lefdk-hd-i-tag {
 .lefdk-description {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 10px;
     font-size: 1.45rem;
     font-weight: 400;
@@ -294,9 +268,6 @@ span.lefdk-hd-i-tag {
     width: 100%;
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 1.9rem;
     padding: 2rem 0;
     border: solid var(--leb-border-default);
@@ -323,10 +294,7 @@ ol.lefdk-am-lists,
 
 list.lefdk-am-li-list {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 1rem;
     font-size: 1.5rem;
     font-weight: 400;
@@ -337,9 +305,6 @@ list.lefdk-am-li-list {
     width: 100%;
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 1.4rem;
 }
 
@@ -369,7 +334,7 @@ list.lefdk-am-li-list {
 }
 
 .lefdk-cal-month {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: 500;
     color: var(--leb-text-color);
 }
@@ -401,12 +366,12 @@ list.lefdk-am-li-list {
 .lefdk-cal-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
+    gap: 8px 4px;
 }
 
 .lefdk-cal-day-name {
     text-align: center;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-weight: 600;
     padding: 0.5rem 0;
 }
@@ -416,13 +381,13 @@ list.lefdk-am-li-list {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    font-weight: 600;
+    font-size: 1.3rem;
+    font-weight: 550;
     color: var(--leb-text-color);
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s ease;
-    width: 32px;
+    width: 30px;
     height: auto;
     margin: auto;
     position: relative;
@@ -433,22 +398,6 @@ list.lefdk-am-li-list {
     background: var(--leb-bg-light);
     border: 1px solid var(--leb-primary-color);
 }
-
-/* .lefdk-cal-day-blocked {
-    cursor: not-allowed !important;
-} */
-
-/* The diagonal "cut mark" for blocked dates */
-/* .lefdk-cal-day-blocked::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 20%;
-    width: 60%;
-    height: 1px;
-    background: #b0b0b0;
-    transform: rotate(-45deg);
-} */
 
 .lefdk-cal-day-selected {
     background: var(--leb-primary-color) !important;
@@ -491,8 +440,6 @@ span.lefdk-cal-clear-btn:hover {
 .lefdk-d-left {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
     align-items: flex-end;
     width: 40%;
     position: sticky;
@@ -526,10 +473,9 @@ span.lefdk-cal-clear-btn:hover {
     color: var(--leb-text-color);
 }
 
-.lefdk-lf-price-unit {
-    font-size: 1.6rem;
+span.lefdk-lf-price-unit {
+    font-size: 1.7rem;
     color: var(--leb-text-muted);
-    font-weight: 500;
 }
 
 .lefdk-lf-dates {
@@ -605,11 +551,6 @@ span.lefdk-cal-clear-btn:hover {
     text-align: center;
 }
 
-h1.lefdk-l-form-heading {
-    font-size: 1.3rem;
-    font-weight: 500;
-}
-
 /* ── Guest Dropdown ── */
 .lef-spv-guests-dropdown {
     border: 1px solid var(--leb-border-default);
@@ -635,18 +576,20 @@ h1.lefdk-l-form-heading {
 .lef-spv-gd-info {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 6px;
 }
 
 .lef-spv-gd-title {
     font-size: 1.4rem;
     font-weight: 500;
     color: var(--leb-text-color);
+    line-height: 1;
 }
 
 .lef-spv-gd-sub {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     color: var(--leb-text-muted);
+    line-height: 1;
 }
 
 .lef-spv-gd-controls {
@@ -656,12 +599,12 @@ h1.lefdk-l-form-heading {
 }
 
 .lef-spv-gd-btn {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     border: 1px solid var(--leb-border-default);
     background: var(--leb-white);
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -707,9 +650,6 @@ h1.lefdk-l-form-heading {
     display: flex;
     padding: 2rem 1rem;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 1rem;
     border: solid var(--leb-border-default);
     border-width: 1.5px 0
@@ -717,10 +657,7 @@ h1.lefdk-l-form-heading {
 
 .lefdk-ar-review {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.6rem;
     font-size: 2.2rem;
     font-weight: 600;
@@ -729,9 +666,6 @@ h1.lefdk-l-form-heading {
 .lefdk-ar-r-number {
     display: flex;
     align-items: center;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
     gap: 0.6rem;
 }
 
@@ -789,13 +723,9 @@ span.lefdk-rc-user-tag {
 .lefdk-rc-date {
     font-size: 1.25rem;
     font-weight: 500;
-    line-height: 0;
     color: var(--leb-text-muted);
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.5rem;
 }
 
@@ -846,23 +776,20 @@ span.lefdk-rc-user-tag {
     display: none;
 }
 
-.lefdk-sm-rc-item,
-.lefmb-sm-rc-item {
+.lefdk-sm-rc-item {
     flex: 0 0 260px;
     scroll-snap-align: start;
     cursor: pointer;
     color: inherit;
 }
 
-.lefdk-sm-rc-img,
-.lefmb-sm-rc-img {
+.lefdk-sm-rc-img {
     aspect-ratio: 4 / 3;
     border-radius: 20px;
     overflow: hidden;
 }
 
-.lefdk-sm-rc-img img,
-.lefmb-sm-rc-img img {
+.lefdk-sm-rc-img img {
     width: 100%;
     height: 100% !important;
     object-fit: cover;
@@ -873,8 +800,7 @@ span.lefdk-rc-user-tag {
     transform: scale(1.05);
 }
 
-.lefdk-sm-rc-details,
-.lefmb-sm-rc-details {
+.lefdk-sm-rc-details {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -884,21 +810,16 @@ span.lefdk-rc-user-tag {
     padding: 0.6rem;
 }
 
-.lefdk-sm-rc-title,
-.lefmb-sm-rc-title {
+.lefdk-sm-rc-title {
     font-size: 1.4rem;
     font-weight: 500;
     color: var(--leb-text-color);
     line-height: 1.3;
 }
 
-.lefdk-sm-rc-price,
-.lefmb-sm-rc-price {
+.lefdk-sm-rc-price {
     display: inline-flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     font-size: 1.35rem;
     line-height: 1.2;
     font-weight: 600;
@@ -906,14 +827,12 @@ span.lefdk-rc-user-tag {
     margin-top: 0.2rem;
 }
 
-.lefdk-sm-rc-price span,
-.lefmb-sm-rc-price span {
+.lefdk-sm-rc-price span {
     font-weight: 400;
     color: var(--leb-text-muted);
 }
 
-.lefdk-sm-rc-rating,
-.lefmb-sm-rc-rating {
+.lefdk-sm-rc-rating {
     display: flex;
     align-items: center;
     gap: 0.3rem;
@@ -949,15 +868,12 @@ span.lefdk-rc-user-tag {
 
 .lef-mb-main-cont {
     flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
     min-height: 100vh;
 }
 
 /* ── Mobile Header ── */
 .lefmb-header-cont {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
@@ -983,8 +899,6 @@ span.lefdk-rc-user-tag {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    flex-direction: row;
-    flex-wrap: nowrap;
     gap: 1rem;
 }
 
@@ -995,10 +909,6 @@ span.lefdk-rc-user-tag {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: flex-start;
     z-index: 0;
     -webkit-overflow-scrolling: touch;
 }
@@ -1034,9 +944,6 @@ span.lefmb-img-count {
 .lefmb-prop-details-cont {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: center;
     padding: 1.8rem 1.3rem;
     padding-bottom: 100px;
     border-radius: 20px;
@@ -1051,7 +958,6 @@ span.lefmb-img-count {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-wrap: nowrap;
     gap: 1rem;
     width: 100%;
 }
@@ -1064,9 +970,7 @@ h1.lefmb-prop-d-heading {
 .lefmb-prop-title-cont {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.3rem;
     color: var(--leb-text-muted);
 }
@@ -1079,10 +983,7 @@ h1.lefmb-prop-title {
 ol.lefmb-list-order {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.4rem;
     list-style: none;
     font-size: 0.8rem;
@@ -1091,18 +992,13 @@ ol.lefmb-list-order {
 
 .lefmb-review {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.5rem;
 }
 
 .lefmb-r-number,
 .lefmb-r-total-revi {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
     font-size: 0.8rem;
     font-weight: 400;
@@ -1113,10 +1009,7 @@ ol.lefmb-list-order {
 .lefmb-host-details {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     padding: 1rem 0rem;
     gap: 0.8rem;
     border: solid var(--leb-border-default);
@@ -1139,8 +1032,6 @@ ol.lefmb-list-order {
 .lefmb-hd-info {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
     gap: 0.2rem;
 }
 
@@ -1160,9 +1051,6 @@ span.lefmb-hd-i-tag {
 .lefmb-description {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 10px;
     font-size: 0.95rem;
     font-weight: 400;
@@ -1190,9 +1078,6 @@ span.lefmb-hd-i-tag {
     width: 100%;
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 1.6rem;
     padding: 1.6rem 0;
     border: solid var(--leb-border-default);
@@ -1214,10 +1099,7 @@ ol.lefmb-am-lists {
 
 list.lefmb-am-li-list {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.6rem;
     font-size: 0.9rem;
     font-weight: 400;
@@ -1235,9 +1117,6 @@ list.lefmb-am-li-list svg {
     display: flex;
     padding: 1.6rem 0;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 1rem;
     border: solid var(--leb-border-default);
     border-width: 1.4px 0;
@@ -1246,10 +1125,7 @@ list.lefmb-am-li-list svg {
 
 .lefmb-ar-review {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.6rem;
     font-size: 1.45rem;
     font-weight: 500;
@@ -1258,9 +1134,6 @@ list.lefmb-am-li-list svg {
 .lefmb-ar-r-number {
     display: flex;
     align-items: center;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
     gap: 0.6rem;
 }
 
@@ -1305,10 +1178,7 @@ list.lefmb-am-li-list svg {
     font-size: 0.8rem;
     color: var(--leb-text-muted);
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.5rem;
 }
 
@@ -1337,9 +1207,6 @@ list.lefmb-am-li-list svg {
 .lefmb-similar-results {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
     gap: 1rem;
     width: 100%;
 }
@@ -1360,8 +1227,6 @@ list.lefmb-am-li-list svg {
     border: solid var(--leb-border-default);
     border-width: 1.5px 0 0 0;
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
     z-index: 100;
@@ -1370,8 +1235,6 @@ list.lefmb-am-li-list svg {
 .lefmb-reserv-right-cont {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: flex-start;
     justify-content: center;
     gap: 4px;
 }
@@ -1483,15 +1346,7 @@ list.lefmb-am-li-list svg {
     }
 }
 
-/* ====== IMAGE POPUP MODEL =========== */
-#lef-spv-photo-modal>* {
-    max-width: 100vw !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-
-}
-
+/* ====== POPUP MODEL =========== */
 .lef-spv-modal-header {
     display: flex;
     align-items: center;
@@ -1521,6 +1376,7 @@ list.lefmb-am-li-list svg {
     justify-content: center;
     border-radius: 50%;
     transition: background 0.2s;
+    margin-bottom: 6px;
 }
 
 .lef-spv-modal-close:hover {
@@ -1537,46 +1393,6 @@ list.lefmb-am-li-list svg {
 .lef-spv-modal>.lef-spv-modal-body {
     background: var(--leb-white);
 }
-
-/* Non-fullscreen modals get a centered card */
-/* .lef-spv-modal:not(.lef-spv-fullscreen) {
-    align-items: center;
-    justify-content: center;
-} */
-
-/* .lef-spv-modal:not(.lef-spv-fullscreen)>.lef-spv-modal-header,
-.lef-spv-modal:not(.lef-spv-fullscreen)>.lef-spv-modal-body {
-    width: 100%;
-   
-} */
-
-/* Use an inner wrapper approach: the modal IS the overlay, the children are the card */
-.lef-spv-modal {
-    flex-direction: column;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-/* 
-.lef-spv-modal:not(.lef-spv-fullscreen) {
-    padding: 2rem;
-} */
-
-/* .lef-spv-modal:not(.lef-spv-fullscreen) .lef-spv-modal-header,
-.lef-spv-modal:not(.lef-spv-fullscreen) .lef-spv-modal-body {
-    max-width: 600px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-.lef-spv-modal:not(.lef-spv-fullscreen) .lef-spv-modal-header {
-    border-radius: 20px 20px 0 0;
-}
-
-.lef-spv-modal:not(.lef-spv-fullscreen) .lef-spv-modal-body {
-    border-radius: 0 0 20px 20px;
-} */
 
 /* ── Fullscreen modals (mobile reservation) ── */
 .lef-spv-fullscreen {
@@ -1595,139 +1411,6 @@ list.lefmb-am-li-list svg {
 }
 
 /* ── Photo Gallery Redesign (Premium Fullscreen) ── */
-.lef-spv-gallery-modal {
-    background: var(--leb-white) !important;
-    display: none;
-    flex-direction: column;
-    z-index: 10000 !important;
-}
-
-.lef-spv-gallery-header {
-    background: rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
-    padding: 1.5rem 2rem !important;
-    width: 100% !important;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-radius: 0 !important;
-}
-
-.lef-spv-gallery-header-content {
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-.lef-spv-gallery-close {
-    width: 44px !important;
-    height: 44px !important;
-    background: var(--leb-bg-light);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    color: var(--leb-text-color);
-}
-
-.lef-spv-gallery-close:hover {
-    background: var(--leb-text-color);
-    color: var(--leb-white);
-    transform: rotate(90deg);
-}
-
-.lef-spv-gallery-close svg {
-    width: 24px;
-    height: 24px;
-}
-
-.lef-spv-gallery-title {
-    font-size: 1.5rem !important;
-    font-weight: 600 !important;
-    color: var(--leb-text-color);
-    margin: 0;
-}
-
-.lef-spv-gallery-body {
-    padding: 2rem 1rem !important;
-    flex: 1;
-    overflow-y: auto;
-    max-height: 100vh !important;
-    width: 100% !important;
-    background: var(--leb-white);
-    scrollbar-width: thin;
-    scrollbar-color: var(--leb-border-color) transparent;
-}
-
-.lef-spv-gallery-grid {
-    max-width: 1200px;
-    margin: 0 auto;
-    column-count: 2;
-    column-gap: 1.5rem;
-    padding-bottom: 5rem;
-}
-
-.lef-spv-gallery-item {
-    border-radius: 16px;
-    overflow: hidden;
-    background: var(--leb-bg-light);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    cursor: zoom-in;
-    animation: lefGallerySlideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
-    break-inside: avoid;
-    margin-bottom: 1.5rem;
-    width: 100%;
-}
-
-.lef-spv-gallery-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-}
-
-.lef-spv-gallery-item img {
-    width: 100% !important;
-    height: auto !important;
-    object-fit: contain !important;
-    display: block;
-    transition: transform 0.6s ease;
-}
-
-.lef-spv-gallery-item:hover img {
-    transform: scale(1.05);
-}
-
-@keyframes lefGallerySlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Responsive Grid */
-@media (max-width: 900px) {
-    .lef-spv-gallery-grid {
-        column-count: 1;
-        gap: 1rem;
-    }
-
-    .lef-spv-gallery-header {
-        padding: 1rem !important;
-    }
-
-    .lef-spv-gallery-title {
-        font-size: 1.25rem !important;
-    }
-}
 
 /* ── Full description in modal ── */
 .lef-spv-desc-full {
@@ -1935,59 +1618,25 @@ list.lefmb-am-li-list svg {
 }
 
 .lefdk-cal-modal-header {
-    display: flex;
+    display: inline-flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2rem;
+    align-items: center;
+    margin-bottom: 3rem;
+    width: 100%;
 }
 
-.lefdk-cmh-left h2 {
+
+.lefdk-cal-modal-header h2 {
     font-size: 2rem;
     font-weight: 550;
     margin: 0;
     color: var(--leb-text-color);
 }
 
-.lefdk-cmh-left p {
+.lefdk-cal-modal-header p {
     font-size: 1.2rem;
     color: var(--leb-text-muted);
     margin: 0;
-}
-
-.lefdk-cmh-date-box {
-    display: flex;
-    border: 1px solid var(--leb-border-default);
-    border-radius: 12px;
-    background: var(--leb-white);
-    overflow: hidden;
-}
-
-.lefdk-cmh-date-field {
-    padding: 0.8rem 1.2rem;
-    min-width: 140px;
-}
-
-.lefdk-cmh-date-field:first-child {
-    border-right: 1px solid var(--leb-border-default);
-}
-
-.lefdk-cmh-date-field label {
-    display: block;
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: var(--leb-text-color);
-    margin-bottom: 0.2rem;
-    text-transform: uppercase;
-}
-
-.lefdk-cmh-date-field span {
-    font-size: 0.9rem;
-    color: var(--leb-text-muted);
-}
-
-.lefdk-cmh-date-field span.has-date {
-    color: var(--leb-text-color);
-    font-weight: 500;
 }
 
 .lefdk-cal-dual-container {
@@ -2001,10 +1650,10 @@ list.lefmb-am-li-list svg {
 }
 
 /* Modal specific calendar header adjustments */
-.lef-spv-cal-modal-box .lefdk-cal-header {
+/* .lef-spv-cal-modal-box .lefdk-cal-header {
     margin-bottom: 1.5rem;
     padding: 0 0.5rem;
-}
+} */
 
 .lefdk-cal-modal-footer {
     display: flex;
@@ -2017,7 +1666,7 @@ list.lefmb-am-li-list svg {
     background: none;
     border: none;
     text-decoration: underline;
-    font-size: 0.9rem;
+    font-size: 1.35rem;
     font-weight: 600;
     color: var(--leb-text-color);
     cursor: pointer;
@@ -2028,10 +1677,10 @@ list.lefmb-am-li-list svg {
     background: var(--leb-text-color);
     color: var(--leb-white);
     border: none;
-    padding: 0.7rem 1.5rem;
+    padding: 0.5rem 2rem;
     border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 550;
     cursor: pointer;
     transition: opacity 0.2s;
 }
@@ -2041,17 +1690,17 @@ list.lefmb-am-li-list svg {
 }
 
 /* ── Calendar Grid Polish (Modal) ── */
-.lef-spv-cal-modal-box .lefdk-cal-day {
+/* .lef-spv-cal-modal-box .lefdk-cal-day {
     aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 1.3rem;
+    font-weight: 550;
     cursor: pointer;
     border-radius: 50%;
     margin: 2px;
-}
+} */
 
 
 .lefdk-cal-day-selected {

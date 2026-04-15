@@ -875,25 +875,14 @@ function lef_render_review_stars($rating)
          ───────────────────────────────────────────────────────────── -->
 <div id="lef-spv-calendar-modal" class="lef-spv-modal">
     <div class="lef-spv-modal-content lef-spv-cal-modal-box">
-        <button class="lef-spv-modal-close" data-close="lef-spv-calendar-modal">✕</button>
+        
 
         <div class="lefdk-cal-modal-header">
-            <div class="lefdk-cmh-left">
+            <div class="lefdk-cmh-head-info">
                 <h2 id="lef-spv-cal-modal-title">Select dates</h2>
                 <p id="lef-spv-cal-modal-subtitle">Add your travel dates for exact pricing</p>
             </div>
-            <div class="lefdk-cmh-right">
-                <div class="lefdk-cmh-date-box">
-                    <div class="lefdk-cmh-date-field">
-                        <label>CHECK-IN</label>
-                        <span id="lef-spv-cmh-checkin">Add date</span>
-                    </div>
-                    <div class="lefdk-cmh-date-field">
-                        <label>CHECK-OUT</label>
-                        <span id="lef-spv-cmh-checkout">Add date</span>
-                    </div>
-                </div>
-            </div>
+            <button class="lef-spv-modal-close" data-close="lef-spv-calendar-modal">✕</button>
         </div>
 
         <div class="lefdk-cal-dual-container">
