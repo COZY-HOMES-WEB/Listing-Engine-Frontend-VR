@@ -156,7 +156,7 @@
 
     /* ==================== PHOTO MODAL ==================== */
     function initPhotoModal() {
-        $('#lef-spv-show-photos').on('click', function () {
+        $('#lef-spv-show-photos, .lefdk-img-cont img, .lefmb-img-cont img').on('click', function () {
             $('#lefg-photo-modal').css('display', 'flex');
             $('body').css('overflow', 'hidden');
         });

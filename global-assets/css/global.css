@@ -23,6 +23,7 @@
     /* ── Secondary / Surface ── */
     --leb-secondary-color:  #2C3E50;   /* Dark blue-grey – headings */
     --leb-bg-light:         #FAFAFA;   /* Page background */
+    --leb-bg-light-2:       #f1f1f1;
     --leb-white:            #ffffff;
 
     /* ── Semantic Status Colors ── */

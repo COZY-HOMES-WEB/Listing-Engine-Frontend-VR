@@ -29,6 +29,7 @@ h1.lefdk-title {
     font-size: 2.5rem;
     font-weight: 550;
     margin: 0;
+    color: var(--leb-text-color);
 }
 
 .lefdk-extra-cont {
@@ -130,6 +131,7 @@ h1.lefdk-title {
     justify-content: space-between;
     border: solid var(--leb-border-default);
     border-width: 0 0 1.5px 0;
+    padding: 2.2rem 1rem;
 }
 
 .lefdk-d-right {
@@ -139,6 +141,7 @@ h1.lefdk-title {
     align-items: flex-start;
     justify-content: flex-start;
     width: 60%;
+    gap: 2rem;
 }
 
 .lefdk-d-title-cont {
@@ -148,13 +151,14 @@ h1.lefdk-title {
     align-items: flex-start;
     justify-content: flex-start;
     width: 100%;
-    padding: 1.3rem 0rem;
-    gap: 5px;
+    gap: 2px;
+    margin: 0;
 }
 
 h1.lefdk-d-title {
-    font-size: 1.4rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 550;
+    margin: 0;
 }
 
 ol.lefdk-list-order {
@@ -166,11 +170,12 @@ ol.lefdk-list-order {
     justify-content: flex-start;
     gap: 0.4rem;
     list-style: none;
+    margin: 0;
 }
 
 .lefdk-list {
-    font-size: 1rem;
-    font-weight: 400;
+    font-size: 1.45rem;
+    font-weight: 500;
     color: var(--leb-text-muted);
 }
 
@@ -189,7 +194,7 @@ ol.lefdk-list-order {
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: 500;
     gap: 0.4rem;
 }
@@ -219,7 +224,7 @@ ol.lefdk-list-order {
 .lefdk-hd-photo img {
     object-fit: cover;
     width: 50px;
-    height: 50px;
+    height: 50px !important;
 }
 
 .lefdk-hd-info {
@@ -229,16 +234,18 @@ ol.lefdk-list-order {
     align-items: flex-start;
     justify-content: center;
     gap: 4px;
+    line-height: 18px;
 }
 
 span.lefdk-hd-i-name {
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: 550;
+    color: var(--leb-text-color);
 }
 
 span.lefdk-hd-i-tag {
-    font-size: 0.75rem;
-    font-weight: 400;
+    font-size: 1.15rem;
+    font-weight: 500;
     text-transform: uppercase;
     color: var(--leb-text-muted);
 }
@@ -251,19 +258,22 @@ span.lefdk-hd-i-tag {
     align-items: flex-start;
     justify-content: flex-start;
     gap: 10px;
-    padding: 1.6rem 0;
-    font-size: 1rem;
+    font-size: 1.45rem;
     font-weight: 400;
     line-height: 24px;
     color: var(--leb-text-muted);
 }
 
+.lefdk-description p {
+    margin: 0;
+}
+
 .lefdk-desc-btn,
 .lefdk-show-amenity-btn {
     background-color: var(--leb-bg-light);
-    padding: 0.5rem 1.2rem;
+    padding: 0.6rem 1.6rem;
     border-radius: 10px;
-    font-size: 0.9rem;
+    font-size: 1.25rem;
     border: solid 1px var(--leb-border-color);
     cursor: pointer;
     color: var(--leb-text-color);
@@ -283,16 +293,17 @@ span.lefdk-hd-i-tag {
     flex-wrap: nowrap;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 1.6rem;
-    padding: 1.6rem 0;
+    gap: 1.9rem;
+    padding: 2rem 0;
     border: solid var(--leb-border-default);
     border-width: 1.5px 0;
 }
 
 .lefdk-am-heading,
 .lefdk-cal-heading {
-    font-size: 1.4rem;
-    font-weight: 400;
+    font-size: 2rem;
+    font-weight: 550;
+    margin: 0;
 }
 
 ol.lefdk-am-lists,
@@ -302,6 +313,7 @@ ol.lefdk-am-lists,
     width: 100%;
     gap: 1.4rem 0.6rem;
     list-style: none;
+    margin: 0;
 }
 
 list.lefdk-am-li-list {
@@ -310,8 +322,8 @@ list.lefdk-am-li-list {
     flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-start;
-    gap: 0.6rem;
-    font-size: 1rem;
+    gap: 1rem;
+    font-size: 1.5rem;
     font-weight: 400;
 }
 
@@ -323,8 +335,7 @@ list.lefdk-am-li-list {
     flex-wrap: nowrap;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 1.2rem;
-    padding: 1.6rem 0;
+    gap: 1.4rem;
 }
 
 .lefdk-cal-wrapper {
@@ -332,7 +343,7 @@ list.lefdk-am-li-list {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 6px;
+    gap: 0.6rem;
     cursor: pointer;
 }
 
@@ -342,24 +353,20 @@ list.lefdk-am-li-list {
     border-radius: 12px;
     padding: 1.2rem 1rem;
     background: var(--leb-white);
+    min-height: 320px;
 }
 
 .lefdk-cal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.4rem;
 }
 
 .lefdk-cal-month {
-    font-size: 1.05rem;
+    font-size: 1.5rem;
     font-weight: 500;
     color: var(--leb-text-color);
-}
-
-.lefdk-cal-nav {
-    display: flex;
-    gap: 0.5rem;
 }
 
 .lefdk-cal-nav-btn {
@@ -394,9 +401,8 @@ list.lefdk-am-li-list {
 
 .lefdk-cal-day-name {
     text-align: center;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--leb-text-muted);
+    font-size: 1.15rem;
+    font-weight: 600;
     padding: 0.5rem 0;
 }
 
@@ -405,12 +411,13 @@ list.lefdk-am-li-list {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem;
+    font-size: 1.15rem;
+    font-weight: 600;
     color: var(--leb-text-color);
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s ease;
-    width: 36px;
+    width: 32px;
     height: auto;
     margin: auto;
     position: relative;
@@ -422,13 +429,12 @@ list.lefdk-am-li-list {
     border: 1px solid var(--leb-primary-color);
 }
 
-.lefdk-cal-day-blocked {
-    color: #b0b0b0;
+/* .lefdk-cal-day-blocked {
     cursor: not-allowed !important;
-}
+} */
 
 /* The diagonal "cut mark" for blocked dates */
-.lefdk-cal-day-blocked::after {
+/* .lefdk-cal-day-blocked::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -437,7 +443,7 @@ list.lefdk-am-li-list {
     height: 1px;
     background: #b0b0b0;
     transform: rotate(-45deg);
-}
+} */
 
 .lefdk-cal-day-selected {
     background: var(--leb-primary-color) !important;
@@ -449,31 +455,27 @@ list.lefdk-am-li-list {
 }
 
 .lefdk-cal-day-in-range {
-    background: var(--leb-primary-light-bg);
+    background-color: var(--leb-bg-light-2);
     border-radius: 0;
 }
 
-.lefdk-cal-day-disabled {
-    color: var(--leb-border-color);
-    cursor: not-allowed;
-}
-
+.lefdk-cal-day-disabled,
 .lefdk-cal-day-blocked {
-    color: var(--leb-border-color);
+    opacity: 0.4;
     cursor: not-allowed;
     text-decoration: line-through;
 }
 
 .lefdk-cal-day-today {
     border: 1px solid var(--leb-primary-color);
-    font-weight: 600;
 }
 
 span.lefdk-cal-clear-btn {
-    font-size: 0.9rem;
+    font-size: 1.45rem;
     text-decoration: underline;
     text-align: right;
     cursor: pointer;
+    padding-right: 1rem;
 }
 
 span.lefdk-cal-clear-btn:hover {
@@ -503,6 +505,7 @@ span.lefdk-cal-clear-btn:hover {
     padding: 1.5rem;
     width: 90%;
     margin: 2rem 0;
+    min-height: 300px;
 }
 
 .lefdk-lf-price-header {
@@ -513,22 +516,22 @@ span.lefdk-cal-clear-btn:hover {
 }
 
 .lefdk-lf-price-amount {
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-size: 2rem;
+    font-weight: 550;
     color: var(--leb-text-color);
 }
 
 .lefdk-lf-price-unit {
-    font-size: 0.9rem;
+    font-size: 1.6rem;
     color: var(--leb-text-muted);
-    font-weight: 400;
+    font-weight: 500;
 }
 
 .lefdk-lf-dates {
     border: 1px solid var(--leb-border-default);
     border-radius: 12px;
     overflow: hidden;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.4rem;
 }
 
 .lefdk-lf-date-row {
@@ -547,17 +550,19 @@ span.lefdk-cal-clear-btn:hover {
     border-right: 1px solid var(--leb-border-default);
 }
 
-.lefdk-lf-date-field label {
+.lefdk-lf-date-field label,
+.lefdk-lf-guests label {
     display: block;
-    font-size: 0.65rem;
+    font-size: 0.9rem;
     font-weight: 600;
     text-transform: uppercase;
     color: var(--leb-text-color);
     margin-bottom: 0.2rem;
 }
 
-.lefdk-lf-date-field span {
-    font-size: 0.85rem;
+.lefdk-lf-date-field span,
+.lefdk-lf-guests span {
+    font-size: 1.45rem;
     color: var(--leb-text-muted);
 }
 
@@ -570,29 +575,16 @@ span.lefdk-cal-clear-btn:hover {
     cursor: pointer;
 }
 
-.lefdk-lf-guests label {
-    display: block;
-    font-size: 0.65rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--leb-text-color);
-    margin-bottom: 0.2rem;
-}
-
-.lefdk-lf-guests span {
-    font-size: 0.85rem;
-    color: var(--leb-text-muted);
-}
 
 .lefdk-lf-btn {
     width: 100%;
-    padding: 1rem;
+    padding: 0.8rem;
     background: var(--leb-primary-color);
     color: var(--leb-white);
     border: none;
     border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.7rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -602,8 +594,8 @@ span.lefdk-cal-clear-btn:hover {
 }
 
 .lefdk-lf-info {
-    margin-top: 0.8rem;
-    font-size: 0.8rem;
+    margin-top: 1rem;
+    font-size: 1.3rem;
     color: var(--leb-text-muted);
     text-align: center;
 }
@@ -642,13 +634,13 @@ h1.lefdk-l-form-heading {
 }
 
 .lef-spv-gd-title {
-    font-size: 0.95rem;
+    font-size: 1.4rem;
     font-weight: 500;
     color: var(--leb-text-color);
 }
 
 .lef-spv-gd-sub {
-    font-size: 0.75rem;
+    font-size: 1.15rem;
     color: var(--leb-text-muted);
 }
 
@@ -679,7 +671,7 @@ h1.lefdk-l-form-heading {
 }
 
 .lef-spv-gd-count {
-    font-size: 0.95rem;
+    font-size: 1.2rem;
     font-weight: 500;
     min-width: 20px;
     text-align: center;
@@ -688,7 +680,7 @@ h1.lefdk-l-form-heading {
 /* ── Reviews Section ── */
 .lefdk-all-review {
     display: flex;
-    padding: 1.6rem 0;
+    padding: 2rem 1rem;
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: flex-start;
@@ -703,8 +695,8 @@ h1.lefdk-l-form-heading {
     align-items: center;
     justify-content: flex-start;
     gap: 0.6rem;
-    font-size: 1.3rem;
-    font-weight: 500;
+    font-size: 2.2rem;
+    font-weight: 600;
 }
 
 .lefdk-ar-r-number {
@@ -724,7 +716,7 @@ h1.lefdk-l-form-heading {
 .lefdk-review-cards {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem 1.3rem;
+    gap: 2.6rem;
     width: 100%;
     padding: 1rem 0;
 }
@@ -732,19 +724,19 @@ h1.lefdk-l-form-heading {
 .lefdk-rc-card {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 1.25rem;
 }
 
 .lefdk-rc-header {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 1rem;
 }
 
 .lefdk-rc-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 45px;
+    height: 45px !important;
+    border-radius: 100rem !important;
     object-fit: cover;
 }
 
@@ -755,13 +747,22 @@ h1.lefdk-l-form-heading {
 }
 
 .lefdk-rc-name {
-    font-size: 0.95rem;
-    font-weight: 500;
+    font-size: 1.45rem;
+    font-weight: 550;
     color: var(--leb-text-color);
 }
 
+
+span.lefdk-rc-user-tag {
+    font-size: 1.15rem;
+    line-height: 10px;
+    font-weight: 400;
+}
+
 .lefdk-rc-date {
-    font-size: 0.8rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 0;
     color: var(--leb-text-muted);
     display: flex;
     flex-direction: row;
@@ -775,8 +776,6 @@ h1.lefdk-l-form-heading {
     display: flex;
     align-items: center;
     gap: 0.3rem;
-    font-size: 0.85rem;
-    font-weight: 500;
     color: var(--leb-text-color);
 }
 
@@ -785,8 +784,14 @@ h1.lefdk-l-form-heading {
     height: auto;
 }
 
+.lefdk-rc-r-info-cont {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
 .lefdk-rc-text {
-    font-size: 0.9rem;
+    font-size: 1.4rem;
     color: var(--leb-text-muted);
     line-height: 1.5;
     width: 90%;
@@ -1761,8 +1766,8 @@ list.lefmb-am-li-list svg {
 }
 
 .lefg-gallery-title {
-    font-size: 1.4rem !important;
-    font-weight: 600 !important;
+    font-size: 1.9rem !important;
+    font-weight: 550 !important;
     color: var(--leb-text-color) !important;
     margin: 0 !important;
 }
@@ -1811,7 +1816,7 @@ list.lefmb-am-li-list svg {
     max-width: 100% !important;
     width: 100% !important;
     height: auto !important;
-    display: block; 
+    display: block;
     margin: 0 auto 1.5rem auto;
     border-radius: 12px !important;
     cursor: zoom-in;
@@ -2030,10 +2035,6 @@ list.lefmb-am-li-list svg {
     margin: 2px;
 }
 
-.lefdk-cal-day-in-range {
-    background: #f7f7f7;
-    border-radius: 0 !important;
-}
 
 .lefdk-cal-day-selected {
     background: var(--leb-text-color) !important;
