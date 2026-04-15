@@ -727,15 +727,35 @@
         if (!$slider.length) return;
 
         const imgCount = $slider.find('img').length;
-        if (imgCount <= 1) return;
+        if (imgCount <= 1) {
+            $slider.find('.lefmb-slider-nav, .lefmb-img-count').hide();
+            return;
+        }
 
+        // ── Scroll Listener for Counter Sync ──
         $slider.on('scroll', function () {
             const scrollLeft  = $slider.scrollLeft();
             const itemWidth   = $slider.find('img').first().outerWidth(true);
             const currentIdx  = Math.round(scrollLeft / itemWidth) + 1;
             $('#lef-spv-img-counter').text(currentIdx + '/' + imgCount);
         });
+
+        // ── Navigation Logic ──
+        $('#lef-spv-slider-prev').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const itemWidth = $slider.find('img').first().outerWidth();
+            $slider[0].scrollBy({ left: -itemWidth, behavior: 'smooth' });
+        });
+
+        $('#lef-spv-slider-next').on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const itemWidth = $slider.find('img').first().outerWidth();
+            $slider[0].scrollBy({ left: itemWidth, behavior: 'smooth' });
+        });
     }
+
 
 
     /* ==================== MOBILE BACK BUTTON ==================== */

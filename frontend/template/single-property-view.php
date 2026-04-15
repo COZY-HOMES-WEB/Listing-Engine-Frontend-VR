@@ -214,6 +214,9 @@ $heart_svg_empty = '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" 
 $heart_svg_filled = '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: var(--leb-primary-color); height: 16px; width: 16px; stroke: var(--leb-primary-color); stroke-width: 2; overflow: visible;"><path d="m15.9998 28.6668c7.1667-4.8847 14.3334-10.8844 14.3334-18.1088 0-1.84951-.6993-3.69794-2.0988-5.10877-1.3996-1.4098-3.2332-2.11573-5.0679-2.11573-1.8336 0-3.6683.70593-5.0668 2.11573l-2.0999 2.11677-2.0988-2.11677c-1.3995-1.4098-3.2332-2.11573-5.06783-2.11573-1.83364 0-3.66831.70593-5.06683 2.11573-1.39955 1.41083-2.09984 3.25926-2.09984 5.10877 0 7.2244 7.16667 13.2241 14.3333 18.1088z"></path></svg>';
 
 $back_arrow_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" aria-label="Back" role="img" focusable="false" style="display: block; fill: none; height: 16px; width: 16px; stroke: currentcolor; stroke-width: 4; overflow: visible;"><g fill="none"><path d="M4 16h26M15 28 3.7 16.7a1 1 0 0 1 0-1.4L15 4"></path></g></svg>';
+$slider_prev_svg = '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.333333333333333; overflow: visible;"><path d="m20 29-12.29289322-12.2928932c-.39052429-.3905243-.39052429-1.0236893 0-1.4142136l12.29289322-12.2928932" fill="none"></path></svg>';
+$slider_next_svg = '<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.333333333333333; overflow: visible;"><path d="m12 29 12.2928932-12.2928932c.3905243-.3905243.3905243-1.0236893 0-1.4142136l-12.2928932-12.2928932" fill="none"></path></svg>';
+
 
 $grid_icon_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true" role="presentation" focusable="false" style="display: block; height: 16px; width: 16px; fill: currentcolor;"><path fill-rule="evenodd" d="M3 11.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-10-5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-10-5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm5 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"></path></svg>';
 
@@ -535,12 +538,20 @@ $lef_review_char_limit = 250;
         </div>
 
         <!-- ── Image Slider ── -->
-        <div class="lefmb-img-cont" id="lef-spv-mb-slider">
-            <?php foreach ($images as $img_url) : ?>
-                <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo $title; ?>">
-            <?php endforeach; ?>
+        <div class="lefmb-slider-wrapper">
+            <div class="lefmb-img-cont" id="lef-spv-mb-slider">
+                <?php foreach ($images as $img_url) : ?>
+                    <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo $title; ?>">
+                <?php endforeach; ?>
+            </div>
+
+            <div class="lefmb-slider-nav">
+                <button class="lefmb-s-nav-btn prev" id="lef-spv-slider-prev"><?php echo $slider_prev_svg; ?></button>
+                <button class="lefmb-s-nav-btn next" id="lef-spv-slider-next"><?php echo $slider_next_svg; ?></button>
+            </div>
             <span class="lefmb-img-count" id="lef-spv-img-counter">1/<?php echo count($images); ?></span>
         </div>
+
 
         <!-- ── Property Details ── -->
         <div class="lefmb-prop-details-cont">
@@ -548,7 +559,7 @@ $lef_review_char_limit = 250;
             <div class="lefmb-prop-heading-cont">
                 <h1 class="lefmb-prop-d-heading"><?php echo $title; ?></h1>
                 <div class="lefmb-prop-title-cont">
-                    <h1 class="lefmb-prop-title">Entire rental unit in <?php echo esc_html($location_name); ?></h1>
+                    <p class="lefmb-prop-title">Entire rental unit in <?php echo esc_html($location_name); ?></p>
                     <ol class="lefmb-list-order">
                         <li class="lefmb-list"><?php echo $guests; ?> guests</li>
                         <li class="lefmb-list"><span class="lefmb-dot"> · </span><?php echo $bedrooms; ?> bedroom</li>
