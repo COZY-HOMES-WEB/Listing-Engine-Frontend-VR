@@ -237,6 +237,37 @@ function lef_format_review_date($date_str)
 }
 
 // ─────────────────────────────────────────────────────────────
+// CONFIGURATION VARIABLES
+// ─────────────────────────────────────────────────────────────
+// Change this value to adjust the character limit for review text.
+$lef_review_char_limit = 250;
+
+// Helper: Truncate review text
+function lef_truncate_review($text, $limit)
+{
+    if (mb_strlen($text) > $limit) {
+        return mb_substr($text, 0, $limit) . '...';
+    }
+    return $text;
+}
+
+// Helper: Render 5 stars for review score (filled & blank outlined)
+function lef_render_review_stars($rating)
+{
+    $rating = round(floatval($rating));
+    $rating = max(0, min(5, $rating));
+    
+    $filled_star = '<svg viewBox="0 0 32 32" class="lef-star-filled"><path d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z" /></svg>';
+    $outlined_star = '<svg viewBox="0 0 32 32" class="lef-star-outline"><path d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z" /></svg>';
+    
+    $stars_html = '';
+    for ($i = 0; $i < 5; $i++) {
+        $stars_html .= ($i < $rating) ? $filled_star : $outlined_star;
+    }
+    return $stars_html;
+}
+
+// ─────────────────────────────────────────────────────────────
 // RENDER — Hidden data attributes for JS consumption
 // ─────────────────────────────────────────────────────────────
 ?>
@@ -455,8 +486,8 @@ function lef_format_review_date($date_str)
                                     </div>
                                 </div>
                                 <div class="lefdk-rc-r-info-cont">
-                                    <div class="lefdk-rc-date"><span class="lefdk-rc-rating"><?php echo $star_svg_review; ?><?php echo $rev['rating']; ?></span> <?php echo " - " . lef_format_review_date($rev['created_at']); ?> </div>
-                                    <p class="lefdk-rc-text"><?php echo esc_html($rev['review']); ?></p>
+                                    <div class="lefdk-rc-date"><span class="lefdk-rc-rating"><?php echo lef_render_review_stars($rev['rating']); ?></span> <?php echo " - " . lef_format_review_date($rev['created_at']); ?> </div>
+                                    <p class="lefdk-rc-text"><?php echo esc_html(lef_truncate_review($rev['review'], $lef_review_char_limit)); ?></p>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -615,10 +646,10 @@ function lef_format_review_date($date_str)
                                         <img src="<?php echo esc_url($rev['avatar']); ?>" alt="Avatar" class="lefdk-rc-avatar" onerror="this.src='<?php echo esc_url($placeholder_pic); ?>';">
                                         <div class="lefmb-rc-info">
                                             <span class="lefmb-rc-name"><?php echo esc_html($rev['name']); ?></span>
-                                            <div class="lefmb-rc-date"><?php echo lef_format_review_date($rev['created_at']); ?> <span class="lefmb-rc-rating"><?php echo $star_svg_review; ?><?php echo $rev['rating']; ?></span></div>
+                                            <div class="lefmb-rc-date"><?php echo lef_format_review_date($rev['created_at']); ?> <span class="lefmb-rc-rating"><?php echo lef_render_review_stars($rev['rating']); ?></span></div>
                                         </div>
                                     </div>
-                                    <p class="lefmb-rc-text"><?php echo esc_html($rev['review']); ?></p>
+                                    <p class="lefmb-rc-text"><?php echo esc_html(lef_truncate_review($rev['review'], $lef_review_char_limit)); ?></p>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -730,8 +761,8 @@ function lef_format_review_date($date_str)
                             <span class="lefdk-rc-verified">Verified User</span>
                         </div>
                     </div>
-                    <div class="lefdk-rc-date"><?php echo lef_format_review_date($rev['created_at']); ?><span class="lefdk-rc-rating"><?php echo $star_svg_review; ?><?php echo $rev['rating']; ?></span></div>
-                    <p class="lefdk-rc-text"><?php echo esc_html($rev['review']); ?></p>
+                    <div class="lefdk-rc-date"><?php echo lef_format_review_date($rev['created_at']); ?><span class="lefdk-rc-rating"><?php echo lef_render_review_stars($rev['rating']); ?></span></div>
+                    <p class="lefdk-rc-text"><?php echo esc_html(lef_truncate_review($rev['review'], $lef_review_char_limit)); ?></p>
                 </div>
             <?php endforeach; ?>
         </div>

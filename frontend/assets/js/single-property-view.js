@@ -682,8 +682,7 @@
              + '</div>'
              + '<div class="lefdk-sm-rc-details">'
              + '<span class="lefdk-sm-rc-title">' + escHtml(p.title) + '</span>'
-             + ratingHtml
-             + '<span class="lefdk-sm-rc-price">₹' + Number(p.price).toLocaleString('en-IN') + ' <span>/ night</span></span>'
+             + '<span class="lefdk-sm-rc-price">₹' + Number(p.price).toLocaleString('en-IN') +  '<span>/ night</span>' + ratingHtml + '</span>' 
              + '</div></a>';
     }
 

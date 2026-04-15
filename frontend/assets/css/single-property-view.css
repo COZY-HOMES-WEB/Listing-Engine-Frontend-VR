@@ -129,9 +129,12 @@ h1.lefdk-title {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
+    padding: 2.2rem 1rem;
+}
+
+.lefdk-details-cont .active {
     border: solid var(--leb-border-default);
     border-width: 0 0 1.5px 0;
-    padding: 2.2rem 1rem;
 }
 
 .lefdk-d-right {
@@ -159,6 +162,7 @@ h1.lefdk-d-title {
     font-size: 2rem;
     font-weight: 550;
     margin: 0;
+    color: var(--leb-text-color);
 }
 
 ol.lefdk-list-order {
@@ -300,7 +304,8 @@ span.lefdk-hd-i-tag {
 }
 
 .lefdk-am-heading,
-.lefdk-cal-heading {
+.lefdk-cal-heading,
+.lefdk-sm-heading {
     font-size: 2rem;
     font-weight: 550;
     margin: 0;
@@ -678,6 +683,26 @@ h1.lefdk-l-form-heading {
 }
 
 /* ── Reviews Section ── */
+.lef-star-filled {
+    display: inline-block;
+    height: auto;
+    width: 11px;
+    fill: var(--leb-text-color);
+    stroke: var(--leb-text-color);
+    stroke-width: 3;
+    margin-right: 2px;
+}
+
+.lef-star-outline {
+    display: inline-block;
+    height: auto;
+    width: 11px;
+    fill: none;
+    stroke: var(--leb-text-color);
+    stroke-width: 3;
+    margin-right: 2px;
+}
+
 .lefdk-all-review {
     display: flex;
     padding: 2rem 1rem;
@@ -686,6 +711,8 @@ h1.lefdk-l-form-heading {
     align-items: flex-start;
     justify-content: flex-start;
     gap: 1rem;
+    border: solid var(--leb-border-default);
+    border-width: 1.5px 0
 }
 
 .lefdk-ar-review {
@@ -779,11 +806,6 @@ span.lefdk-rc-user-tag {
     color: var(--leb-text-color);
 }
 
-.lefdk-rc-rating svg {
-    width: 10px;
-    height: auto;
-}
-
 .lefdk-rc-r-info-cont {
     display: flex;
     flex-direction: column;
@@ -792,7 +814,7 @@ span.lefdk-rc-user-tag {
 
 .lefdk-rc-text {
     font-size: 1.4rem;
-    color: var(--leb-text-muted);
+    color: var(--leb-text-color);
     line-height: 1.5;
     width: 90%;
 }
@@ -800,19 +822,12 @@ span.lefdk-rc-user-tag {
 /* ── Similar Properties ── */
 .lefdk-similar-results {
     display: flex;
-    padding: 1.6rem 0;
+    padding: 2rem 1rem;
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: flex-start;
     justify-content: flex-start;
     gap: 1rem;
-    border: solid var(--leb-border-default);
-    border-width: 1.5px 0 0 0;
-}
-
-.lefdk-sm-heading {
-    font-size: 1.4rem;
-    font-weight: 400;
 }
 
 .lefdk-sm-r-cards,
@@ -836,21 +851,20 @@ span.lefdk-rc-user-tag {
     flex: 0 0 260px;
     scroll-snap-align: start;
     cursor: pointer;
-    text-decoration: none;
     color: inherit;
 }
 
 .lefdk-sm-rc-img,
 .lefmb-sm-rc-img {
     aspect-ratio: 4 / 3;
-    border-radius: 12px;
+    border-radius: 20px;
     overflow: hidden;
 }
 
 .lefdk-sm-rc-img img,
 .lefmb-sm-rc-img img {
     width: 100%;
-    height: 100%;
+    height: 100% !important;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
@@ -866,13 +880,13 @@ span.lefdk-rc-user-tag {
     flex-wrap: nowrap;
     align-items: flex-start;
     justify-content: flex-start;
-    gap: 0.3rem;
-    padding: 0.6rem 0;
+    gap: 2px;
+    padding: 0.6rem;
 }
 
 .lefdk-sm-rc-title,
 .lefmb-sm-rc-title {
-    font-size: 0.95rem;
+    font-size: 1.4rem;
     font-weight: 500;
     color: var(--leb-text-color);
     line-height: 1.3;
@@ -880,7 +894,13 @@ span.lefdk-rc-user-tag {
 
 .lefdk-sm-rc-price,
 .lefmb-sm-rc-price {
-    font-size: 0.95rem;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1.35rem;
+    line-height: 1.2;
     font-weight: 600;
     color: var(--leb-text-color);
     margin-top: 0.2rem;
@@ -897,14 +917,10 @@ span.lefdk-rc-user-tag {
     display: flex;
     align-items: center;
     gap: 0.3rem;
-    font-size: 0.85rem;
+    font-size: 1.25rem;
     color: var(--leb-text-color);
-}
-
-.lefdk-sm-rc-rating svg,
-.lefmb-sm-rc-rating svg {
-    width: 12px;
-    height: 12px;
+    margin-left: 1rem;
+    line-height: 1.2;
 }
 
 
@@ -1211,6 +1227,8 @@ list.lefmb-am-li-list svg {
     width: 20px !important;
     height: auto !important;
 }
+
+
 
 /* ── Mobile Reviews ── */
 .lefmb-all-review {
@@ -1924,14 +1942,14 @@ list.lefmb-am-li-list svg {
 }
 
 .lefdk-cmh-left h2 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin: 0 0 0.4rem 0;
+    font-size: 2rem;
+    font-weight: 550;
+    margin: 0;
     color: var(--leb-text-color);
 }
 
 .lefdk-cmh-left p {
-    font-size: 0.95rem;
+    font-size: 1.2rem;
     color: var(--leb-text-muted);
     margin: 0;
 }
