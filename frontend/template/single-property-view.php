@@ -324,7 +324,8 @@ function lef_render_review_stars($rating)
         </div>
 
         <!-- ── Details Container (Left: content, Right: form) ── -->
-        <div class="lefdk-details-cont">
+        <?php $show_reviews_section = ($review_count > 0 || (is_user_logged_in() && $can_review)); ?>
+        <div class="lefdk-details-cont <?php echo !$show_reviews_section ? 'bottom-line' : ''; ?>">
             <div class="lefdk-d-right">
                 <!-- Title & specs -->
                 <div class="lefdk-d-title-cont">
