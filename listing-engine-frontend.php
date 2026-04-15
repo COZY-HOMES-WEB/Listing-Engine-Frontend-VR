@@ -3,11 +3,11 @@
  * Plugin Name: Listing Engine Frontend
  * Plugin URI: https://arttechfuzion.com
  * Description: Replicates property listing engine UI with dynamic data.
- * Version:     1.9.27
+ * Version:     1.9.32
  * Author:      Art-Tech Fuzion
  * Author URI:  https://arttechfuzion.com
  * Text Domain: listing-engine-frontend
- * Last Modified: 2026-04-16 - Fixed pink color flash glitch on similar property cards by overriding global link transitions and colors.
+ * Last Modified: 2026-04-16 - Wrapped helper functions in function_exists() checks to prevent fatal redeclaration errors.
  *
  * @package ListingEngineFrontend
  */
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define Constants.
-define( 'LEF_VERSION', '1.9.27' );
+define( 'LEF_VERSION', '1.9.32' );
 define( 'LEF_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LEF_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
@@ -25,6 +25,9 @@ define( 'LEF_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
  * Initialize Plugin.
  */
 function lef_initialize_plugin() {
+	// Include Helpers.
+	require_once LEF_PLUGIN_DIR . 'includes/helpers.php';
+
 	// Include DB Schema.
 	require_once LEF_PLUGIN_DIR . 'includes/db-schema.php';
 

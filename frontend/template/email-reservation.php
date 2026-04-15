@@ -120,3 +120,4 @@ function lef_email_detail_row( $label, $value ) {
 		 . '<span style="color: #5a6e7c;">' . $value . '</span>'
 		 . '</div>';
 }
+

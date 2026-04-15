@@ -20,8 +20,14 @@
      * Early Device Detection
      * Checks window width and sets a cookie to ensure the server renders the correct view.
      * If the cookie is missing or incorrect, it reloads the page.
+     * SKIP logic if in Elementor Preview/Editor to avoid breaking the tool.
      */
     (function () {
+        // Skip for Elementor Preview
+        if (window.location.href.indexOf('elementor-preview') !== -1) {
+            return;
+        }
+
         var width = window.innerWidth;
         var currentMode = width > 800 ? 'desktop' : 'mobile';
         var cookieValue = document.cookie.split('; ').find(row => row.startsWith('lef_device_view='));
@@ -91,6 +97,11 @@
     const initialMode = window.innerWidth > BREAKPOINT ? 'desktop' : 'mobile';
 
     function checkResizeCrossing() {
+        // Skip if in Elementor Preview
+        if (window.location.href.indexOf('elementor-preview') !== -1) {
+            return;
+        }
+
         const currentMode = window.innerWidth > BREAKPOINT ? 'desktop' : 'mobile';
         if (currentMode !== initialMode) {
             // Crossed the breakpoint! Blank the screen and request reload as requested.

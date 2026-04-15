@@ -229,12 +229,7 @@ $amenities_extra   = count($amenities_list) > 6;
 $reviews_visible = array_slice($reviews, 0, 6);
 $reviews_extra   = $review_count > 6;
 
-// Helper: Format month for review dates
-function lef_format_review_date($date_str)
-{
-    $ts = strtotime($date_str);
-    return $ts ? date('d F Y', $ts) : '';
-}
+// NOTE: Helper functions moved to includes/helpers.php
 
 // ─────────────────────────────────────────────────────────────
 // CONFIGURATION VARIABLES
@@ -242,30 +237,8 @@ function lef_format_review_date($date_str)
 // Change this value to adjust the character limit for review text.
 $lef_review_char_limit = 250;
 
-// Helper: Truncate review text
-function lef_truncate_review($text, $limit)
-{
-    if (mb_strlen($text) > $limit) {
-        return mb_substr($text, 0, $limit) . '...';
-    }
-    return $text;
-}
 
-// Helper: Render 5 stars for review score (filled & blank outlined)
-function lef_render_review_stars($rating)
-{
-    $rating = round(floatval($rating));
-    $rating = max(0, min(5, $rating));
 
-    $filled_star = '<svg viewBox="0 0 32 32" class="lef-star-filled"><path d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z" /></svg>';
-    $outlined_star = '<svg viewBox="0 0 32 32" class="lef-star-outline"><path d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z" /></svg>';
-
-    $stars_html = '';
-    for ($i = 0; $i < 5; $i++) {
-        $stars_html .= ($i < $rating) ? $filled_star : $outlined_star;
-    }
-    return $stars_html;
-}
 
 // ─────────────────────────────────────────────────────────────
 // RENDER — Hidden data attributes for JS consumption
@@ -281,7 +254,15 @@ function lef_render_review_stars($rating)
 
 
     <?php
-    $device_view = isset($_COOKIE['lef_device_view']) ? $_COOKIE['lef_device_view'] : 'desktop'; // Default to desktop if no cookie
+    // Detect Elementor Preview/Editor to avoid responsive interference
+    $is_elementor_preview = isset($_GET['elementor-preview']) || (isset($_GET['action']) && $_GET['action'] === 'elementor');
+    
+    if ($is_elementor_preview) {
+        $device_view = 'desktop'; // Always default to desktop in the editor/preview
+    } else {
+        $device_view = isset($_COOKIE['lef_device_view']) ? $_COOKIE['lef_device_view'] : 'desktop';
+    }
+
     if ($device_view === 'desktop') :
     ?>
         <!-- ==============================

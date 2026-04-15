@@ -13,47 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Helper Functions
 // ─────────────────────────────────────────────────────────────
 
-/**
- * Robustly fetch user profile picture URL.
- * Handles both JSON-encoded data and plain URL strings.
- * Falls back to a predefined placeholder if no image exists.
- *
- * @param int $user_id User ID to fetch the picture for.
- * @return string Profile picture URL.
- */
-function lef_get_user_profile_pic( $user_id ) {
-	$plugin_url = rtrim( LEF_PLUGIN_URL, '/' );
-	$placeholder = $plugin_url . '/global-assets/images/placeholder-avatar.png';
-	
-	if ( ! $user_id ) return esc_url( $placeholder );
+// NOTE: lef_get_user_profile_pic moved to includes/helpers.php
 
-	$pic_meta = get_user_meta( $user_id, 'profile_pic', true );
-	$pic_url  = '';
-
-	if ( ! empty( $pic_meta ) ) {
-		// Attempt to decode as JSON if it looks like it
-		if ( strpos( $pic_meta, '{' ) === 0 || strpos( $pic_meta, '[' ) === 0 ) {
-			$pic_data = json_decode( $pic_meta, true );
-			if ( is_array( $pic_data ) ) {
-				// It was JSON, check for 'url' or 'path' keys
-				$pic_url = isset( $pic_data['url'] ) ? $pic_data['url'] : ( isset( $pic_data['path'] ) ? $pic_data['path'] : '' );
-			}
-		}
-
-		// If not JSON or pic_url still empty, trust the meta string directly
-		if ( empty( $pic_url ) && is_string( $pic_meta ) ) {
-			$pic_url = trim( $pic_meta );
-		}
-	}
-
-	// Final Fallback: if empty, show placeholder. 
-	// Otherwise, return the URL and let client-side 'onerror' handle 404s.
-	if ( empty( $pic_url ) ) {
-		$pic_url = $placeholder;
-	}
-
-	return esc_url( $pic_url );
-}
 
 /**
  * Handle location and address suggestions for the search bar.
