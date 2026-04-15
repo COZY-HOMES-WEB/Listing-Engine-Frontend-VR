@@ -233,7 +233,7 @@ $reviews_extra   = $review_count > 6;
 function lef_format_review_date($date_str)
 {
     $ts = strtotime($date_str);
-    return $ts ? date('F Y', $ts) : '';
+    return $ts ? date('d F Y', $ts) : '';
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -498,7 +498,7 @@ function lef_render_review_stars($rating)
                                                 data-name="<?php echo esc_attr($rev['name']); ?>"
                                                 data-date="<?php echo esc_attr(lef_format_review_date($rev['created_at'])); ?>"
                                                 data-rating='<?php echo lef_render_review_stars($rev['rating']); ?>'
-                                                data-full-review="<?php echo esc_attr($full_review); ?>">Show more ></span>
+                                                data-full-review="<?php echo esc_attr($full_review); ?>">Show more</span>
                                         <?php else : ?>
                                             <?php echo esc_html($full_review); ?>
                                         <?php endif; ?>
