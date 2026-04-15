@@ -256,10 +256,10 @@ function lef_render_review_stars($rating)
 {
     $rating = round(floatval($rating));
     $rating = max(0, min(5, $rating));
-    
+
     $filled_star = '<svg viewBox="0 0 32 32" class="lef-star-filled"><path d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z" /></svg>';
     $outlined_star = '<svg viewBox="0 0 32 32" class="lef-star-outline"><path d="m15.1 1.58-4.13 8.88-9.86 1.27a1 1 0 0 0-.54 1.74l7.3 6.57-1.97 9.85a1 1 0 0 0 1.48 1.06l8.62-5 8.63 5a1 1 0 0 0 1.48-1.06l-1.97-9.85 7.3-6.57a1 1 0 0 0-.55-1.73l-9.86-1.28-4.12-8.88a1 1 0 0 0-1.82 0z" /></svg>';
-    
+
     $stars_html = '';
     for ($i = 0; $i < 5; $i++) {
         $stars_html .= ($i < $rating) ? $filled_star : $outlined_star;
@@ -714,34 +714,38 @@ function lef_render_review_stars($rating)
 
     <!-- Description Popup -->
     <div class="lef-spv-modal" id="lef-spv-desc-modal" style="display:none;">
-        <div class="lef-spv-modal-header">
-            <span class="lef-spv-modal-close" data-close="lef-spv-desc-modal">✕</span>
-            <h2>About this place</h2>
-        </div>
-        <div class="lef-spv-modal-body">
-            <p class="lef-spv-desc-full"><?php echo nl2br(esc_html($description)); ?></p>
+        <div class="lef-spv-modal-inner">
+            <div class="lef-spv-modal-header">
+                <span class="lef-spv-modal-close" data-close="lef-spv-desc-modal">✕</span>
+                <h2>About this place</h2>
+            </div>
+            <div class="lef-spv-modal-body">
+                <p class="lef-spv-desc-full"><?php echo nl2br(esc_html($description)); ?></p>
+            </div>
         </div>
     </div>
 
     <!-- Amenities Popup -->
     <div class="lef-spv-modal" id="lef-spv-amenity-modal" style="display:none;">
-        <div class="lef-spv-modal-header">
-            <span class="lef-spv-modal-close" data-close="lef-spv-amenity-modal">✕</span>
-            <h2>What this place offers</h2>
-        </div>
-        <div class="lef-spv-modal-body">
-            <ol class="lef-spv-amenity-full-list">
-                <?php foreach ($amenities_list as $am) : ?>
-                    <list class="lefdk-am-li-list">
-                        <span class="lefdk-am-li-svg">
-                            <?php if ($am['svg_path']) : ?>
-                                <img src="<?php echo esc_url($am['svg_path']); ?>" alt="" style="display:block; height:24px; width:24px;">
-                            <?php endif; ?>
-                        </span>
-                        <span class="lefdk-am-li-title"><?php echo esc_html($am['name']); ?></span>
-                    </list>
-                <?php endforeach; ?>
-            </ol>
+        <div class="lef-spv-modal-inner">
+            <div class="lef-spv-modal-header">
+                <span class="lef-spv-modal-close" data-close="lef-spv-amenity-modal">✕</span>
+                <h2>What this place offers</h2>
+            </div>
+            <div class="lef-spv-modal-body">
+                <ol class="lef-spv-amenity-full-list">
+                    <?php foreach ($amenities_list as $am) : ?>
+                        <list class="lefdk-am-li-list">
+                            <span class="lefdk-am-li-svg">
+                                <?php if ($am['svg_path']) : ?>
+                                    <img src="<?php echo esc_url($am['svg_path']); ?>" alt="" style="display:block; height:24px; width:24px;">
+                                <?php endif; ?>
+                            </span>
+                            <span class="lefdk-am-li-title"><?php echo esc_html($am['name']); ?></span>
+                        </list>
+                    <?php endforeach; ?>
+                </ol>
+            </div>
         </div>
     </div>
 
@@ -875,7 +879,7 @@ function lef_render_review_stars($rating)
          ───────────────────────────────────────────────────────────── -->
 <div id="lef-spv-calendar-modal" class="lef-spv-modal">
     <div class="lef-spv-modal-content lef-spv-cal-modal-box">
-        
+
 
         <div class="lefdk-cal-modal-header">
             <div class="lefdk-cmh-head-info">

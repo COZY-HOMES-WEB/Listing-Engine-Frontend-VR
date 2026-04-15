@@ -249,13 +249,16 @@ span.lefdk-hd-i-tag {
 .lefdk-desc-btn,
 .lefdk-show-amenity-btn {
     background-color: var(--leb-bg-light);
-    padding: 0.6rem 1.6rem;
+    padding: 1.4rem;
     border-radius: 10px;
     font-size: 1.25rem;
     border: solid 1px var(--leb-border-color);
     cursor: pointer;
     color: var(--leb-text-color);
-    line-height: 20px;
+    line-height: 1.2;
+    max-width: 160px;
+    width: auto;
+    text-align: center;
 }
 
 .lefdk-desc-btn:hover,
@@ -292,13 +295,24 @@ ol.lefdk-am-lists,
     margin: 0;
 }
 
-list.lefdk-am-li-list {
+.lefdk-am-li-list {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.3rem;
     font-size: 1.5rem;
     font-weight: 400;
 }
+
+
+.lef-spv-amenity-full-list .lefdk-am-li-list {
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    font-size: 1.75rem;
+    font-weight: 400;
+}
+
+
 
 /* ── Calendar ── */
 .lefdk-calender {
@@ -1334,6 +1348,7 @@ list.lefmb-am-li-list svg {
     justify-content: center;
     animation: lefSpvFadeIn 0.25s ease;
     overflow: hidden;
+    flex-direction: column;
 }
 
 @keyframes lefSpvFadeIn {
@@ -1347,55 +1362,61 @@ list.lefmb-am-li-list svg {
 }
 
 /* ====== POPUP MODEL =========== */
+.lef-spv-modal-inner {
+    background: var(--leb-white);
+    border-radius: 26px;
+    max-width: 700px;
+    width: 100%;
+    padding: 2rem;
+}
+
+
 .lef-spv-modal-header {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 1rem;
-    padding: 1rem 1.5rem;
     border-bottom: 1px solid var(--leb-border-color);
     position: sticky;
     top: 0;
-    background: var(--leb-white);
     z-index: 1;
-    border-radius: 20px 20px 0 0;
+    width: 100%;
+    padding-bottom: 1.5rem;
 }
 
 .lef-spv-modal-header h2 {
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 550;
     flex: 1;
+    margin: 0;
 }
 
 .lef-spv-modal-close {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     cursor: pointer;
     width: 30px;
     height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: solid 1px var(--leb-border-default);
     border-radius: 50%;
     transition: background 0.2s;
-    margin-bottom: 6px;
-}
-
-.lef-spv-modal-close:hover {
     background: var(--leb-bg-light);
 }
 
-.lef-spv-modal-body {
-    padding: 1.5rem;
-    overflow-y: auto;
-    max-height: calc(100vh - 200px);
+.lef-spv-modal-close:hover {
+    background: var(--leb-primary-dark);
+    color: var(--leb-white);
 }
 
-.lef-spv-modal>.lef-spv-modal-header,
-.lef-spv-modal>.lef-spv-modal-body {
-    background: var(--leb-white);
+.lef-spv-modal-body {
+    max-height: 500px;
+    overflow-y: scroll;
+    padding: 2rem 0;
 }
 
 /* ── Fullscreen modals (mobile reservation) ── */
-.lef-spv-fullscreen {
+/* .lef-spv-fullscreen {
     flex-direction: column;
     padding: 0;
 }
@@ -1408,16 +1429,15 @@ list.lefmb-am-li-list svg {
     max-height: calc(100vh - 60px);
     border-radius: 0;
     flex: 1;
-}
-
-/* ── Photo Gallery Redesign (Premium Fullscreen) ── */
+} */
 
 /* ── Full description in modal ── */
 .lef-spv-desc-full {
-    font-size: 1rem;
+    font-size: 1.6rem; 
     line-height: 1.7;
     color: var(--leb-text-muted);
 }
+
 
 /* ─────────────────────────────────────────────────────────────
    ISOLATED PHOTO GALLERY (lefg- prefix)
