@@ -390,7 +390,7 @@
 
         // Blank cells for offset
         for (let i = 0; i < firstDay; i++) {
-            $grid.append('<div class="lefdk-cal-day"></div>');
+            $grid.append('<div class="lefdk-cal-day lefdk-cal-day-unav"></div>');
         }
 
         for (let day = 1; day <= daysInMonth; day++) {
@@ -428,6 +428,13 @@
             }
 
             $grid.append($day);
+        }
+
+        // Fill trailing empty cells to complete the week (7 columns)
+        const totalCells = firstDay + daysInMonth;
+        const trailing   = (7 - (totalCells % 7)) % 7;
+        for (let j = 0; j < trailing; j++) {
+            $grid.append('<div class="lefdk-cal-day lefdk-cal-day-unav"></div>');
         }
     }
 

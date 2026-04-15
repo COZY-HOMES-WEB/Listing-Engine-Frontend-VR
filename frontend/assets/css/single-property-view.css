@@ -401,23 +401,24 @@ ol.lefdk-am-lists,
     overflow: hidden;
 }
 
-/* .lefdk-cal-day:hover:not(.lefdk-cal-day-disabled):not(.lefdk-cal-day-blocked) {
-    background: var(--leb-bg-light);
-    border: 1px solid var(--leb-primary-color);
-} */
-
-.lefdk-cal-day-selected {
-    background: var(--leb-primary-color) !important;
-    color: var(--leb-white) !important;
+.lefdk-cal-day:hover:not(.lefdk-cal-day-disabled):not(.lefdk-cal-day-blocked):not(.lefdk-cal-day-unav) {
+    background: var(--leb-text-color);
+    border: 1px solid var(--leb-text-color);
+    color: var(--leb-white);
 }
 
-.lefdk-cal-day-selected:hover {
-    background: var(--leb-primary-dark) !important;
+.lefdk-cal-day-selected {
+    background: var(--leb-text-color) !important;
+    color: var(--leb-white) !important;
 }
 
 .lefdk-cal-day-in-range {
     background-color: var(--leb-bg-light-2);
     border-radius: 0;
+}
+
+.lefdk-cal-day-unav {
+    cursor: not-allowed;
 }
 
 .lefdk-cal-day-disabled,
@@ -428,7 +429,7 @@ ol.lefdk-am-lists,
 }
 
 .lefdk-cal-day-today {
-    border: 1px solid var(--leb-primary-color);
+    border: 1px solid var(--leb-text-color);
 }
 
 span.lefdk-cal-clear-btn {
@@ -1419,7 +1420,7 @@ list.lefmb-am-li-list svg {
 
 /* ── Full description in modal ── */
 .lef-spv-desc-full {
-    font-size: 1.6rem; 
+    font-size: 1.6rem;
     line-height: 1.7;
     color: var(--leb-text-muted);
 }
@@ -1514,7 +1515,7 @@ list.lefmb-am-li-list svg {
 .lefg-masonry-container {
     max-width: 1200px;
     margin: 0 auto;
-    column-count: 3;
+    column-count: 3 !important;
     column-gap: 1.5rem;
     padding-bottom: 4rem;
 }
@@ -1706,6 +1707,4 @@ list.lefmb-am-li-list svg {
 }
 
 /* Desktop Modal specific responsive */
-@media (max-width: 850px) {
-  
-}
+@media (max-width: 850px) {}
