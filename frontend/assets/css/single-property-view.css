@@ -291,6 +291,10 @@ ol.lefdk-am-lists,
     margin: 0;
 }
 
+.lef-spv-amenity-full-list{
+    padding-bottom: 1rem;
+}
+
 .lefdk-am-li-list {
     display: flex;
     align-items: center;
@@ -1397,9 +1401,9 @@ list.lefmb-am-li-list svg {
 }
 
 .lef-spv-modal-body {
-    max-height: 55vh;
+    max-height: 65vh;
     overflow-y: scroll;
-    padding: 2rem 0;
+    padding: 2rem 0 0 0;
 }
 
 /* ── Fullscreen modals (mobile reservation) ── */
@@ -1603,7 +1607,7 @@ list.lefmb-am-li-list svg {
     font-family: var(--leb-font-main);
     resize: vertical;
     margin-bottom: 1rem;
-    min-height: 120px;
+    min-height: 260px;
 }
 
 #lef-spv-review-text:focus {

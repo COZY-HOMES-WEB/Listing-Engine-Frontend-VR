@@ -167,13 +167,6 @@
             $('body').css('overflow', '');
         });
 
-        // Close via overlay click
-        $(document).on('click', '.lefg-gallery-overlay', function (e) {
-            if (e.target === this) {
-                $(this).css('display', 'none');
-                $('body').css('overflow', '');
-            }
-        });
     }
 
 
@@ -272,13 +265,6 @@
         });
 
 
-        // Close via overlay click
-        $(document).on('click', '.lef-spv-modal', function (e) {
-            if (e.target === this) {
-                $(this).css('display', 'none');
-                $('body').css('overflow', '');
-            }
-        });
     }
 
 
