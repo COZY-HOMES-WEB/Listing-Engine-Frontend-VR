@@ -3,11 +3,11 @@
  * Plugin Name: Listing Engine Frontend
  * Plugin URI: https://arttechfuzion.com
  * Description: Replicates property listing engine UI with dynamic data.
- * Version:     1.9.43
+ * Version:     1.9.44
  * Author:      Art-Tech Fuzion
  * Author URI:  https://arttechfuzion.com
  * Text Domain: listing-engine-frontend
- * Last Modified: 2026-04-16 - Wrapped helper functions in function_exists() checks to prevent fatal redeclaration errors.
+ * Last Modified: 2026-04-16 - Fix mobile suggestions event trigger and increment version.
  *
  * @package ListingEngineFrontend
  */
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define Constants.
-define( 'LEF_VERSION', '1.9.43' );
+define( 'LEF_VERSION', '1.9.44' );
 define( 'LEF_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LEF_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 

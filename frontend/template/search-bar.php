@@ -166,7 +166,9 @@ $archive_url = $archive_page_id ? get_permalink($archive_page_id) : home_url('/'
             <div class="mobile-tab-content active" id="mobileLocationTab">
                 <div class="mobile-location-input">
                     <svg viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    <input type="text" id="mobileLocationInput" placeholder="Search destinations" oninput="SearchBar.showMobileSuggestions(this.value)">
+                    <input type="text" id="mobileLocationInput" placeholder="Search destinations" autocomplete="off" 
+                           onclick="SearchBar.showMobileSuggestions(this.value)"
+                           oninput="SearchBar.showMobileSuggestions(this.value)">
                 </div>
                 <div class="mobile-suggestions" id="mobileSuggestions"></div>
             </div>
