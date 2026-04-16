@@ -14,14 +14,16 @@ global $wpdb;
 
 // Fetch current user wishlist if logged in
 $wishlist_ids = array();
-if ( is_user_logged_in() ) {
+if (is_user_logged_in()) {
     $current_user_id = get_current_user_id();
-    $wishlist_data = $wpdb->get_results( $wpdb->prepare(
+    $wishlist_data = $wpdb->get_results($wpdb->prepare(
         "SELECT property_id FROM {$wpdb->prefix}ls_wishlist WHERE user_id = %d",
         $current_user_id
-    ) );
-    if ( $wishlist_data ) {
-        $wishlist_ids = array_map( function( $item ) { return (int) $item->property_id; }, $wishlist_data );
+    ));
+    if ($wishlist_data) {
+        $wishlist_ids = array_map(function ($item) {
+            return (int) $item->property_id;
+        }, $wishlist_data);
     }
 }
 
@@ -44,7 +46,7 @@ if ($checkin_param && $checkout_param) {
     $start_date = new DateTime($checkin_param);
     $end_date   = new DateTime($checkout_param);
     $requested_dates = array();
-    
+
     $interval = new DateInterval('P1D');
     $date_period = new DatePeriod($start_date, $interval, $end_date->modify('+1 day'));
     foreach ($date_period as $date) {
@@ -111,13 +113,15 @@ $query = "
 if ($location_id > 0) {
     $query .= $wpdb->prepare(" AND l.location = %d", $location_id);
 } elseif ($location_param) {
-    $query .= $wpdb->prepare(" AND loc.name LIKE %s", 
+    $query .= $wpdb->prepare(
+        " AND loc.name LIKE %s",
         '%' . $wpdb->esc_like($location_param) . '%'
     );
 }
 
 if ($address_param) {
-    $query .= $wpdb->prepare(" AND l.address LIKE %s", 
+    $query .= $wpdb->prepare(
+        " AND l.address LIKE %s",
         '%' . $wpdb->esc_like($address_param) . '%'
     );
 }
@@ -164,14 +168,14 @@ if ($sort === 'price_low_to_high') {
 $listings = $wpdb->get_results($query);
 
 // 5. Update Header Text based on parameters.
-if ( empty($_GET) ) {
+if (empty($_GET)) {
     $count_text = 'Premium Property';
 } else {
     $total_count = count($listings);
-    
+
     // Determine the property type display (e.g., 'Apartments' or 'homes')
     $display_type = ! empty($type_param) ? esc_html($type_param) . 's' : 'homes';
-    
+
     // Determine location/address display
     $display_location = '';
     if (! empty($location_param)) {
@@ -179,14 +183,14 @@ if ( empty($_GET) ) {
     } elseif (! empty($address_param)) {
         $display_location = ' at ' . esc_html($address_param);
     }
-    
+
     // Final output: e.g., "Over 5 Apartments in Jaipur" or "Over 5 homes at Street 1"
     $count_text = sprintf("Over %d %s%s", $total_count, $display_type, $display_location);
 }
 
 ?>
 
-<main class="lef-main">
+<main class="lef-global-plugin-wrapper lef-main">
     <div class="lef-section-header">
         <h1 class="lef-section-title"><?php echo esc_html($count_text); ?></h1>
     </div>
@@ -213,7 +217,7 @@ if ( empty($_GET) ) {
                 }
 
                 // Fallback image (SVG) if none found in DB.
-                $fallback_img = LEF_PLUGIN_URL . 'global-assets/images/placeholder.png';
+                $fallback_img = lef_get_asset_url('global-assets/images/placeholder.png');
                 if (empty($images)) {
                     $images = array($fallback_img);
                 }
@@ -235,15 +239,15 @@ if ( empty($_GET) ) {
                     <div class="lef-card-image-container"
                         data-images='<?php echo json_encode($images); ?>'
                         data-current="0">
-                        <img src="<?php echo esc_url($images[0]); ?>" 
-                             alt="<?php echo esc_attr($title); ?>" 
-                             class="lef-card-image"
-                             onerror="this.src='<?php echo esc_url($fallback_img); ?>'; this.classList.add('lef-is-placeholder');">
+                        <img src="<?php echo esc_url($images[0]); ?>"
+                            alt="<?php echo esc_attr($title); ?>"
+                            class="lef-card-image"
+                            onerror="this.src='<?php echo esc_url($fallback_img); ?>'; this.classList.add('lef-is-placeholder');">
 
-                        <?php $is_wishlisted = in_array( (int) $listing->id, $wishlist_ids ); ?>
-                        <button class="lef-favorite-btn <?php echo $is_wishlisted ? 'is-active' : ''; ?>" 
-                                aria-label="Add to wishlist"
-                                data-id="<?php echo esc_attr( $listing->id ); ?>">
+                        <?php $is_wishlisted = in_array((int) $listing->id, $wishlist_ids); ?>
+                        <button class="lef-favorite-btn <?php echo $is_wishlisted ? 'is-active' : ''; ?>"
+                            aria-label="Add to wishlist"
+                            data-id="<?php echo esc_attr($listing->id); ?>">
                             <svg viewBox="0 0 24 24">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -256,9 +260,9 @@ if ( empty($_GET) ) {
                     </div>
 
                     <div class="lef-card-body">
-                        <div class="lef-card-header">
-                            <h3 class="lef-property-title"><?php echo esc_html($title); ?></h3>
-                        </div>
+
+                        <h3 class="lef-property-title"><?php echo esc_html($title); ?></h3>
+
                         <p class="lef-property-summary"><?php echo esc_html($summary); ?></p>
                         <div class="lef-property-price">
                             <span class="lef-price-amount">₹<?php echo esc_html($listing->price); ?></span>

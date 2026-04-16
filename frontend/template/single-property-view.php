@@ -20,8 +20,9 @@ if (! defined('ABSPATH')) {
 
 global $wpdb;
 $property_id = get_query_var('lef_property_id', 0);
-$placeholder_pic = rtrim(LEF_PLUGIN_URL, '/') . '/global-assets/images/placeholder-avatar.png';
-$placeholder_prop = rtrim(LEF_PLUGIN_URL, '/') . '/global-assets/images/placeholder.png';
+$placeholder_pic     = lef_get_asset_url('global-assets/images/placeholder-avatar.png');
+$placeholder_prop    = lef_get_asset_url('global-assets/images/placeholder.png');
+$placeholder_amenity = lef_get_asset_url('global-assets/images/amenity-placeholder.svg');
 
 /* ── 1. Property Row ── */
 $property = $wpdb->get_row($wpdb->prepare(
@@ -289,13 +290,13 @@ $lef_review_char_limit = 250;
             <div class="lefdk-img-cont">
                 <?php if (isset($images[0])) : ?>
                     <div class="lefdk-img-1">
-                        <img src="<?php echo esc_url($images[0]); ?>" alt="<?php echo $title; ?>">
+                        <img src="<?php echo esc_url($images[0]); ?>" alt="<?php echo $title; ?>" onerror="this.src='<?php echo esc_url($placeholder_prop); ?>';">
                     </div>
                 <?php endif; ?>
                 <div class="lefdk-img-2">
                     <?php for ($i = 1; $i <= 4; $i++) : ?>
                         <?php if (isset($images[$i])) : ?>
-                            <img src="<?php echo esc_url($images[$i]); ?>" alt="<?php echo $title; ?> photo <?php echo $i + 1; ?>">
+                            <img src="<?php echo esc_url($images[$i]); ?>" alt="<?php echo $title; ?> photo <?php echo $i + 1; ?>" onerror="this.src='<?php echo esc_url($placeholder_prop); ?>';">
                         <?php endif; ?>
                     <?php endfor; ?>
                 </div>
@@ -356,7 +357,7 @@ $lef_review_char_limit = 250;
                                 <list class="lefdk-am-li-list">
                                     <span class="lefdk-am-li-svg">
                                         <?php if ($am['svg_path']) : ?>
-                                            <img src="<?php echo esc_url($am['svg_path']); ?>" alt="" style="display:block; height:24px; width:24px;">
+                                            <img src="<?php echo esc_url($am['svg_path']); ?>" alt="" style="display:block; height:24px; width:24px;" onerror="this.src='<?php echo esc_url($placeholder_amenity); ?>';">
                                         <?php endif; ?>
                                     </span>
                                     <span class="lefdk-am-li-title"><?php echo esc_html($am['name']); ?></span>
@@ -541,7 +542,7 @@ $lef_review_char_limit = 250;
             <div class="lefmb-slider-wrapper">
                 <div class="lefmb-img-cont" id="lef-spv-mb-slider">
                     <?php foreach ($images as $img_url) : ?>
-                        <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo $title; ?>">
+                        <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo $title; ?>" onerror="this.src='<?php echo esc_url($placeholder_prop); ?>';">
                     <?php endforeach; ?>
                 </div>
 
@@ -602,7 +603,7 @@ $lef_review_char_limit = 250;
                             <list class="lefmb-am-li-list">
                                 <span class="lefmb-am-li-svg">
                                     <?php if ($am['svg_path']) : ?>
-                                        <img src="<?php echo esc_url($am['svg_path']); ?>">
+                                        <img src="<?php echo esc_url($am['svg_path']); ?>" onerror="this.src='<?php echo esc_url($placeholder_amenity); ?>';">
                                     <?php endif; ?>
                                 </span>
                                 <span class="lefmb-am-li-title"><?php echo esc_html($am['name']); ?></span>
@@ -737,7 +738,7 @@ $lef_review_char_limit = 250;
         <div class="lefg-gallery-body">
             <div class="lefg-masonry-container" id="lefg-photo-gallery">
                 <?php foreach ($images as $img_url) : ?>
-                    <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo $title; ?>">
+                    <img src="<?php echo esc_url($img_url); ?>" alt="<?php echo $title; ?>" onerror="this.src='<?php echo esc_url($placeholder_prop); ?>';">
                 <?php endforeach; ?>
             </div>
         </div>
@@ -769,7 +770,7 @@ $lef_review_char_limit = 250;
                         <list class="lefdk-am-li-list">
                             <span class="lefdk-am-li-svg">
                                 <?php if ($am['svg_path']) : ?>
-                                    <img src="<?php echo esc_url($am['svg_path']); ?>">
+                                    <img src="<?php echo esc_url($am['svg_path']); ?>" onerror="this.src='<?php echo esc_url($placeholder_amenity); ?>';">
                                 <?php endif; ?>
                             </span>
                             <span class="lefdk-am-li-title"><?php echo esc_html($am['name']); ?></span>

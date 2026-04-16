@@ -64,8 +64,7 @@ function lef_render_review_stars( $rating ) {
  * @return string Profile picture URL.
  */
 function lef_get_user_profile_pic( $user_id ) {
-	$plugin_url  = rtrim( LEF_PLUGIN_URL, '/' );
-	$placeholder = $plugin_url . '/global-assets/images/placeholder-avatar.png';
+	$placeholder = lef_get_asset_url('global-assets/images/placeholder-avatar.png');
 
 	if ( ! $user_id ) {
 		return esc_url( $placeholder );

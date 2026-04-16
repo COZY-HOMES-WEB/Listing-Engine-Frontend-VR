@@ -272,6 +272,16 @@ function lef_enqueue_global_components() {
 }
 
 /**
+ * Get the full URL for a plugin asset.
+ *
+ * @param string $relative_path Path relative to the plugin root (e.g., 'global-assets/images/placeholder.png').
+ * @return string Full asset URL.
+ */
+function lef_get_asset_url( $relative_path ) {
+	return esc_url( rtrim( LEF_PLUGIN_URL, '/' ) . '/' . ltrim( $relative_path, '/' ) );
+}
+
+/**
  * Render Global Components (Toaster & Confirmation) in footer.
  */
 function lef_render_global_components() {

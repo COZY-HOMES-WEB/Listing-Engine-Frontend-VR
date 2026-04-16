@@ -138,7 +138,7 @@ if (! empty($location_slug) || ! empty($type_slug)) {
                             }
                         }
 
-                        $fallback_img = LEF_PLUGIN_URL . 'global-assets/images/placeholder.png';
+                        $fallback_img = lef_get_asset_url('global-assets/images/placeholder.png');
                         $main_image = ! empty($images) ? $images[0] : $fallback_img;
                         $is_placeholder = empty($images);
 
@@ -209,7 +209,7 @@ if (! empty($location_slug) || ! empty($type_slug)) {
                     }
                 }
                 // Fill defaults if less than 3
-                $fallback_img = LEF_PLUGIN_URL . 'global-assets/images/placeholder.png';
+                $fallback_img = lef_get_asset_url('global-assets/images/placeholder.png');
                 while (count($collage_images) < 3) {
                     $collage_images[] = $fallback_img;
                 }

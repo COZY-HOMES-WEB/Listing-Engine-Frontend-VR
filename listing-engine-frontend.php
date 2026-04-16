@@ -1,30 +1,32 @@
 <?php
+
 /**
  * Plugin Name: Listing Engine Frontend
  * Plugin URI: https://arttechfuzion.com
  * Description: Replicates property listing engine UI with dynamic data.
- * Version:     1.9.53
+ * Version:     1.9.61
  * Author:      Art-Tech Fuzion
  * Author URI:  https://arttechfuzion.com
  * Text Domain: listing-engine-frontend
- * Last Modified: 2026-04-16 - Fix mobile suggestions event trigger and increment version.
+ * Last Modified: 2026-04-17 - Cleanup unused CSS in list-view.css.
  *
  * @package ListingEngineFrontend
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
 // Define Constants.
-define( 'LEF_VERSION', '1.9.53' );
-define( 'LEF_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'LEF_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define('LEF_VERSION', '1.9.61');
+define('LEF_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('LEF_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 /**
  * Initialize Plugin.
  */
-function lef_initialize_plugin() {
+function lef_initialize_plugin()
+{
 	// Include Helpers.
 	require_once LEF_PLUGIN_DIR . 'includes/helpers.php';
 
@@ -49,7 +51,7 @@ function lef_initialize_plugin() {
 	// Include DB Handler.
 	require_once LEF_PLUGIN_DIR . 'includes/class-db-handler.php';
 }
-add_action( 'plugins_loaded', 'lef_initialize_plugin' );
+add_action('plugins_loaded', 'lef_initialize_plugin');
 
 // ─────────────────────────────────────────────────────────────
 // Plugin Setup
@@ -63,9 +65,10 @@ add_action( 'plugins_loaded', 'lef_initialize_plugin' );
  * @param array $links Array of plugin action links.
  * @return array
  */
-function lef_add_plugin_action_links( $links ) {
-	$settings_link = '<a href="' . admin_url( 'admin.php?page=lef-dashboard' ) . '">' . __( 'Settings', 'listing-engine-frontend' ) . '</a>';
-	array_unshift( $links, $settings_link );
+function lef_add_plugin_action_links($links)
+{
+	$settings_link = '<a href="' . admin_url('admin.php?page=lef-dashboard') . '">' . __('Settings', 'listing-engine-frontend') . '</a>';
+	array_unshift($links, $settings_link);
 	return $links;
 }
-add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'lef_add_plugin_action_links' );
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'lef_add_plugin_action_links');
