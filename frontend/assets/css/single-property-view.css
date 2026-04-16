@@ -1549,7 +1549,7 @@ span.lefmb-hd-i-tag {
 .lefg-masonry-container {
     max-width: 1200px;
     margin: 0 auto;
-    column-count: 3 !important;
+    column-count: 3;
     column-gap: 1.5rem;
     padding-bottom: 4rem;
 }
@@ -1581,16 +1581,6 @@ span.lefmb-hd-i-tag {
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-@media (max-width: 900px) {
-    .lefg-masonry-container {
-        column-count: 1;
-    }
-
-    .lefg-gallery-header {
-        padding: 0.8rem 1.2rem;
     }
 }
 
@@ -1745,6 +1735,17 @@ span.lefmb-hd-i-tag {
    RESPONSIVE BREAKPOINTS
    ───────────────────────────────────────────────────────────── */
 
+@media (max-width: 900px) {
+    .lefg-masonry-container {
+        column-count: 2;
+    }
+
+    .lefg-gallery-header {
+        padding: 0.8rem 1.2rem;
+    }
+}
+
+
 @media (max-width: 800px) {
 
     .lef-spv-amenity-full-list .lefdk-am-li-list {
@@ -1778,6 +1779,12 @@ span.lefmb-hd-i-tag {
 
     .lefmb-review-cards {
         grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (max-width: 450px) {
+    .lefg-masonry-container {
+        column-count: 1;
     }
 }
 
@@ -1856,7 +1863,7 @@ span.lefmb-hd-i-tag {
         line-height: 1.1;
     }
 
-    .lefmb-night-info{
+    .lefmb-night-info {
         font-size: 1.2rem;
     }
 }
