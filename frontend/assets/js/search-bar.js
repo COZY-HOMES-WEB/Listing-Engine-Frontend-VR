@@ -249,7 +249,8 @@ window.SearchBar = (function($) {
         $('#mobileSuggestions').empty().hide();
         updateMobileTrigger();
         
-        // Popup persists as requested until outside click
+        // Close popup after selection
+        closePopup();
     }
 
     function clearLocation(e) {
