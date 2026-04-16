@@ -5,15 +5,6 @@
  * Supports both .lef-view-grid and .lef-view-carousel.
  */
 
-/* ── Container Logic ── */
-.lef-selected-container {
-    width: 100%;
-    margin: 0;
-    font-family: var(--leb-font-main);
-    /* overflow: hidden; */
-    /* Prevent horizontal scroll on page */
-}
-
 /* ── Grid Layout (6 Columns) ── */
 .lef-grid-wrapper {
     display: grid;
@@ -170,7 +161,6 @@
 }
 
 .lef-property-title {
-    margin: 0px;
     font-size: 1.45rem;
     font-weight: 550;
     color: var(--leb-secondary-color);

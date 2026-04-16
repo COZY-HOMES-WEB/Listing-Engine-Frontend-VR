@@ -77,12 +77,16 @@
 }
 
 /* Reset WordPress default paragraph margin and set base typography color */
+
+.lef-global-plugin-wrapper {
+    box-sizing: border-box !important;
+    color: var(--leb-text-color);
+    font-family: var(--leb-font-main);
+}
+
 .lef-global-plugin-wrapper * {
     margin: 0;
     padding: 0;
     line-height: 1.5;
-}
-
-.lef-global-plugin-wrapper {
-  color: var(--leb-text-color);
+    font-family: inherit;
 }
