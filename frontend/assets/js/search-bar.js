@@ -20,7 +20,10 @@ window.SearchBar = (function($) {
         activeSection: null,
         calendarMonth: new Date(),
         mobileCalendarMonth: new Date(),
-        archiveUrl: $('#lefSearchBar').data('archive-url') || window.location.origin
+        archiveUrl: $('#lefSearchBar').data('archive-url') || window.location.origin,
+        lat: null,
+        lng: null,
+        geoPermission: 'prompt' // 'prompt', 'granted', 'denied'
     };
 
     function init() {
@@ -28,6 +31,25 @@ window.SearchBar = (function($) {
         renderCalendar();
         updateGuestButtons();
         updateGuestDisplay();
+        requestGeolocation();
+    }
+
+    function requestGeolocation() {
+        if (!navigator.geolocation) {
+            state.geoPermission = 'denied';
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                state.lat = position.coords.latitude;
+                state.lng = position.coords.longitude;
+                state.geoPermission = 'granted';
+            },
+            (error) => {
+                state.geoPermission = 'denied';
+            }
+        );
     }
 
     // ==================== CORE UI ACTIONS ====================
@@ -59,6 +81,7 @@ window.SearchBar = (function($) {
                 $mainInput.focus();
             }
             // Trigger suggestion check immediately on click
+            // If query is empty, it will show nearby suggestions if GPS is granted
             showSuggestions($mainInput.val());
         }
     }
@@ -104,8 +127,8 @@ window.SearchBar = (function($) {
     function showSuggestions(query) {
         const $list = $('#suggestionsList');
         
-        // If query is empty, hide and don't show popup for location
-        if (!query.trim()) {
+        // If query is empty and no GPS, hide and don't show popup
+        if (!query.trim() && state.geoPermission !== 'granted') {
             $list.empty().hide();
             if (state.activeSection === 'location') {
                 $('#mainPopup').removeClass('active');
@@ -119,6 +142,8 @@ window.SearchBar = (function($) {
             data: {
                 action: 'lef_search_suggestions',
                 query: query,
+                lat: state.lat,
+                lng: state.lng,
                 nonce: lef_ajax_obj.nonce
             },
             success: function(response) {
@@ -160,7 +185,8 @@ window.SearchBar = (function($) {
 
     function showMobileSuggestions(query) {
         const $list = $('#mobileSuggestions');
-        if (!query.trim()) {
+        
+        if (!query.trim() && state.geoPermission !== 'granted') {
             $list.empty().hide();
             return;
         }
@@ -171,44 +197,8 @@ window.SearchBar = (function($) {
             data: {
                 action: 'lef_search_suggestions',
                 query: query,
-                nonce: lef_ajax_obj.nonce
-            },
-            success: function(response) {
-                if (response.success && response.data.length > 0) {
-                    let html = '';
-                    response.data.forEach(item => {
-                        html += `
-                            <div class="suggestion-item" onclick="SearchBar.selectLocation('${item.name.replace(/'/g, "\\'")}', '${item.type}', '${(item.address || "").replace(/'/g, "\\'")}', '${(item.location || "").replace(/'/g, "\\'")}')">
-                                <div class="suggestion-icon">
-                                    <svg viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                                </div>
-                                <div class="suggestion-text">
-                                    <strong>${item.name}</strong>
-                                    <span>${item.subtitle || ''}</span>
-                                </div>
-                            </div>`;
-                    });
-                    $list.html(html).show();
-                } else {
-                    $list.empty().hide();
-                }
-            }
-        });
-    }
-
-    function showMobileSuggestions(query) {
-        const $list = $('#mobileSuggestions');
-        if (!query.trim()) {
-            $list.empty().hide();
-            return;
-        }
-
-        $.ajax({
-            url: lef_ajax_obj.ajax_url,
-            type: 'POST',
-            data: {
-                action: 'lef_search_suggestions',
-                query: query,
+                lat: state.lat,
+                lng: state.lng,
                 nonce: lef_ajax_obj.nonce
             },
             success: function(response) {

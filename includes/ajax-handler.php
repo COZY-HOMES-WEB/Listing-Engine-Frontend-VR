@@ -24,12 +24,46 @@ function lef_handle_search_suggestions() {
 
 	global $wpdb;
 	$query = isset($_POST['query']) ? sanitize_text_field($_POST['query']) : '';
+	$lat   = isset($_POST['lat']) ? sanitize_text_field($_POST['lat']) : '';
+	$lng   = isset($_POST['lng']) ? sanitize_text_field($_POST['lng']) : '';
+
+	$results = array();
+
+	// If query is empty but GPS is provided, try to find nearby suggestions
+	if (empty($query) && !empty($lat) && !empty($lng)) {
+		// Attempt reverse geocoding via Nominatim (OpenStreetMap) to get city name
+		$url = sprintf("https://nominatim.openstreetmap.org/reverse?format=json&lat=%s&lon=%s&zoom=10", $lat, $lng);
+		
+		$args = array(
+			'timeout'    => 5,
+			'user-agent' => 'ListingEngineFrontend/1.0 (' . home_url() . ')'
+		);
+		
+		$response = wp_remote_get($url, $args);
+		
+		if (!is_wp_error($response)) {
+			$body = wp_remote_retrieve_body($response);
+			$data = json_decode($body, true);
+			
+			if (!empty($data['address'])) {
+				$city = '';
+				if (!empty($data['address']['city'])) $city = $data['address']['city'];
+				elseif (!empty($data['address']['town'])) $city = $data['address']['town'];
+				elseif (!empty($data['address']['village'])) $city = $data['address']['village'];
+				elseif (!empty($data['address']['county'])) $city = $data['address']['county'];
+				
+				if ($city) {
+					$query = $city; // Use the city name as the query to find nearby locations
+				}
+			}
+		}
+		
+		// If geocoding failed, we could return "Nearby" properties directly, but for now we'll search by the detected city
+	}
 
 	if (empty($query)) {
 		wp_send_json_success(array());
 	}
-
-	$results = array();
 
 	// 1. Search in Locations
 	$locations = $wpdb->get_results($wpdb->prepare(
@@ -79,7 +113,7 @@ function lef_handle_search_suggestions() {
 		}
 	}
 
-	wp_send_json_success(array_slice($unique_results, 0, 10));
+	wp_send_json_success(array_slice($unique_results, 0, (empty($_POST['query']) ? 4 : 10)));
 }
 add_action('wp_ajax_lef_search_suggestions', 'lef_handle_search_suggestions');
 add_action('wp_ajax_nopriv_lef_search_suggestions', 'lef_handle_search_suggestions');
