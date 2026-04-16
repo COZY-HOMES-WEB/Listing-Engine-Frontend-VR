@@ -77,12 +77,12 @@
 }
 
 /* Reset WordPress default paragraph margin and set base typography color */
-.leb-plugin-wrapper * {
+.lef-global-plugin-wrapper * {
     margin: 0;
     padding: 0;
     line-height: 1.5;
 }
 
-.leb-plugin-wrapper {
+.lef-global-plugin-wrapper {
   color: var(--leb-text-color);
 }

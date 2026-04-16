@@ -248,7 +248,7 @@ $lef_review_char_limit = 250;
 // ─────────────────────────────────────────────────────────────
 ?>
 
-<div class="leb-plugin-wrapper" id="lef-spv-root"
+<div class="lef-global-plugin-wrapper" id="lef-spv-root"
     data-property-id="<?php echo esc_attr($property_id); ?>"
     data-price="<?php echo esc_attr($price); ?>"
     data-max-guests="<?php echo esc_attr($guests); ?>"
@@ -1006,4 +1006,4 @@ $lef_review_char_limit = 250;
         </div>
     </div>
 
-</div> <!-- .leb-plugin-wrapper / #lef-spv-root -->
+</div> <!-- .lef-plugin-wrapper / #lef-spv-root -->
