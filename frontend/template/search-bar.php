@@ -21,7 +21,7 @@ $archive_page_id = $wpdb->get_var($wpdb->prepare(
 $archive_url = $archive_page_id ? get_permalink($archive_page_id) : home_url('/');
 ?>
 
-<div class="lef-search-container" id="lefSearchBar" data-archive-url="<?php echo esc_url($archive_url); ?>">
+<div class="lef-global-plugin-wrapper lef-search-container" id="lefSearchBar" data-archive-url="<?php echo esc_url($archive_url); ?>">
     <!-- Desktop Search Bar -->
     <section class="search-section desktop-only">
         <div class="search-bar">
