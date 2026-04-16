@@ -67,7 +67,7 @@ function lef_render_list_view() {
 function lef_render_selected_list_view( $atts ) {
 	$atts = shortcode_atts( array(
 		'view'     => 'grid',
-		'count'    => 10,
+		'count'    => 9,
 		'location' => '',
 		'type'     => '',
 	), $atts, 'selected_list_view' );

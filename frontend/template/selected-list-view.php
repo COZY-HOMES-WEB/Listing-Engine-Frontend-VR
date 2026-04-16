@@ -16,7 +16,7 @@ global $wpdb;
 // 1. Get attributes passed from the handler.
 $atts = get_query_var( 'lef_selected_atts' );
 if ( ! $atts ) {
-	$atts = array( 'view' => 'grid', 'count' => 10, 'location' => '', 'type' => '' );
+	$atts = array( 'view' => 'grid', 'count' => 9, 'location' => '', 'type' => '' );
 }
 
 $view_mode    = sanitize_text_field( $atts['view'] );
@@ -61,6 +61,17 @@ if ( $type_id > 0 ) {
 }
 
 $query .= $wpdb->prepare( " LIMIT %d", $count );
+
+// 3b. Check Total Count for 'See All' logic
+$count_query = "SELECT COUNT(*) FROM {$wpdb->prefix}ls_property WHERE status = 'published'";
+if ( $location_id > 0 ) {
+	$count_query .= $wpdb->prepare( " AND location = %d", $location_id );
+}
+if ( $type_id > 0 ) {
+	$count_query .= $wpdb->prepare( " AND type = %d", $type_id );
+}
+$total_count = intval( $wpdb->get_var( $count_query ) );
+$has_more    = ( $total_count > $count );
 
 $listings = $wpdb->get_results( $query );
 
@@ -179,6 +190,7 @@ if ( ! empty( $location_slug ) || ! empty( $type_slug ) ) {
         }
         ?>
 
+        <?php if ( $has_more ) : ?>
         <!-- See All Card -->
         <div class="lef-property-card lef-see-all-card" data-redirect="<?php echo esc_url( $see_all_url ); ?>">
             <div class="lef-see-all-content">
@@ -202,6 +214,7 @@ if ( ! empty( $location_slug ) || ! empty( $type_slug ) ) {
                 </div>
             </div>
         </div>
+        <?php endif; ?>
 
     <?php if ( $view_mode === 'carousel' ) : ?>
             </div> <!-- End track -->
