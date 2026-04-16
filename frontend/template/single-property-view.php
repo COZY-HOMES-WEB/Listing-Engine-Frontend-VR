@@ -325,8 +325,6 @@ $lef_review_char_limit = 250;
                             <?php if ($review_count > 0) : ?>
                                 <div class="lefdk-r-number"><?php echo $star_svg_sm; ?><?php echo $avg_rating; ?></div>
                                 <div class="lefdk-r-total-revi"><span class="lefdk-dot"> · </span><?php echo $review_count; ?> reviews</div>
-                            <?php else : ?>
-                                <div class="lefdk-r-number">No reviews</div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -572,8 +570,6 @@ $lef_review_char_limit = 250;
                             <?php if ($review_count > 0) : ?>
                                 <div class="lefmb-r-number"><?php echo $star_svg_sm; ?><?php echo $avg_rating; ?></div>
                                 <div class="lefmb-r-total-revi"><span class="lefmb-dot"> · </span><?php echo $review_count; ?> reviews</div>
-                            <?php else : ?>
-                                <div class="lefmb-r-number">No reviews</div>
                             <?php endif; ?>
                         </div>
                     </div>

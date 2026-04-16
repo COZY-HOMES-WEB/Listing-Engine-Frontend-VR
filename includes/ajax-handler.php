@@ -538,7 +538,7 @@ function lef_submit_reservation() {
 		$user_name = $user_info->display_name;
 	}
 	$user_email  = $user_info->user_email;
-	$user_phone  = get_user_meta( $user_id, 'mobile', true );
+	$user_phone  = get_user_meta( $user_id, 'mobile_number', true );
 
 	$host_id    = $property ? intval( $property->host_id ) : 0;
 	$host_info  = $host_id ? get_userdata( $host_id ) : null;
@@ -547,7 +547,7 @@ function lef_submit_reservation() {
 		$host_name = $host_info->display_name;
 	}
 	$host_email = $host_info ? $host_info->user_email : '';
-	$host_phone = $host_id ? get_user_meta( $host_id, 'mobile', true ) : '';
+	$host_phone = $host_id ? get_user_meta( $host_id, 'mobile_number', true ) : '';
 
 	// Build property view URL
 	$property_view_url = lef_get_secure_detail_url( $property_id );
