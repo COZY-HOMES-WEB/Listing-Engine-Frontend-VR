@@ -1,0 +1,409 @@
+/**
+ * Reservation Management CSS
+ * Prefix: lef-reserv-
+ * Uses global tokens from global.css
+ */
+
+.lef-reserv-header {
+    align-items: center;
+    background: var(--leb-white);
+    border: 1px solid var(--leb-border-color);
+    border-radius: 8px;
+    box-shadow: var(--leb-card-shadow);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 18px;
+    width: 100%;
+}
+
+.lef-reserv-title-wrap {
+    align-items: center;
+    display: flex;
+    gap: 14px;
+    min-width: 0;
+}
+
+.lef-reserv-title-icon {
+    align-items: center;
+    background: var(--leb-primary-color);
+    border-radius: 8px;
+    box-shadow: 0 12px 30px var(--leb-primary-glow);
+    color: var(--leb-white);
+    display: flex;
+    flex: 0 0 auto;
+    height: 48px;
+    justify-content: center;
+    width: 48px;
+}
+
+.lef-reserv-title-icon svg {
+    height: 24px;
+    width: 24px;
+}
+
+.lef-reserv-title {
+    color: var(--leb-secondary-color);
+    font-size: 1.85rem !important; /* Override standard WP sizing if needed */
+    font-weight: 800;
+    margin: 0 !important;
+    line-height: 1.15;
+}
+
+.lef-reserv-subtitle {
+    color: var(--leb-text-muted);
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+.lef-reserv-summary {
+    align-items: center;
+    background: var(--leb-primary-light-bg);
+    border: 1px solid var(--leb-border-color);
+    border-radius: 8px;
+    color: var(--leb-secondary-color);
+    display: inline-flex;
+    font-size: 0.9rem;
+    font-weight: 700;
+    gap: 8px;
+    padding: 10px 14px;
+    white-space: nowrap;
+}
+
+.lef-reserv-summary-count {
+    align-items: center;
+    background: var(--leb-primary-color);
+    border-radius: 8px;
+    color: var(--leb-white);
+    display: inline-flex;
+    justify-content: center;
+    min-width: 32px;
+    padding: 3px 8px;
+}
+
+/* Search Section */
+.lef-reserv-search-section {
+    margin-bottom: 16px;
+}
+
+.lef-reserv-search-box {
+    align-items: center;
+    background: var(--leb-white);
+    border: 2px solid var(--leb-border-color);
+    border-radius: 8px;
+    box-shadow: var(--leb-card-shadow);
+    display: flex;
+    gap: 12px;
+    padding: 8px 10px 8px 18px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lef-reserv-search-box.lef-reserv-search-focused {
+    border-color: var(--leb-primary-color);
+    box-shadow: var(--leb-focus-shadow);
+}
+
+.lef-reserv-search-icon {
+    align-items: center;
+    color: var(--leb-text-muted);
+    display: flex;
+    flex: 0 0 auto;
+}
+
+.lef-reserv-search-icon svg {
+    height: 20px;
+    width: 20px;
+}
+
+.lef-reserv-search-input {
+    background: transparent;
+    border: 0 !important;
+    box-shadow: none !important;
+    color: var(--leb-text-color);
+    flex: 1;
+    font-size: 0.95rem !important;
+    min-width: 0;
+    outline: 0;
+    padding: 10px 0 !important;
+    width: 100%;
+}
+
+.lef-reserv-search-clear {
+    align-items: center;
+    background: var(--leb-bg-light);
+    border: 1px solid var(--leb-border-color);
+    border-radius: 8px;
+    color: var(--leb-text-muted);
+    display: none;
+    height: 34px;
+    justify-content: center;
+    width: 34px;
+}
+
+.lef-reserv-search-clear.lef-reserv-search-clear-visible {
+    display: inline-flex;
+}
+
+/* Tabs */
+.lef-reserv-tabs {
+    background: var(--leb-white);
+    border: 1px solid var(--leb-border-color);
+    border-radius: 8px;
+    box-shadow: var(--leb-card-shadow);
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 16px;
+    padding: 8px;
+}
+
+.lef-reserv-tab {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    color: var(--leb-text-muted);
+    display: inline-flex;
+    font-size: 0.94rem;
+    font-weight: 700;
+    gap: 8px;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 12px;
+    transition: background 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+}
+
+.lef-reserv-tab:hover {
+    background: var(--leb-primary-light-bg);
+    color: var(--leb-secondary-color);
+}
+
+.lef-reserv-tab.lef-reserv-tab-active {
+    background: var(--leb-primary-color);
+    color: var(--leb-white);
+}
+
+.lef-reserv-tab-count {
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid var(--leb-border-color);
+    border-radius: 8px;
+    font-size: 0.78rem;
+    min-width: 28px;
+    padding: 1px 7px;
+}
+
+/* List Area */
+.lef-reserv-list-shell {
+    background: var(--leb-white);
+    border: 1px solid var(--leb-border-color);
+    border-radius: 8px;
+    box-shadow: var(--leb-card-shadow);
+    overflow: hidden;
+}
+
+.lef-reserv-list-head {
+    align-items: center;
+    border-bottom: 1px solid var(--leb-border-color);
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 18px;
+}
+
+.lef-reserv-list-title {
+    color: var(--leb-secondary-color);
+    font-size: 1rem !important;
+    font-weight: 800;
+    margin: 0 !important;
+}
+
+.lef-reserv-list-meta {
+    color: var(--leb-text-muted);
+    font-size: 0.84rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.lef-reserv-card-list {
+    display: grid;
+    gap: 12px;
+    padding: 14px;
+}
+
+.lef-reserv-card {
+    background: var(--leb-white);
+    border: 1px solid var(--leb-border-color);
+    border-radius: 8px;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    padding: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.lef-reserv-card:hover {
+    border-color: var(--leb-primary-color);
+    transform: translateY(-1px);
+}
+
+.lef-reserv-sno {
+    align-items: center;
+    background: var(--leb-primary-light-bg);
+    border: 1px solid var(--leb-border-color);
+    border-radius: 8px;
+    color: var(--leb-primary-color);
+    display: flex;
+    font-size: 0.95rem;
+    font-weight: 800;
+    height: 44px;
+    justify-content: center;
+    width: 44px;
+}
+
+.lef-reserv-card-info {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.lef-reserv-field-label {
+    color: var(--leb-text-muted);
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.lef-reserv-field-value {
+    color: var(--leb-text-color);
+    display: block;
+    font-size: 0.94rem;
+    font-weight: 700;
+}
+
+.lef-reserv-status-badge {
+    align-items: center;
+    border: 1px solid var(--leb-border-color);
+    border-radius: 8px;
+    display: inline-flex;
+    font-size: 0.82rem;
+    font-weight: 800;
+    padding: 6px 10px;
+}
+
+.lef-reserv-status-badge[data-lef-reserv-status="pending"] {
+    background: var(--leb-warning-light-bg);
+    color: var(--leb-warning-color);
+}
+
+.lef-reserv-status-badge[data-lef-reserv-status="completed"] {
+    background: var(--leb-success-light-bg);
+    color: var(--leb-success-color);
+}
+
+.lef-reserv-status-badge[data-lef-reserv-status="rejected"] {
+    background: var(--leb-error-light-bg);
+    color: var(--leb-error-color);
+}
+
+.lef-reserv-view-btn {
+    align-items: center;
+    background: var(--leb-primary-color);
+    border: 1px solid var(--leb-primary-color);
+    border-radius: 8px;
+    color: var(--leb-white);
+    display: inline-flex;
+    font-size: 0.86rem;
+    font-weight: 800;
+    gap: 8px;
+    min-height: 40px;
+    padding: 9px 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lef-reserv-view-btn:hover {
+    background: var(--leb-primary-dark);
+    box-shadow: 0 12px 30px var(--leb-primary-glow);
+}
+
+/* Pagination */
+.lef-reserv-pagination {
+    align-items: center;
+    border-top: 1px solid var(--leb-border-color);
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 18px;
+}
+
+.lef-reserv-pagination-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.lef-reserv-page-btn {
+    align-items: center;
+    background: var(--leb-white);
+    border: 1px solid var(--leb-border-color);
+    border-radius: 8px;
+    color: var(--leb-text-muted);
+    display: inline-flex;
+    font-size: 0.82rem;
+    font-weight: 800;
+    height: 36px;
+    justify-content: center;
+    min-width: 36px;
+    cursor: pointer;
+}
+
+.lef-reserv-page-btn.lef-reserv-page-active {
+    background: var(--leb-primary-color);
+    color: var(--leb-white);
+    border-color: var(--leb-primary-color);
+}
+
+.lef-reserv-page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Empty State */
+.lef-reserv-empty {
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.lef-reserv-empty-visible {
+    display: flex;
+}
+
+.lef-reserv-empty-icon {
+    background: var(--leb-primary-light-bg);
+    border-radius: 50%;
+    color: var(--leb-primary-color);
+    height: 64px;
+    width: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .lef-reserv-card-info {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .lef-reserv-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}

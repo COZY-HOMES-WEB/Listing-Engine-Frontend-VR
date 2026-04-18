@@ -228,8 +228,46 @@ function lef_admin_enqueue_assets( $hook ) {
 		true
 	);
 
+	// Enqueue Manage Reservations screen assets
+	if ( isset( $_GET['page'] ) && $_GET['page'] === 'lef-manage-reservations' ) {
+		wp_enqueue_style(
+			'lef-manage-reservations-css',
+			LEF_PLUGIN_URL . 'backend/assets/css/manage-reservation-models/manage-reservation.css',
+			array( 'lef-global-styles' ),
+			filemtime( LEF_PLUGIN_DIR . 'backend/assets/css/manage-reservation-models/manage-reservation.css' )
+		);
+
+		wp_enqueue_script(
+			'lef-manage-reservations-js',
+			LEF_PLUGIN_URL . 'backend/assets/js/manage-reservation-models/manage-reservation.js',
+			array( 'jquery' ),
+			filemtime( LEF_PLUGIN_DIR . 'backend/assets/js/manage-reservation-models/manage-reservation.js' ),
+			true
+		);
+
+		wp_enqueue_style(
+			'lef-view-edit-css',
+			LEF_PLUGIN_URL . 'backend/assets/css/manage-reservation-models/view-edit.css',
+			array( 'lef-manage-reservations-css' ),
+			filemtime( LEF_PLUGIN_DIR . 'backend/assets/css/manage-reservation-models/view-edit.css' )
+		);
+
+		wp_enqueue_script(
+			'lef-view-edit-js',
+			LEF_PLUGIN_URL . 'backend/assets/js/manage-reservation-models/view-edit.js',
+			array( 'lef-manage-reservations-js' ),
+			filemtime( LEF_PLUGIN_DIR . 'backend/assets/js/manage-reservation-models/view-edit.js' ),
+			true
+		);
+
+		wp_localize_script( 'lef-manage-reservations-js', 'lefReservData', array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce'    => wp_create_nonce( 'lef_reserv_nonce' )
+		) );
+	}
+
 	// Localize admin ajax URL if not exist
-	wp_localize_script( 'lef-database-js', 'lef_admin_obj', array(
+	wp_localize_script( 'lef_database-js', 'lef_admin_obj', array(
 		'ajax_url' => admin_url( 'admin-ajax.php' )
 	) );
 }

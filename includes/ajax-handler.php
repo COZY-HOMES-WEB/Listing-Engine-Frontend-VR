@@ -683,3 +683,149 @@ function lef_submit_reservation() {
 	wp_send_json_success( array( 'message' => 'Reservation request sent successfully.' ) );
 }
 add_action( 'wp_ajax_lef_submit_reservation', 'lef_submit_reservation' );
+
+/* ==================== RESERVATION: FETCH DATA (BACKEND) ==================== */
+/**
+ * Fetch reservations for the admin management screen.
+ * Handles status filtering, search terms, and pagination.
+ */
+function lef_reserv_fetch_data() {
+	check_ajax_referer( 'lef_reserv_nonce', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => 'Unauthorized access.' ) );
+	}
+
+	global $wpdb;
+	$status      = isset( $_POST['status'] ) ? sanitize_text_field( $_POST['status'] ) : 'pending';
+	$search      = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
+	$page        = isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1;
+	$per_page    = 10;
+	$offset      = ( $page - 1 ) * $per_page;
+	$reserv_table = $wpdb->prefix . 'ls_reservation';
+	$prop_table   = $wpdb->prefix . 'ls_property';
+
+	// ── Build Query ──
+	$where_clauses = array( $wpdb->prepare( "r.status = %s", $status ) );
+	if ( ! empty( $search ) ) {
+		$search_wildcard = '%' . $wpdb->esc_like( $search ) . '%';
+		$where_clauses[] = $wpdb->prepare( 
+			"(r.reservation_number LIKE %s OR p.title LIKE %s)", 
+			$search_wildcard, 
+			$search_wildcard 
+		);
+	}
+	$where_sql = 'WHERE ' . implode( ' AND ', $where_clauses );
+
+	// ── Get Results ──
+	$results = $wpdb->get_results( $wpdb->prepare(
+		"SELECT r.*, p.title as property_title 
+		 FROM $reserv_table r
+		 LEFT JOIN $prop_table p ON r.property_id = p.id
+		 $where_sql
+		 ORDER BY r.created_at DESC
+		 LIMIT %d OFFSET %d",
+		$per_page,
+		$offset
+	) );
+
+	// ── Get Total Matching ──
+	$total_matching = $wpdb->get_var( "SELECT COUNT(*) FROM $reserv_table r LEFT JOIN $prop_table p ON r.property_id = p.id $where_sql" );
+
+	// ── Get Counts per Status (for tabs) ──
+	$counts = array(
+		'pending'   => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $reserv_table WHERE status = %s", 'pending' ) ),
+		'completed' => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $reserv_table WHERE status = %s", 'completed' ) ),
+		'rejected'  => $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $reserv_table WHERE status = %s", 'rejected' ) ),
+	);
+	$total_db = array_sum( $counts );
+
+	// ── Format Output ──
+	$formatted = array();
+	foreach ( $results as $row ) {
+		$formatted[] = array(
+			'id'                 => $row->id,
+			'reservation_number' => $row->reservation_number,
+			'property_title'     => $row->property_title ? $row->property_title : 'N/A',
+			'status'             => $row->status,
+			'created_at'         => date( 'F j, Y, g:i a', strtotime( $row->created_at ) ),
+		);
+	}
+
+	wp_send_json_success( array(
+		'items'          => $formatted,
+		'total_matching' => intval( $total_matching ),
+		'counts'         => $counts,
+		'total_db'       => $total_db,
+		'per_page'       => $per_page,
+		'current_page'   => $page,
+	) );
+}
+add_action( 'wp_ajax_lef_reserv_fetch_data', 'lef_reserv_fetch_data' );
+
+/* ==================== RESERVATION: GET DETAILS (BACKEND) ==================== */
+/**
+ * Get full details of a reservation for the view-edit modal.
+ */
+function lef_reserv_get_details() {
+	check_ajax_referer( 'lef_reserv_nonce', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => 'Unauthorized access.' ) );
+	}
+
+	$id = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
+	if ( ! $id ) {
+		wp_send_json_error( array( 'message' => 'Invalid ID.' ) );
+	}
+
+	global $wpdb;
+	$reserv_table = $wpdb->prefix . 'ls_reservation';
+	$prop_table   = $wpdb->prefix . 'ls_property';
+
+	$row = $wpdb->get_row( $wpdb->prepare(
+		"SELECT r.*, p.title as property_title, p.price as prop_price, p.location as prop_location
+		 FROM $reserv_table r
+		 LEFT JOIN $prop_table p ON r.property_id = p.id
+		 WHERE r.id = %d",
+		$id
+	) );
+
+	if ( ! $row ) {
+		wp_send_json_error( array( 'message' => 'Reservation not found.' ) );
+	}
+
+	$user_info = get_userdata( $row->user_id );
+	$user_name = $user_info ? $user_info->display_name : 'Unknown';
+	$user_email = $user_info ? $user_info->user_email : 'N/A';
+
+	$reserve_date = json_decode( $row->reserve_date, true );
+	$total_guests = json_decode( $row->total_guests, true );
+
+	$reserv = array(
+		'id'                 => $row->id,
+		'reservation_number' => $row->reservation_number,
+		'property_title'     => $row->property_title ? $row->property_title : 'N/A',
+		'prop_location'      => $row->prop_location ? $row->prop_location : 'N/A',
+		'user_name'          => $user_name,
+		'user_email'         => $user_email,
+		'check_in'           => isset( $reserve_date['check_in'] ) ? $reserve_date['check_in'] : 'N/A',
+		'check_out'          => isset( $reserve_date['check_out'] ) ? $reserve_date['check_out'] : 'N/A',
+		'guests'             => $total_guests,
+		'total_price'        => $row->total_price,
+		'status'             => $row->status,
+		'created_at'         => date( 'F j, Y, g:i a', strtotime( $row->created_at ) ),
+	);
+
+	ob_start();
+	$template_path = LEF_PLUGIN_DIR . 'backend/template/manage-reservation-models/view-edit.php';
+	if ( file_exists( $template_path ) ) {
+		include $template_path;
+	} else {
+		echo '<p>Template not found.</p>';
+	}
+	$html = ob_get_clean();
+
+	wp_send_json_success( array( 'html' => $html ) );
+}
+add_action( 'wp_ajax_lef_reserv_get_details', 'lef_reserv_get_details' );

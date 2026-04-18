@@ -82,10 +82,11 @@
     box-sizing: border-box !important;
     color: var(--leb-text-color);
     font-family: var(--leb-font-main);
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .lef-global-plugin-wrapper * {
+    box-sizing: border-box !important;
     margin: 0;
     padding: 0;
     line-height: 1.5;

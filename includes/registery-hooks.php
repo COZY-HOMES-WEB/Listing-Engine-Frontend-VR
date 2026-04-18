@@ -49,6 +49,16 @@ function lef_register_admin_menus() {
 		'lef-database',                     // Menu slug
 		'lef_render_database_page'          // Callback function
 	);
+
+	// Add submenu "Manage Reservations" under "LEF"
+	add_submenu_page(
+		'lef-main-menu',
+		'Manage Reservations',
+		'Manage Reservations',
+		'manage_options',
+		'lef-manage-reservations',
+		'lef_render_manage_reservations_page'
+	);
 	
 	// Remove the duplicate "LEF" submenu that WordPress auto-creates
 	remove_submenu_page( 'lef-main-menu', 'lef-main-menu' );
@@ -91,5 +101,18 @@ function lef_render_database_page() {
 		require_once $template_path;
 	} else {
 		echo '<div class="wrap"><div class="error"><p>Database template not found.</p></div></div>';
+	}
+}
+
+/**
+ * Callback for Manage Reservations Submenu Page
+ */
+function lef_render_manage_reservations_page() {
+	$template_path = LEF_PLUGIN_DIR . 'backend/template/manage-reservation-models/manage-reservation.php';
+	
+	if ( file_exists( $template_path ) ) {
+		require_once $template_path;
+	} else {
+		echo '<div class="wrap"><div class="error"><p>Manage Reservations template not found.</p></div></div>';
 	}
 }
