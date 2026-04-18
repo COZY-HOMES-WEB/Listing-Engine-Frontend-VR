@@ -32,6 +32,7 @@ function lef_get_db_schemas() {
             user_id bigint(20) unsigned NOT NULL,
             property_id bigint(20) unsigned NOT NULL,
             reserve_date text NOT NULL,
+            reservation_number varchar(100) NOT NULL,
             total_guests text NOT NULL,
             total_price decimal(10,2) NOT NULL,
             status varchar(20) NOT NULL DEFAULT 'pending',

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dbCards.forEach(card => {
         const tableName = card.getAttribute('data-table');
         if (tableName) {
-            lef_db_fetch_status(tableName, card);
+            lef_db_fetch_status(tableName, card, false); // Call silently on initial load
         }
     });
 });
@@ -20,8 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
  * Perform AJAX request to fetch table status
  * @param {string} table The table name
  * @param {HTMLElement} cardEle The wrapping card element
+ * @param {boolean} showToast Whether to show a toast notification on success/error
  */
-function lef_db_fetch_status(table, cardEle) {
+function lef_db_fetch_status(table, cardEle, showToast = true) {
     if (!table) return;
 
     // Use WordPress global ajaxurl or define a fallback assuming wp-admin context
@@ -46,19 +47,19 @@ function lef_db_fetch_status(table, cardEle) {
             lef_db_update_badge(cardEle.querySelector('#status-created'), data.created ? 'success' : 'error', data.created ? '✓ Yes' : '✗ No');
             lef_db_update_badge(cardEle.querySelector('#status-rows'), data.complete ? 'success' : 'error', data.complete ? '✓ All Present' : '✗ Missing');
             
-            if (window.LEF_Toast) {
+            if (showToast && window.LEF_Toast) {
                 window.LEF_Toast.show(`${table} status refreshed.`, 'info');
             }
         } else {
             console.error('Failed to fetch DB status', res);
-            if (window.LEF_Toast) {
+            if (showToast && window.LEF_Toast) {
                 window.LEF_Toast.show(`Failed to fetch status for ${table}.`, 'error');
             }
         }
     })
     .catch(err => {
         console.error(err);
-        if (window.LEF_Toast) {
+        if (showToast && window.LEF_Toast) {
             window.LEF_Toast.show('Network error while fetching DB status.', 'error');
         }
     });
