@@ -95,8 +95,21 @@ function lef_get_user_profile_pic( $user_id ) {
  * @return string The generated reservation number.
  */
 function lef_generate_reservation_number() {
-	$prefix      = 'RES-';
-	$random_part = strtoupper( wp_generate_password( 6, false, false ) );
-	return $prefix . $random_part;
+	global $wpdb;
+	$prefix = 'RES-';
+	$table  = $wpdb->prefix . 'ls_reservation';
+
+	do {
+		$random_part = strtoupper( wp_generate_password( 6, false, false ) );
+		$res_number  = $prefix . $random_part;
+
+		// Check if this number already exists in the database
+		$exists = $wpdb->get_var( $wpdb->prepare(
+			"SELECT COUNT(*) FROM $table WHERE reservation_number = %s",
+			$res_number
+		) );
+	} while ( $exists > 0 );
+
+	return $res_number;
 }
 
