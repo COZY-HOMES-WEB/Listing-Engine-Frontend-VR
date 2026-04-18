@@ -12,6 +12,10 @@ if (! defined('ABSPATH')) {
 ?>
 
 <div class="wrap">
+    <!-- This hidden h2 and the empty notice container catch WordPress admin notices before they get moved into our custom header. -->
+    <h2 class="lef-admin-notice-placeholder"></h2>
+
+
     <div id="lef-reserv-main-wrapper" class="lef-global-plugin-wrapper">
         <div class="lef-reserv-header">
             <div class="lef-reserv-title-wrap">

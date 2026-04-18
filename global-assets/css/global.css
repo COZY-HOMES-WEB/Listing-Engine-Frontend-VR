@@ -92,3 +92,11 @@
     line-height: 1.5;
     font-family: inherit;
 }
+
+/* Ensure WordPress admin notices don't break our layout */
+.lef-admin-notice-placeholder + .notice,
+.wrap h2 + .notice {
+    margin: 5px 0 15px 0 !important;
+    border-radius: 8px;
+    box-shadow: var(--leb-card-shadow);
+}
