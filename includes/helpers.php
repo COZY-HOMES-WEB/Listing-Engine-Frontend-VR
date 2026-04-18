@@ -87,3 +87,16 @@ function lef_get_user_profile_pic( $user_id ) {
 
 	return empty( $pic_url ) ? esc_url( $placeholder ) : esc_url( $pic_url );
 }
+
+/**
+ * Generate a unique reservation number.
+ * Format: RES-XXXXXX (6 alphanumeric uppercase characters).
+ *
+ * @return string The generated reservation number.
+ */
+function lef_generate_reservation_number() {
+	$prefix      = 'RES-';
+	$random_part = strtoupper( wp_generate_password( 6, false, false ) );
+	return $prefix . $random_part;
+}
+

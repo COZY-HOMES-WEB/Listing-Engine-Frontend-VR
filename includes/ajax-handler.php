@@ -590,20 +590,25 @@ function lef_submit_reservation() {
 		'infants'  => $infants,
 	) );
 
+	// Generate Unique Reservation Number
+	$res_number = lef_generate_reservation_number();
+
 	// ── Insert reservation ──
 	$inserted = $wpdb->insert(
 		$wpdb->prefix . 'ls_reservation',
 		array(
-			'user_id'      => $user_id,
-			'property_id'  => $property_id,
-			'reserve_date' => $reserve_date_json,
-			'total_guests' => $total_guests_json,
-			'total_price'  => $total_price,
-			'status'       => 'pending',
-			'created_at'   => current_time( 'mysql' ),
+			'user_id'            => $user_id,
+			'property_id'        => $property_id,
+			'reservation_number' => $res_number,
+			'reserve_date'       => $reserve_date_json,
+			'total_guests'       => $total_guests_json,
+			'total_price'        => $total_price,
+			'status'             => 'pending',
+			'created_at'         => current_time( 'mysql' ),
 		),
-		array( '%d', '%d', '%s', '%s', '%f', '%s', '%s' )
+		array( '%d', '%d', '%s', '%s', '%s', '%f', '%s', '%s' )
 	);
+
 
 	if ( ! $inserted ) {
 		wp_send_json_error( array( 'message' => 'Failed to save reservation. Please try again.' ) );
@@ -644,9 +649,11 @@ function lef_submit_reservation() {
 	}
 
 	$email_data = array(
-		'property_name' => $property_name,
-		'property_url'  => $property_view_url,
-		'request_url'   => $admin_url,
+		'reservation_number' => $res_number,
+		'property_name'      => $property_name,
+		'property_url'       => $property_view_url,
+		'request_url'        => $admin_url,
+
 		'user_name'     => $user_name,
 		'user_email'    => $user_email,
 		'user_phone'    => $user_phone ? $user_phone : 'N/A',

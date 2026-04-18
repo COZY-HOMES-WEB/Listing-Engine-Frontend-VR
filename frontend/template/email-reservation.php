@@ -57,8 +57,10 @@ function lef_get_reservation_email_html( $data, $type = 'admin' ) {
 	$html .= '<div style="margin-bottom: 25px; padding: 20px; background-color: #FAFAFA; border-radius: 8px;">';
 	$html .= '<h2 style="font-size: 17px; font-weight: 500; color: #2C3E50; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #F15E74;">Request Details</h2>';
 
+	$html .= lef_email_detail_row( 'Reservation No:', esc_html( $data['reservation_number'] ) );
 	$html .= lef_email_detail_row( 'Check-in:', esc_html( $data['check_in'] ) );
 	$html .= lef_email_detail_row( 'Check-out:', esc_html( $data['check_out'] ) );
+
 	$html .= lef_email_detail_row( 'Total Guests:', esc_html( $data['adults'] ) . ' adults, ' . esc_html( $data['children'] ) . ' children, ' . esc_html( $data['infants'] ) . ' infants' );
 	$html .= lef_email_detail_row( 'Total Price:', esc_html( $data['total_price'] ) );
 	$html .= lef_email_detail_row( 'Request Date:', esc_html( $data['request_date'] ) );
