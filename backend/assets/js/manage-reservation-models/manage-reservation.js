@@ -65,11 +65,13 @@
                 if (response.success) {
                     lefReservRenderDashboard(response.data);
                 } else {
-                    lefToaster('error', response.data.message || 'Failed to fetch data');
+                    window.LEF_Toast.show(response.data.message || 'Failed to fetch data', 'error');
                 }
             },
             error: function() {
-                lefToaster('error', 'Server error. Please try again.');
+                if (window.LEF_Toast) {
+                    window.LEF_Toast.show('Server error. Please try again.', 'error');
+                }
             },
             complete: function() {
                 lefReservFetching = false;

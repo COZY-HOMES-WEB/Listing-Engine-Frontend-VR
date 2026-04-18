@@ -64,17 +64,30 @@
         success: function (response) {
           if (response.success) {
             lefReservUpdateStatusBadge();
-            $saveNote
-              .addClass("lef-reserv-edit-save-note-visible")
-              .text(response.data.message);
-            lefToaster("success", response.data.message);
+            if (response.data && response.data.message) {
+              $saveNote
+                .addClass("lef-reserv-edit-save-note-visible")
+                .text(response.data.message);
+              if (window.LEF_Toast) {
+                window.LEF_Toast.show(response.data.message, "success");
+              }
+            }
           } else {
-            lefToaster("error", response.data.message || "Update failed");
+            const errorMsg =
+              response.data && response.data.message
+                ? response.data.message
+                : "Update failed";
+            if (window.LEF_Toast) {
+              window.LEF_Toast.show(errorMsg, "error");
+            }
           }
         },
         error: function () {
-          lefToaster("error", "Server error. Please try again.");
+          if (window.LEF_Toast) {
+            window.LEF_Toast.show("Server error. Please try again.", "error");
+          }
         },
+
         complete: function () {
           $saveBtn.prop("disabled", false).removeClass("lef-reserv-btn-loading")
             .html(`
