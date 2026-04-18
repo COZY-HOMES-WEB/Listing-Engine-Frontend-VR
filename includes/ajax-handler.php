@@ -836,3 +836,44 @@ function lef_reserv_get_details() {
 	wp_send_json_success( array( 'html' => $html ) );
 }
 add_action( 'wp_ajax_lef_reserv_get_details', 'lef_reserv_get_details' );
+
+/**
+ * Update reservation status.
+ * Expects POST: nonce, id, status
+ */
+function lef_reserv_update_status() {
+	check_ajax_referer( 'lef_reserv_nonce', 'nonce' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( array( 'message' => 'Unauthorized access.' ) );
+	}
+
+	$id     = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
+	$status = isset( $_POST['status'] ) ? sanitize_text_field( $_POST['status'] ) : '';
+
+	if ( ! $id || ! in_array( $status, array( 'pending', 'completed', 'rejected' ) ) ) {
+		wp_send_json_error( array( 'message' => 'Invalid data provided.' ) );
+	}
+
+	global $wpdb;
+	$table = $wpdb->prefix . 'ls_reservation';
+
+	$updated = $wpdb->update(
+		$table,
+		array(
+			'status'     => $status,
+			'updated_at' => current_time( 'mysql' ),
+		),
+		array( 'id' => $id ),
+		array( '%s', '%s' ),
+		array( '%d' )
+	);
+
+	if ( $updated !== false ) {
+		wp_send_json_success( array( 'message' => 'Reservation status updated successfully' ) );
+	} else {
+		wp_send_json_error( array( 'message' => 'Failed to update status.' ) );
+	}
+}
+add_action( 'wp_ajax_lef_reserv_update_status', 'lef_reserv_update_status' );
+

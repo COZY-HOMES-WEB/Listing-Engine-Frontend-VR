@@ -128,14 +128,15 @@
                     </div>
                 </div>
                 <div class="lef-reserv-card-actions">
-                    <button class="lef-reserv-view-btn" data-id="${item.id}" type="button">
+                    <a class="lef-reserv-view-btn" href="admin.php?page=lef-manage-reservations&action=view&id=${item.id}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;">
                             <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
                         </svg>
                         View
-                    </button>
+                    </a>
                 </div>
+
             </article>`;
         });
         $cardList.html(cardsHtml);

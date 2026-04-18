@@ -1,61 +1,93 @@
 /**
- * Reservation Detail View JS
- * Handles AJAX detail fetching and modal lifecycle.
+ * Standalone Reservation Detail View JS
+ * Handles status updates and UI feedback on the individual reservation page.
  */
-(function($) {
-    'use strict';
+(function ($) {
+  "use strict";
 
-    $(document).ready(function() {
-        const $modal = $('#lef-reserv-detail-modal');
-        const $modalContent = $('#lef-reserv-modal-content');
-        const $cardList = $('#lef-reserv-card-list');
+  $(document).ready(function () {
+    const $statusSelect = $("#lef-reserv-edit-status-select");
+    const $statusBadge = $("#lef-reserv-edit-current-status");
+    const $saveBtn = $("#lef-reserv-edit-save-btn");
+    const $saveNote = $("#lef-reserv-edit-save-note");
 
-        /**
-         * Handle View Details Click
-         */
-        function lefReservHandleViewDetails() {
-            const id = $(this).data('id');
-            $modalContent.html('<div style="text-align:center;padding:40px;">Loading details...</div>');
-            $modal.fadeIn(200);
+    /**
+     * Status Labels Map
+     */
+    const statusLabels = {
+      pending: "Pending",
+      completed: "Completed",
+      rejected: "Rejected",
+    };
 
-            $.ajax({
-                url: lefReservData.ajax_url,
-                type: 'POST',
-                data: {
-                    action: 'lef_reserv_get_details',
-                    nonce: lefReservData.nonce,
-                    id: id
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $modalContent.html(response.data.html);
-                    } else {
-                        $modalContent.html(`<div class="error" style="color:var(--leb-error-color);padding:20px;">${response.data.message}</div>`);
-                    }
-                },
-                error: function() {
-                    $modalContent.html('<div class="error" style="color:var(--leb-error-color);padding:20px;">Failed to load details.</div>');
-                }
-            });
-        }
+    /**
+     * Update the UI badge to reflect current selection
+     */
+    function lefReservUpdateStatusBadge() {
+      const val = $statusSelect.val();
+      $statusBadge.attr("data-lef-reserv-edit-status", val);
+      $statusBadge.text(statusLabels[val] || val);
+      $saveNote.removeClass("lef-reserv-edit-save-note-visible");
+    }
 
-        /**
-         * Close Modal
-         */
-        function lefReservCloseModal() {
-            $modal.fadeOut(200);
-        }
+    // Listen for selection changes
+    $statusSelect.on("change", lefReservUpdateStatusBadge);
 
-        // Bind Events
-        $cardList.on('click', '.lef-reserv-view-btn', lefReservHandleViewDetails);
-        $('#lef-reserv-modal-close').on('click', lefReservCloseModal);
-        
-        // Close on outside click
-        $(window).on('click', function(e) {
-            if ($(e.target).is($modal)) {
-                lefReservCloseModal();
-            }
-        });
+    /**
+     * Save Status Change via AJAX
+     */
+    $saveBtn.on("click", function () {
+      const id = $(this).data("id");
+      const status = $statusSelect.val();
+
+      if (!id) {
+        lefToaster("error", "Invalid Reservation ID");
+        return;
+      }
+
+      // Visual feedback
+      $saveBtn
+        .prop("disabled", true)
+        .addClass("lef-reserv-btn-loading")
+        .text("Saving...");
+      $saveNote.removeClass("lef-reserv-edit-save-note-visible");
+
+      $.ajax({
+        url: lefReservData.ajax_url,
+        type: "POST",
+        data: {
+          action: "lef_reserv_update_status",
+          nonce: lefReservData.nonce,
+          id: id,
+          status: status,
+        },
+        success: function (response) {
+          if (response.success) {
+            lefReservUpdateStatusBadge();
+            $saveNote
+              .addClass("lef-reserv-edit-save-note-visible")
+              .text(response.data.message);
+            lefToaster("success", response.data.message);
+          } else {
+            lefToaster("error", response.data.message || "Update failed");
+          }
+        },
+        error: function () {
+          lefToaster("error", "Server error. Please try again.");
+        },
+        complete: function () {
+          $saveBtn.prop("disabled", false).removeClass("lef-reserv-btn-loading")
+            .html(`
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <path d="M17 21v-8H7v8"></path>
+                            <path d="M7 3v5h8"></path>
+                        </svg>
+                        Save
+                    `);
+        },
+      });
     });
-
+  });
 })(jQuery);

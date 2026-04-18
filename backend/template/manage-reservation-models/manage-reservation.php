@@ -113,16 +113,4 @@ if (! defined('ABSPATH')) {
         </section>
     </div>
 
-    <!-- Reservation Detail Modal Wrapper -->
-    <div id="lef-reserv-detail-modal" class="lef-reserv-modal-overlay" style="display: none;">
-        <div class="lef-reserv-modal-container">
-            <div class="lef-reserv-modal-header">
-                <h2 class="lef-reserv-modal-title">Reservation Details</h2>
-                <button class="lef-reserv-modal-close" id="lef-reserv-modal-close">&times;</button>
-            </div>
-            <div class="lef-reserv-modal-body" id="lef-reserv-modal-content">
-                <!-- Content loaded via AJAX from view-edit.php approach -->
-            </div>
-        </div>
-    </div>
 </div>

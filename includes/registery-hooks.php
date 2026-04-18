@@ -108,11 +108,60 @@ function lef_render_database_page() {
  * Callback for Manage Reservations Submenu Page
  */
 function lef_render_manage_reservations_page() {
-	$template_path = LEF_PLUGIN_DIR . 'backend/template/manage-reservation-models/manage-reservation.php';
-	
-	if ( file_exists( $template_path ) ) {
-		require_once $template_path;
+	global $wpdb;
+
+	$action = isset( $_GET['action'] ) ? sanitize_text_field( $_GET['action'] ) : '';
+	$id     = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : 0;
+
+	if ( $action === 'view' && $id ) {
+		// Fetch Reservation Data
+		$reserv = $wpdb->get_row( $wpdb->prepare(
+			"SELECT r.*, p.title as property_title, p.host_id
+			 FROM {$wpdb->prefix}ls_reservation r
+			 LEFT JOIN {$wpdb->prefix}ls_property p ON r.property_id = p.id
+			 WHERE r.id = %d",
+			$id
+		), ARRAY_A );
+
+		if ( $reserv ) {
+			// Traveller Info
+			$t_user      = get_userdata( $reserv['user_id'] );
+			$t_full_name = get_user_meta( $reserv['user_id'], 'full_name', true );
+			$t_phone     = get_user_meta( $reserv['user_id'], 'mobile_number', true );
+
+			$reserv['traveller'] = array(
+				'name'  => ! empty( $t_full_name ) ? $t_full_name : ( $t_user ? $t_user->user_login : 'Unknown' ),
+				'email' => $t_user ? $t_user->user_email : 'N/A',
+				'phone' => ! empty( $t_phone ) ? $t_phone : 'N/A'
+			);
+
+			// Host Info
+			$h_user      = get_userdata( $reserv['host_id'] );
+			$h_full_name = get_user_meta( $reserv['host_id'], 'full_name', true );
+			$h_phone     = get_user_meta( $reserv['host_id'], 'mobile_number', true );
+
+			$reserv['host'] = array(
+				'name'  => ! empty( $h_full_name ) ? $h_full_name : ( $h_user ? $h_user->user_login : 'Unknown' ),
+				'email' => $h_user ? $h_user->user_email : 'N/A',
+				'phone' => ! empty( $h_phone ) ? $h_phone : 'N/A'
+			);
+
+			// JSON Decodes
+			$reserv['dates']  = json_decode( $reserv['reserve_date'], true );
+			$reserv['guests'] = json_decode( $reserv['total_guests'], true );
+
+			$template_path = LEF_PLUGIN_DIR . 'backend/template/manage-reservation-models/view-edit.php';
+		} else {
+			$template_path = LEF_PLUGIN_DIR . 'backend/template/manage-reservation-models/manage-reservation.php';
+		}
 	} else {
-		echo '<div class="wrap"><div class="error"><p>Manage Reservations template not found.</p></div></div>';
+		$template_path = LEF_PLUGIN_DIR . 'backend/template/manage-reservation-models/manage-reservation.php';
+	}
+
+	if ( file_exists( $template_path ) ) {
+		include $template_path;
+	} else {
+		echo '<div class="wrap"><div class="error"><p>Template not found.</p></div></div>';
 	}
 }
+
