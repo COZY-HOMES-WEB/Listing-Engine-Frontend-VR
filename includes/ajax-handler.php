@@ -643,7 +643,7 @@ function lef_submit_reservation() {
 	$request_date      = current_time( 'F j, Y' );
 
 	// ── Include email template function ──
-	$email_template_path = LEF_PLUGIN_DIR . 'frontend/template/email-reservation.php';
+	$email_template_path = LEF_PLUGIN_DIR . 'mails/email-reservation.php';
 	if ( file_exists( $email_template_path ) ) {
 		require_once $email_template_path;
 	}
