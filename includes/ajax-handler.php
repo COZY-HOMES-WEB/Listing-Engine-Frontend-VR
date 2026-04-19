@@ -897,6 +897,11 @@ function lef_myprofile_load_screen() {
 
 	$template_path = LEF_PLUGIN_DIR . 'frontend/template/my-profile/' . $screen . '.php';
 
+	// FALLBACK: Check if template exists in a modular subdirectory (e.g. my-profile/screen/screen.php)
+	if ( ! file_exists( $template_path ) ) {
+		$template_path = LEF_PLUGIN_DIR . 'frontend/template/my-profile/' . $screen . '/' . $screen . '.php';
+	}
+
 	if ( file_exists( $template_path ) ) {
 		ob_start();
 		include $template_path;
@@ -1308,5 +1313,135 @@ function lef_save_payout_details() {
 	wp_send_json_success( array( 'message' => 'Payout details saved successfully.' ) );
 }
 add_action( 'wp_ajax_lef_save_payout_details', 'lef_save_payout_details' );
+
+
+/**
+ * AJAX: Fetch current user's reservations with filtering and pagination.
+ */
+function lef_get_my_bookings() {
+	check_ajax_referer( 'lef_myprofile_nonce', 'nonce' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'message' => 'Session expired. Please login.' ) );
+	}
+
+	global $wpdb;
+	$user_id = get_current_user_id();
+	$is_admin = current_user_can( 'manage_options' );
+	
+	// Input params
+	$status   = isset( $_POST['status'] ) ? sanitize_text_field( $_POST['status'] ) : 'pending';
+	$search   = isset( $_POST['search'] ) ? sanitize_text_field( $_POST['search'] ) : '';
+	$page     = isset( $_POST['page'] ) ? max( 1, intval( $_POST['page'] ) ) : 1;
+	$per_page = 10;
+	$offset   = ( $page - 1 ) * $per_page;
+
+	// Tables: Resolve actual table names to handle hardcoded schema vs dynamic prefixing
+	$res_table  = $wpdb->prefix . 'ls_reservation'; 
+	$prop_table = $wpdb->prefix . 'ls_property';
+
+	// Fallback check if res_table doesn't exist with current prefix (handles hardcoded schema)
+	if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $res_table ) ) != $res_table ) {
+		$res_table = 'wp_ls_reservation';
+	}
+
+	// Base Where Clause: Admins see all, Users see theirs
+	if ( $is_admin ) {
+		$where = "WHERE 1=1";
+	} else {
+		$where = $wpdb->prepare( "WHERE r.user_id = %d", $user_id );
+	}
+
+	// Filter by status
+	if ( ! empty( $status ) && $status !== 'all' ) {
+		$where .= $wpdb->prepare( " AND r.status = %s", $status );
+	}
+
+	// Filter by search
+	if ( ! empty( $search ) ) {
+		if ( strlen( $search ) >= 2 ) {
+			$where .= $wpdb->prepare( " AND (r.reservation_number LIKE %s OR p.title LIKE %s)", '%' . $wpdb->esc_like( $search ) . '%', '%' . $wpdb->esc_like( $search ) . '%' );
+		}
+	}
+
+	// 1. Get List with Property Title
+	$query = "
+		SELECT r.*, p.title as property_title 
+		FROM $res_table r
+		LEFT JOIN $prop_table p ON r.property_id = p.id
+		$where
+		ORDER BY r.updated_at DESC
+		LIMIT $per_page OFFSET $offset
+	";
+	$list = $wpdb->get_results( $query );
+
+	// 2. Get Count for current filter
+	$total_filtered = $wpdb->get_var( "
+		SELECT COUNT(*) 
+		FROM $res_table r
+		LEFT JOIN $prop_table p ON r.property_id = p.id
+		$where
+	" );
+
+	// 3. Get Status Counts
+	// Construct the status query based on role
+	$count_where = $is_admin ? "WHERE 1=1" : $wpdb->prepare( "WHERE user_id = %d", $user_id );
+	
+	$counts = array(
+		'pending'   => $wpdb->get_var( "SELECT COUNT(*) FROM $res_table $count_where AND status = 'pending'" ),
+		'completed' => $wpdb->get_var( "SELECT COUNT(*) FROM $res_table $count_where AND status = 'completed'" ),
+		'rejected'  => $wpdb->get_var( "SELECT COUNT(*) FROM $res_table $count_where AND status = 'rejected'" ),
+		'total'     => $wpdb->get_var( "SELECT COUNT(*) FROM $res_table $count_where" ),
+	);
+
+	wp_send_json_success( array(
+		'list'   => $list,
+		'total'  => intval( $total_filtered ),
+		'counts' => $counts,
+		'page'   => $page,
+	) );
+}
+add_action( 'wp_ajax_lef_get_my_bookings', 'lef_get_my_bookings' );
+
+/**
+ * AJAX: Fetch specific reservation details for modal.
+ */
+function lef_get_booking_details() {
+	check_ajax_referer( 'lef_myprofile_nonce', 'nonce' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'message' => 'Access denied.' ) );
+	}
+
+	global $wpdb;
+	$res_id  = isset( $_POST['id'] ) ? intval( $_POST['id'] ) : 0;
+	$user_id = get_current_user_id();
+
+	if ( ! $res_id ) {
+		wp_send_json_error( array( 'message' => 'Invalid ID.' ) );
+	}
+
+	$res_table  = $wpdb->prefix . 'ls_reservation';
+	$prop_table = $wpdb->prefix . 'ls_property';
+
+	// Fallback check if res_table doesn't exist with current prefix (handles hardcoded schema)
+	if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $res_table ) ) != $res_table ) {
+		$res_table = 'wp_ls_reservation';
+	}
+
+	$data = $wpdb->get_row( $wpdb->prepare( "
+		SELECT r.*, p.title as property_title, p.address as property_address, p.images as property_images
+		FROM $res_table r
+		LEFT JOIN $prop_table p ON r.property_id = p.id
+		WHERE r.id = %d AND r.user_id = %d
+	", $res_id, $user_id ) );
+
+	if ( ! $data ) {
+		wp_send_json_error( array( 'message' => 'Reservation not found.' ) );
+	}
+
+	wp_send_json_success( $data );
+}
+add_action( 'wp_ajax_lef_get_booking_details', 'lef_get_booking_details' );
 
 
