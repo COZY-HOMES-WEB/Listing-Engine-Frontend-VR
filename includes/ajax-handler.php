@@ -1269,3 +1269,44 @@ function lef_edit_prof_save_direct() {
 add_action( 'wp_ajax_lef_edit_prof_save_direct', 'lef_edit_prof_save_direct' );
 
 
+/**
+ * Save Payout (Bank/UPI) Details as JSON.
+ */
+function lef_save_payout_details() {
+	check_ajax_referer( 'lef_myprofile_nonce', 'nonce' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'message' => 'Session expired. Please login.' ) );
+	}
+
+	$user_id = get_current_user_id();
+	
+	// Sanitize input
+	$holder_name = sanitize_text_field( $_POST['holder_name'] );
+	$ifsc        = strtoupper( sanitize_text_field( $_POST['ifsc'] ) );
+	$bank_name   = sanitize_text_field( $_POST['bank_name'] );
+	$account_no  = sanitize_text_field( $_POST['account_no'] );
+	$upi_id      = sanitize_text_field( $_POST['upi_id'] );
+
+	// Validation
+	if ( empty( $holder_name ) || empty( $ifsc ) || empty( $bank_name ) || empty( $account_no ) ) {
+		wp_send_json_error( array( 'message' => 'Please fill all required bank details.' ) );
+	}
+
+	$payout_data = array(
+		'holder_name' => $holder_name,
+		'ifsc'        => $ifsc,
+		'bank_name'   => $bank_name,
+		'account_no'  => $account_no,
+		'upi_id'      => $upi_id,
+		'updated_at'  => current_time( 'mysql' ),
+	);
+
+	// Meta update returns true on success, false on failure or if value is old
+	update_user_meta( $user_id, 'bank_details', json_encode( $payout_data ) );
+	
+	wp_send_json_success( array( 'message' => 'Payout details saved successfully.' ) );
+}
+add_action( 'wp_ajax_lef_save_payout_details', 'lef_save_payout_details' );
+
+

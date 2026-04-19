@@ -197,6 +197,22 @@ function lef_enqueue_assets() {
 				filemtime( LEF_PLUGIN_DIR . 'frontend/assets/css/my-profile/edit-profile.css' )
 			);
 
+			// Payout Assets
+			wp_enqueue_script(
+				'lef-payout-js',
+				LEF_PLUGIN_URL . 'frontend/assets/js/my-profile/pay-out.js',
+				array( 'jquery' ),
+				LEF_VERSION . '.' . filemtime( LEF_PLUGIN_DIR . 'frontend/assets/js/my-profile/pay-out.js' ),
+				true
+			);
+
+			wp_enqueue_style(
+				'lef-payout-css',
+				LEF_PLUGIN_URL . 'frontend/assets/css/my-profile/pay-out.css',
+				array( 'lef-my-profile-css' ),
+				filemtime( LEF_PLUGIN_DIR . 'frontend/assets/css/my-profile/pay-out.css' )
+			);
+
 			wp_localize_script( 'lef-my-profile-js', 'lefMyProfileData', array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'lef_myprofile_nonce' ),

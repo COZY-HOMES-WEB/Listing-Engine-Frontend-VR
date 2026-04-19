@@ -58,7 +58,7 @@ if (!empty($mobile_number)) {
 ?>
 
 
-<div class="lef-global-plugin-wrapper" id="lef-edit-prof-wrapper">
+<div class="lef-edit-prof-wrapper" id="lef-edit-prof-panel">
     <!-- Title  -->
     <div class="lef-edit-prof-title-row">
         <h2 class="lef-edit-prof-panel-title">Edit Profile</h2>
