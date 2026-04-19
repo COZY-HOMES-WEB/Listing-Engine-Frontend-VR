@@ -182,9 +182,30 @@ function lef_enqueue_assets() {
 				true
 			);
 
+			wp_enqueue_script(
+				'lef-edit-profile-js',
+				LEF_PLUGIN_URL . 'frontend/assets/js/my-profile/edit-profile.js',
+				array( 'jquery' ),
+				LEF_VERSION . '.' . filemtime( LEF_PLUGIN_DIR . 'frontend/assets/js/my-profile/edit-profile.js' ),
+				true
+			);
+
+			wp_enqueue_style(
+				'lef-edit-profile-css',
+				LEF_PLUGIN_URL . 'frontend/assets/css/my-profile/edit-profile.css',
+				array( 'lef-my-profile-css' ),
+				filemtime( LEF_PLUGIN_DIR . 'frontend/assets/css/my-profile/edit-profile.css' )
+			);
+
 			wp_localize_script( 'lef-my-profile-js', 'lefMyProfileData', array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'lef_myprofile_nonce' ),
+			) );
+
+			wp_localize_script( 'lef-edit-profile-js', 'lefMyProfileData', array(
+				'ajax_url'  => admin_url( 'admin-ajax.php' ),
+				'nonce'     => wp_create_nonce( 'lef_myprofile_nonce' ),
+				'countries' => lef_get_country_data(),
 			) );
 		}
 

@@ -85,6 +85,7 @@
                 success: (response) => {
                     if (response.success) {
                         this.$bucket.html(response.data.html);
+                        $(document).trigger('lef_sidebar_screen_loaded', [screen]);
                     } else {
                         this.$bucket.html('<div class="lef-prof-error" style="padding: 20px; color: var(--leb-error-color);">Error loading screen. Please try again.</div>');
                         if (window.LEF_Toast) window.LEF_Toast.show(response.data.message || 'Load failed', 'error');

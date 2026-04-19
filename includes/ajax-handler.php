@@ -932,3 +932,327 @@ function lef_myprofile_get_logout_url() {
 add_action( 'wp_ajax_lef_myprofile_get_logout_url', 'lef_myprofile_get_logout_url' );
 
 
+// ─────────────────────────────────────────────────────────────
+// My Profile — Edit Profile AJAX Handlers
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Handle Profile Image Upload.
+ * Constraints: Max 1MB, JPEG/AVIF/WEBP.
+ */
+function lef_edit_prof_upload_image() {
+	check_ajax_referer( 'lef_myprofile_nonce', 'nonce' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'message' => 'Login required.' ) );
+	}
+
+	if ( empty( $_FILES['profile_pic'] ) ) {
+		wp_send_json_error( array( 'message' => 'No file uploaded.' ) );
+	}
+
+	$file = $_FILES['profile_pic'];
+
+	// 1. Check size (< 1MB)
+	if ( $file['size'] > 1024 * 1024 ) {
+		wp_send_json_error( array( 'message' => 'Image size should not exceed 1MB.' ) );
+	}
+
+	// 2. Check Extension/Mime
+	$allowed_types = array( 'image/jpeg', 'image/jpg', 'image/webp', 'image/avif' );
+	if ( ! in_array( $file['type'], $allowed_types ) ) {
+		wp_send_json_error( array( 'message' => 'Only JPEG, WEBP, and AVIF formats are allowed.' ) );
+	}
+
+	// 3. Handle Upload using WordPress Media API
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	require_once ABSPATH . 'wp-admin/includes/media.php';
+
+	$attachment_id = media_handle_upload( 'profile_pic', 0 );
+
+	if ( is_wp_error( $attachment_id ) ) {
+		wp_send_json_error( array( 'message' => $attachment_id->get_error_message() ) );
+	}
+
+	$img_url = wp_get_attachment_url( $attachment_id );
+
+	// Cleanup: Delete old profile picture from server to save space
+	$old_pic_url = get_user_meta( get_current_user_id(), 'profile_pic', true );
+	if ( ! empty( $old_pic_url ) && $old_pic_url !== $img_url ) {
+		$old_attachment_id = attachment_url_to_postid( $old_pic_url );
+		if ( $old_attachment_id ) {
+			// true means force delete (bypass trash)
+			wp_delete_attachment( $old_attachment_id, true );
+		}
+	}
+
+	update_user_meta( get_current_user_id(), 'profile_pic', $img_url );
+
+	wp_send_json_success( array( 
+		'url'     => $img_url,
+		'message' => 'Profile picture updated successfully.'
+	) );
+}
+add_action( 'wp_ajax_lef_edit_prof_upload_image', 'lef_edit_prof_upload_image' );
+
+
+/**
+ * Send OTP for Profile Updates.
+ */
+function lef_edit_prof_send_otp() {
+	check_ajax_referer( 'lef_myprofile_nonce', 'nonce' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'message' => 'Login required.' ) );
+	}
+
+	$user  = wp_get_current_user();
+	$user_id = $user->ID;
+	
+	$new_email = isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
+	$new_phone = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+	$iso       = isset( $_POST['iso'] ) ? sanitize_text_field( $_POST['iso'] ) : '';
+
+	// 1. Validate Email Duplicate
+	if ( ! empty( $new_email ) && $new_email !== $user->user_email ) {
+		if ( lef_is_contact_duplicate( 'email', $new_email, $user_id ) ) {
+			wp_send_json_error( array( 'message' => 'This email already exists in our system.' ) );
+		}
+	}
+
+	// 2. Validate Phone
+	if ( ! empty( $new_phone ) ) {
+		// Format Check
+		if ( ! lef_validate_phone_number( $new_phone, $iso ) ) {
+			wp_send_json_error( array( 'message' => 'Invalid phone number for the selected country.' ) );
+		}
+		// Duplicate Check
+		if ( lef_is_contact_duplicate( 'mobile_number', $new_phone, $user_id ) ) {
+			wp_send_json_error( array( 'message' => 'This phone number is already registered with another account.' ) );
+		}
+	}
+
+	$email = $user->user_email;
+	$otp   = sprintf( "%06d", mt_rand( 100000, 999999 ) );
+
+	global $wpdb;
+	$table = 'wp_authme_otp_storage';
+
+	// Delete existing unverified OTPs for this email to prevent clutter
+	$wpdb->delete( $table, array( 'email' => $email, 'is_verified' => 0 ) );
+
+	$inserted = $wpdb->insert(
+		$table,
+		array(
+			'email'      => $email,
+			'otp_code'   => $otp,
+			'purpose'    => 'profile_update',
+			'created_at' => current_time( 'mysql' ),
+			'expires_at' => date( 'Y-m-d H:i:s', current_time( 'timestamp' ) + 60 ), // 60 seconds
+		),
+		array( '%s', '%s', '%s', '%s', '%s' )
+	);
+
+	if ( ! $inserted ) {
+		wp_send_json_error( array( 'message' => 'Failed to generate OTP.' ) );
+	}
+
+	// Send Email
+	$email_template_path = LEF_PLUGIN_DIR . 'mails/otp-verify.php';
+	if ( file_exists( $email_template_path ) ) {
+		require_once $email_template_path;
+	}
+
+	$email_data = array(
+		'otp_code'   => $otp,
+		'user_name'  => $user->display_name,
+		'expires_in' => '60 seconds',
+	);
+
+	$subject = 'Your Verification OTP - My Profile';
+	$message = function_exists( 'lef_get_otp_verify_email_html' )
+		? lef_get_otp_verify_email_html( $email_data )
+		: "Hello " . $user->display_name . ",\n\nYour OTP for profile updates is: " . $otp . "\n\nThis code expires in 60 seconds.";
+
+	$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+	$sent    = wp_mail( $email, $subject, $message, $headers );
+
+	if ( $sent ) {
+		wp_send_json_success( array( 'message' => 'OTP has been sent to your email.' ) );
+	} else {
+		wp_send_json_error( array( 'message' => 'Failed to send OTP. Please check your email configuration.' ) );
+	}
+}
+add_action( 'wp_ajax_lef_edit_prof_send_otp', 'lef_edit_prof_send_otp' );
+
+
+/**
+ * Verify OTP and Save Profile Changes.
+ */
+function lef_edit_prof_save_changes() {
+	check_ajax_referer( 'lef_myprofile_nonce', 'nonce' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'message' => 'Login required.' ) );
+	}
+
+	$user_id = get_current_user_id();
+	$user    = get_userdata( $user_id );
+	$otp     = isset( $_POST['otp'] ) ? sanitize_text_field( $_POST['otp'] ) : '';
+	
+	$full_name = isset( $_POST['full_name'] ) ? sanitize_text_field( $_POST['full_name'] ) : '';
+	$email     = isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
+	$phone     = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+	$password  = isset( $_POST['password'] ) ? $_POST['password'] : '';
+
+	// 1. Verify OTP
+	global $wpdb;
+	$table = 'wp_authme_otp_storage';
+	$otp_record = $wpdb->get_row( $wpdb->prepare(
+		"SELECT * FROM $table WHERE email = %s AND otp_code = %s AND is_verified = 0 AND expires_at > %s",
+		$user->user_email,
+		$otp,
+		current_time( 'mysql' )
+	) );
+
+	if ( ! $otp_record ) {
+		wp_send_json_error( array( 'message' => 'Invalid or expired OTP.' ) );
+	}
+
+	// 2. Mark OTP as verified
+	$wpdb->update( $table, array( 'is_verified' => 1 ), array( 'id' => $otp_record->id ) );
+
+	// 3. Commit Changes
+	$errors = array();
+
+	// Full Name
+	if ( ! empty( $full_name ) ) {
+		update_user_meta( $user_id, 'full_name', $full_name );
+	}
+
+	// Email
+	if ( ! empty( $email ) && $email !== $user->user_email ) {
+		if ( lef_is_contact_duplicate( 'email', $email, $user_id ) ) {
+			$errors[] = 'Email already exists.';
+		} else {
+			$wpdb->update( $wpdb->users, array( 'user_email' => $email ), array( 'ID' => $user_id ) );
+		}
+	}
+
+	// Phone Number
+	if ( ! empty( $phone ) ) {
+		if ( lef_is_contact_duplicate( 'mobile_number', $phone, $user_id ) ) {
+			$errors[] = 'Phone number already exists.';
+		} else {
+			update_user_meta( $user_id, 'mobile_number', $phone );
+		}
+	}
+
+	// Password
+	if ( ! empty( $password ) ) {
+		wp_set_password( $password, $user_id );
+		// Since wp_set_password logs the user out, we might need to re-auth if it's an SPA flow,
+		// but usually, a redirect or re-login is expected.
+	}
+
+	if ( ! empty( $errors ) ) {
+		wp_send_json_error( array( 'message' => implode( ' ', $errors ) ) );
+	}
+
+	// 4. Send Success Email
+	$success_template_path = LEF_PLUGIN_DIR . 'mails/update-success.php';
+	if ( file_exists( $success_template_path ) ) {
+		require_once $success_template_path;
+		
+		$email_data = array(
+			'user_name' => !empty($full_name) ? $full_name : $user->display_name,
+			'username'  => $user->user_login,
+		);
+
+		$subject = 'Congrates, you are now admin';
+		$message = function_exists( 'lef_get_update_success_email_html' )
+			? lef_get_update_success_email_html( $email_data )
+			: "Hello " . $email_data['user_name'] . ",\n\nNow, you are a admin of this account " . $email_data['username'];
+
+		$target_email = ! empty( $email ) ? $email : $user->user_email;
+		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+		wp_mail( $target_email, $subject, $message, $headers );
+	}
+
+	wp_send_json_success( array( 'message' => 'Profile updated successfully.' ) );
+}
+add_action( 'wp_ajax_lef_edit_prof_save_changes', 'lef_edit_prof_save_changes' );
+
+/**
+ * Real-time Phone Validation (Format and Duplicate).
+ */
+function lef_edit_prof_validate_phone() {
+	check_ajax_referer( 'lef_myprofile_nonce', 'nonce' );
+
+	$phone = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+	$iso   = isset( $_POST['iso'] ) ? sanitize_text_field( $_POST['iso'] ) : '';
+	$uid   = get_current_user_id();
+
+	if ( empty( $phone ) ) {
+		wp_send_json_success();
+	}
+
+	$full_phone = $phone;
+	// If it doesn't start with +, maybe append the code? 
+	// But usually, we send the full string from JS.
+	
+	// 1. Format Check
+	if ( ! lef_validate_phone_number( $full_phone, $iso ) ) {
+		wp_send_json_error( array( 'message' => 'Invalid number for this country.' ) );
+	}
+
+	// 2. Duplicate Check
+	if ( lef_is_contact_duplicate( 'mobile_number', $full_phone, $uid ) ) {
+		wp_send_json_error( array( 'message' => 'Number already registered.' ) );
+	}
+
+	wp_send_json_success();
+}
+add_action( 'wp_ajax_lef_edit_prof_validate_phone', 'lef_edit_prof_validate_phone' );
+
+/**
+ * Direct Save Changes (Only for non-sensitive fields like Full Name).
+ * Securely verifies that sensitive fields haven't changed before bypassing OTP.
+ */
+function lef_edit_prof_save_direct() {
+	check_ajax_referer( 'lef_myprofile_nonce', 'nonce' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( array( 'message' => 'Login required.' ) );
+	}
+
+	$user_id = get_current_user_id();
+	$user    = get_userdata( $user_id );
+	
+	$full_name = isset( $_POST['full_name'] ) ? sanitize_text_field( $_POST['full_name'] ) : '';
+	$email     = isset( $_POST['email'] ) ? sanitize_email( $_POST['email'] ) : '';
+	$phone     = isset( $_POST['phone'] ) ? sanitize_text_field( $_POST['phone'] ) : '';
+	$password  = isset( $_POST['password'] ) ? $_POST['password'] : '';
+
+	// SECURITY CHECK: Ensure sensitive fields are UNCHANGED
+	$current_phone = get_user_meta( $user_id, 'mobile_number', true );
+	
+	// Normalize phones for comparison (strip spaces)
+	$norm_submitted_phone = str_replace(' ', '', $phone);
+	$norm_current_phone   = str_replace(' ', '', $current_phone);
+
+	if ( $email !== $user->user_email || $norm_submitted_phone !== $norm_current_phone || ! empty( $password ) ) {
+		wp_send_json_error( array( 'message' => 'Security verification required for sensitive changes. Please use OTP flow.' ) );
+	}
+
+	// Update Full Name
+	if ( ! empty( $full_name ) ) {
+		update_user_meta( $user_id, 'full_name', $full_name );
+	}
+
+	wp_send_json_success( array( 'message' => 'Profile updated successfully.' ) );
+}
+add_action( 'wp_ajax_lef_edit_prof_save_direct', 'lef_edit_prof_save_direct' );
+
+

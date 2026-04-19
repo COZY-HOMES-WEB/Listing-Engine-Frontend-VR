@@ -22,13 +22,7 @@
 .lef-prof-shell {
     display: grid;
     gap: 22px;
-    grid-template-columns: var(--lef-prof-sidebar-width) minmax(0, 1fr);
-}
-
-@media (max-width: 1024px) {
-    .lef-prof-shell {
-        grid-template-columns: minmax(0, 1fr);
-    }
+    grid-template-columns: minmax(0, 1fr);
 }
 
 /* ── Topbar (Mobile Only) ── */
@@ -38,16 +32,10 @@
     border: 1px solid var(--leb-border-color);
     border-radius: 12px;
     box-shadow: var(--leb-card-shadow);
-    display: none;
+    display: flex;
     gap: 14px;
     margin-bottom: 22px;
     padding: 14px;
-}
-
-@media (max-width: 1024px) {
-    .lef-prof-topbar {
-        display: flex;
-    }
 }
 
 .lef-prof-menu-toggle,
@@ -92,45 +80,35 @@
 .lef-prof-sidebar {
     background: var(--leb-white);
     border: 1px solid var(--leb-border-color);
-    border-radius: 12px;
+    border-radius: 0 12px 12px 0;
     box-shadow: var(--leb-card-shadow);
-    height: fit-content;
-    position: sticky;
-    top: 24px;
-    z-index: 10;
+    bottom: 0;
+    left: 0;
+    max-width: calc(100vw - 42px);
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    transform: translateX(-105%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 320px;
+    z-index: 40;
 }
 
-@media (max-width: 1024px) {
-    .lef-prof-sidebar {
-        border-radius: 0 12px 12px 0;
-        bottom: 0;
-        left: 0;
-        max-width: calc(100vw - 42px);
-        overflow-y: auto;
-        position: fixed;
-        top: 0;
-        transform: translateX(-105%);
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        width: 320px;
-        z-index: 40;
-    }
-    
-    .lef-prof-sidebar.lef-prof-sidebar-open {
-        transform: translateX(0);
-    }
-    
-    .lef-prof-sidebar-backdrop {
-        background: var(--leb-overlay-dark);
-        display: none;
-        inset: 0;
-        position: fixed;
-        z-index: 35;
-        backdrop-filter: blur(4px);
-    }
-    
-    .lef-prof-sidebar-backdrop.lef-prof-sidebar-backdrop-open {
-        display: block;
-    }
+.lef-prof-sidebar.lef-prof-sidebar-open {
+    transform: translateX(0);
+}
+
+.lef-prof-sidebar-backdrop {
+    background: var(--leb-overlay-dark);
+    display: none;
+    inset: 0;
+    position: fixed;
+    z-index: 35;
+    backdrop-filter: blur(4px);
+}
+
+.lef-prof-sidebar-backdrop.lef-prof-sidebar-backdrop-open {
+    display: block;
 }
 
 .lef-prof-sidebar-head {
@@ -149,14 +127,8 @@
 }
 
 .lef-prof-sidebar-close {
-    display: none;
-}
-
-@media (max-width: 1024px) {
-    .lef-prof-sidebar-close {
-        display: inline-flex;
-        margin-left: auto;
-    }
+    display: inline-flex;
+    margin-left: auto;
 }
 
 .lef-prof-avatar {
@@ -343,6 +315,10 @@
 /* ─────────────────────────────────────────────────────────
    Mobile Utilities
    ───────────────────────────────────────────────────────── */
+
+body.lef-prof-sidebar-lock {
+    overflow: hidden !important;
+}
 
 body.lef-prof-sidebar-lock {
     overflow: hidden !important;
