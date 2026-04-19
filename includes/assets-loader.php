@@ -229,6 +229,22 @@ function lef_enqueue_assets() {
 				filemtime( LEF_PLUGIN_DIR . 'frontend/assets/css/my-profile/my-bookings/my-bookings.css' )
 			);
 
+			// View Detail Assets
+			wp_enqueue_style(
+				'lef-my-book-view-css',
+				LEF_PLUGIN_URL . 'frontend/assets/css/my-profile/my-bookings/view.css',
+				array( 'lef-my-profile-css' ),
+				filemtime( LEF_PLUGIN_DIR . 'frontend/assets/css/my-profile/my-bookings/view.css' )
+			);
+
+			wp_enqueue_script(
+				'lef-my-book-view-js',
+				LEF_PLUGIN_URL . 'frontend/assets/js/my-profile/my-bookings/view.js',
+				array( 'jquery' ),
+				LEF_VERSION . '.' . filemtime( LEF_PLUGIN_DIR . 'frontend/assets/js/my-profile/my-bookings/view.js' ),
+				true
+			);
+
 			wp_localize_script( 'lef-my-profile-js', 'lefMyProfileData', array(
 				'ajax_url' => admin_url( 'admin-ajax.php' ),
 				'nonce'    => wp_create_nonce( 'lef_myprofile_nonce' ),

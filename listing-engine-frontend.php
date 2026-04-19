@@ -4,11 +4,11 @@
  * Plugin Name: Listing Engine Frontend
  * Plugin URI: https://arttechfuzion.com
  * Description: Replicates property listing engine UI with dynamic data.
- * Version:     2.0.1
+ * Version:     2.1.0
  * Author:      Art-Tech Fuzion
  * Author URI:  https://arttechfuzion.com
  * Text Domain: listing-engine-frontend
- * Last Modified: 2026-04-19 - Final Stabilization: Fixed AJX-DOM timing and cleaned up debug code.
+ * Last Modified: 2026-04-19 - Fixed booking detail query: removed non-existent p.images column from wp_ls_property.
  *
  * @package ListingEngineFrontend
  */
@@ -18,7 +18,7 @@ if (! defined('ABSPATH')) {
 }
 
 // Define Constants.
-define('LEF_VERSION', '2.0.1');
+define('LEF_VERSION', '2.1.0');
 define('LEF_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('LEF_PLUGIN_URL', plugin_dir_url(__FILE__));
 

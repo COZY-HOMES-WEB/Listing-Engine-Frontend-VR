@@ -90,8 +90,6 @@ $user_id = get_current_user_id();
         </footer>
     </section>
 
-    <!-- Hidden Template for Detail Modal -->
-    <div id="lef-my-book-modal-template" style="display: none;">
-        <?php include LEF_PLUGIN_DIR . 'frontend/template/my-profile/my-bookings/view-edit.php'; ?>
-    </div>
+    <!-- Independent View: Detail Screen -->
+    <?php include LEF_PLUGIN_DIR . 'frontend/template/my-profile/my-bookings/view.php'; ?>
 </div>

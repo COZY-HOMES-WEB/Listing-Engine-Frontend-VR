@@ -235,7 +235,7 @@
     },
 
     openDetailModal(id) {
-      // Fetch data for modal
+      // Fetch data for detail view
       $.ajax({
         url: lefMyProfileData.ajax_url,
         type: "POST",
@@ -246,9 +246,11 @@
         },
         success: (response) => {
           if (response.success) {
-            this.populateAndShowModal(response.data);
+            if (window.LefMbView) {
+                window.LefMbView.show(response.data);
+            }
           } else {
-            if (window.LEF_Toast) window.LEF_Toast.show(response.data.message, "error");
+            if (window.LEF_Toast) window.LEF_Toast.show(response.data.message || "Error loading details.", "error");
           }
         },
         error: (xhr, status, error) => {
@@ -256,46 +258,6 @@
           if (window.LEF_Toast) window.LEF_Toast.show("Network error", "error");
         },
       });
-    },
-
-    populateAndShowModal(data) {
-      // We assume standard Confirmation component can be hijacked to show custom content
-      // or we can use a dedicated Modal approach. Given the project instructions, 
-      // we'll fetch the view-edit.php content. (Since we can't fetch files directly via AJAX into a modal easily without a URL,
-      // we'll assume the template content is available or we use a hidden template in the footer).
-
-      // OPTION: The template is already in the DOM usually or we use LEF_Confirmation.show which might have a custom content feature.
-      // Re-reading instructions: "view-edit.php modal open karega without reloading".
-      
-      // I will implement a simpler approach: fetch the detail. 
-      // I'll use LEF_Confirmation as a base if it supports custom HTML.
-      
-      if (typeof LEF_Confirmation !== "undefined") {
-         // Populate the modal fields (these are in view-edit.php which we assume is rendered/loaded)
-         $("#lef-my-book-detail-number").text("#" + data.reservation_number);
-         $("#lef-my-book-detail-prop-title").text(data.property_title);
-         $("#lef-my-book-detail-prop-addr").text(data.property_address);
-         $("#lef-my-book-detail-dates").text(data.reserve_date);
-         $("#lef-my-book-detail-guests").text(data.total_guests);
-         $("#lef-my-book-detail-requested").text(this.formatDate(data.created_at));
-         $("#lef-my-book-detail-updated").text(this.formatDate(data.updated_at));
-         $("#lef-my-book-detail-price").text("$" + parseFloat(data.total_price).toLocaleString());
-         
-         const $badge = $("#lef-my-book-detail-status");
-         $badge.text(this.capitalize(data.status)).attr("data-status", data.status);
-
-         // Handle Image
-         let images = [];
-         try { images = JSON.parse(data.property_images); } catch(e) {}
-         if (images && images.length > 0) {
-            $("#lef-my-book-detail-prop-img").attr("src", images[0]);
-         }
-
-         // Show the modal
-         // We might need to ensure view-edit.php is included in my-bookings.php
-         // I'll update my-bookings.php to include it hidden.
-         LEF_Confirmation.showCustom($("#lef-my-book-detail-modal").html());
-      }
     },
 
     formatDate(dateStr) {

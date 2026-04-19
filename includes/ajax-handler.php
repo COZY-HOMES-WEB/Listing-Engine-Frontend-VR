@@ -1404,13 +1404,18 @@ function lef_get_my_bookings() {
 add_action( 'wp_ajax_lef_get_my_bookings', 'lef_get_my_bookings' );
 
 /**
- * AJAX: Fetch specific reservation details for modal.
+ * AJAX: Fetch specific reservation details for the booking detail view.
+ *
+ * Resolves actual table names for both reservation and property tables,
+ * handles hardcoded 'wp_' prefix schema by doing a SHOW TABLES fallback.
+ * Admins can view any reservation; regular users only see their own.
  */
 function lef_get_booking_details() {
 	check_ajax_referer( 'lef_myprofile_nonce', 'nonce' );
 
 	if ( ! is_user_logged_in() ) {
 		wp_send_json_error( array( 'message' => 'Access denied.' ) );
+		return;
 	}
 
 	global $wpdb;
@@ -1419,26 +1424,54 @@ function lef_get_booking_details() {
 
 	if ( ! $res_id ) {
 		wp_send_json_error( array( 'message' => 'Invalid ID.' ) );
+		return;
 	}
 
-	$res_table  = $wpdb->prefix . 'ls_reservation';
-	$prop_table = $wpdb->prefix . 'ls_property';
-
-	// Fallback check if res_table doesn't exist with current prefix (handles hardcoded schema)
-	if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $res_table ) ) != $res_table ) {
+	// ── Resolve $res_table (with fallback) ──────────────────────────────
+	$res_table = $wpdb->prefix . 'ls_reservation';
+	if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $res_table ) ) !== $res_table ) {
 		$res_table = 'wp_ls_reservation';
 	}
 
-	$data = $wpdb->get_row( $wpdb->prepare( "
-		SELECT r.*, p.title as property_title, p.address as property_address, p.images as property_images
-		FROM $res_table r
-		LEFT JOIN $prop_table p ON r.property_id = p.id
-		WHERE r.id = %d AND r.user_id = %d
-	", $res_id, $user_id ) );
+	// ── Resolve $prop_table (with same fallback pattern) ─────────────────
+	$prop_table = $wpdb->prefix . 'ls_property';
+	if ( $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $prop_table ) ) !== $prop_table ) {
+		$prop_table = 'wp_ls_property';
+	}
+
+	// ── Build WHERE clause based on role ─────────────────────────────────
+	$is_admin = current_user_can( 'manage_options' );
+
+	if ( $is_admin ) {
+		// Admins can view any reservation
+		$query = $wpdb->prepare(
+			"SELECT r.*, p.title AS property_title, p.address AS property_address
+			FROM $res_table r
+			LEFT JOIN $prop_table p ON r.property_id = p.id
+			WHERE r.id = %d",
+			$res_id
+		);
+	} else {
+		// Regular users can only view their own reservations
+		$query = $wpdb->prepare(
+			"SELECT r.*, p.title AS property_title, p.address AS property_address
+			FROM $res_table r
+			LEFT JOIN $prop_table p ON r.property_id = p.id
+			WHERE r.id = %d AND r.user_id = %d",
+			$res_id,
+			$user_id
+		);
+	}
+
+	$data = $wpdb->get_row( $query );
 
 	if ( ! $data ) {
 		wp_send_json_error( array( 'message' => 'Reservation not found.' ) );
+		return;
 	}
+
+	// Append the secure property URL for the "View Property" button
+	$data->property_url = lef_get_secure_detail_url( $data->property_id );
 
 	wp_send_json_success( $data );
 }
