@@ -276,13 +276,16 @@
                 const serial = startIndex + index + 1;
                 const status = this.escapeHtml(item.status);
                 const statusText = this.escapeHtml(this.statusLabels[item.status] || item.status);
-                const imgUrl = item.image ? this.escapeHtml(item.image) : ''; // Add default if needed
+                
+                let imgUrl = item.image ? this.escapeHtml(item.image) : '';
+                let fallbackUrl = (window.lefMyProfileData && window.lefMyProfileData.plugin_url) ? window.lefMyProfileData.plugin_url + 'global-assets/images/placeholder.png' : '';
+                if (!imgUrl) imgUrl = fallbackUrl;
 
                 return `
                     <article class="lef-host-list-card" data-id="${this.escapeHtml(item.id)}">
                         <div class="lef-host-list-card-top">
                             <input class="lef-host-list-checkbox lef-host-list-row-checkbox" type="checkbox" aria-label="Select ${this.escapeHtml(item.title)}">
-                            <img class="lef-host-list-thumb" src="${imgUrl}" alt="${this.escapeHtml(item.title)}">
+                            <img class="lef-host-list-thumb" src="${imgUrl}" alt="${this.escapeHtml(item.title)}" onerror="this.onerror=null; this.src='${fallbackUrl}';">
                         </div>
                         <div class="lef-host-list-card-body">
                             <div class="lef-host-list-labels" aria-hidden="true">

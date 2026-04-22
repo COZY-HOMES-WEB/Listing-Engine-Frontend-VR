@@ -336,7 +336,8 @@ window.LEF_ViewEdit = {
         this.images.forEach((img,i)=>{
             var safeId = String(img.id).replace('.','_');
             var uploadingHtml = img.is_uploading ? '<div class="lef-ve-img-overlay"><div class="lef-ve-progress-bar"><div id="progress-'+safeId+'" class="lef-ve-progress-fill" style="width:0%"></div></div></div>' : '';
-            var item=$('<div class="lef-ve-img-item'+(i===0?' lef-ve-cover-img':'')+'" draggable="true" data-idx="'+i+'"><img src="'+this.esc(img.url)+'" alt="Property image '+(i+1)+'">'+uploadingHtml+'<button type="button" class="lef-ve-img-remove" data-idx="'+i+'" aria-label="Remove image">&times;</button></div>');
+            var fallbackUrl = (window.lefMyProfileData && window.lefMyProfileData.plugin_url) ? window.lefMyProfileData.plugin_url + 'global-assets/images/placeholder.png' : '';
+            var item=$('<div class="lef-ve-img-item'+(i===0?' lef-ve-cover-img':'')+'" draggable="true" data-idx="'+i+'"><img src="'+this.esc(img.url)+'" alt="Property image '+(i+1)+'" onerror="this.onerror=null; this.src=\''+fallbackUrl+'\';">'+uploadingHtml+'<button type="button" class="lef-ve-img-remove" data-idx="'+i+'" aria-label="Remove image">&times;</button></div>');
             item.find('.lef-ve-img-remove').on('click',(e)=>{
                 e.preventDefault();
                 var idx = $(e.currentTarget).data('idx');

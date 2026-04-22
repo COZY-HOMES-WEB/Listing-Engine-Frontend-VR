@@ -280,19 +280,22 @@ function lef_enqueue_assets() {
 			// Enqueue WP Media Library removed per user request
 
 			wp_localize_script( 'lef-my-profile-js', 'lefMyProfileData', array(
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'lef_myprofile_nonce' ),
+				'ajax_url'   => admin_url( 'admin-ajax.php' ),
+				'nonce'      => wp_create_nonce( 'lef_myprofile_nonce' ),
+				'plugin_url' => LEF_PLUGIN_URL,
 			) );
 
 			wp_localize_script( 'lef-my-bookings-js', 'lefMyProfileData', array(
-				'ajax_url' => admin_url( 'admin-ajax.php' ),
-				'nonce'    => wp_create_nonce( 'lef_myprofile_nonce' ),
+				'ajax_url'   => admin_url( 'admin-ajax.php' ),
+				'nonce'      => wp_create_nonce( 'lef_myprofile_nonce' ),
+				'plugin_url' => LEF_PLUGIN_URL,
 			) );
 
 			wp_localize_script( 'lef-edit-profile-js', 'lefMyProfileData', array(
-				'ajax_url'  => admin_url( 'admin-ajax.php' ),
-				'nonce'     => wp_create_nonce( 'lef_myprofile_nonce' ),
-				'countries' => lef_get_country_data(),
+				'ajax_url'   => admin_url( 'admin-ajax.php' ),
+				'nonce'      => wp_create_nonce( 'lef_myprofile_nonce' ),
+				'plugin_url' => LEF_PLUGIN_URL,
+				'countries'  => lef_get_country_data(),
 			) );
 		}
 
