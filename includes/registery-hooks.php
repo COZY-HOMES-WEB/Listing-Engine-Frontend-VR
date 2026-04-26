@@ -66,6 +66,79 @@ function lef_register_admin_menus() {
 add_action( 'admin_menu', 'lef_register_admin_menus' );
 
 // ─────────────────────────────────────────────────────────────
+// Pending Reservation Count Bubble
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Inject pending reservation count bubbles on the admin menu.
+ *
+ * Fires at priority 999 (after all menus are registered) to update:
+ *   1. The "Manage Reservations" submenu label.
+ *   2. The top-level "LEF" main menu label.
+ *
+ * Uses WordPress-native count bubble markup so it inherits the
+ * standard WP admin styling (same as Comments pending count).
+ *
+ * @global array $menu     WordPress global admin menu array.
+ * @global array $submenu  WordPress global admin submenu array.
+ * @return void
+ */
+function lef_inject_pending_reservation_bubble() {
+	global $menu, $submenu, $wpdb;
+
+	// ── 1. Query pending reservation count ──────────────────────
+	$table = $wpdb->prefix . 'ls_reservation';
+
+	// Guard: skip gracefully if the table does not exist yet
+	// (e.g. before the plugin's DB installer has run).
+	if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
+		return;
+	}
+
+	$pending_count = (int) $wpdb->get_var(
+		"SELECT COUNT(*) FROM `{$table}` WHERE `status` = 'pending'"
+	);
+
+	// Nothing pending — no bubble needed.
+	if ( $pending_count <= 0 ) {
+		return;
+	}
+
+	// ── 2. Build the WP-native count bubble HTML ─────────────────
+	// WordPress uses this exact markup for Comments, WooCommerce, etc.
+	// The CSS is already provided by wp-admin out of the box.
+	$bubble = sprintf(
+		' <span class="awaiting-mod count-%1$d"><span class="pending-count">%1$d</span></span>',
+		$pending_count
+	);
+
+	// ── 3. Update submenu: "Manage Reservations" ─────────────────
+	// $submenu[ parent_slug ] is an array of submenu entries.
+	// Each entry: [ 0 => title, 1 => capability, 2 => slug, 3 => page_title ]
+	if ( isset( $submenu['lef-main-menu'] ) ) {
+		foreach ( $submenu['lef-main-menu'] as &$item ) {
+			if ( isset( $item[2] ) && $item[2] === 'lef-manage-reservations' ) {
+				$item[0] = 'Manage Reservations' . $bubble;
+				break;
+			}
+		}
+		unset( $item ); // Break the reference after the loop.
+	}
+
+	// ── 4. Update main menu: "LEF" top-level item ────────────────
+	// $menu is a numerically indexed array.
+	// Each entry: [ 0 => title, 1 => capability, 2 => slug, ... ]
+	foreach ( $menu as &$main_item ) {
+		if ( isset( $main_item[2] ) && $main_item[2] === 'lef-main-menu' ) {
+			$main_item[0] = 'LEF' . $bubble;
+			break;
+		}
+	}
+	unset( $main_item ); // Break the reference.
+}
+add_action( 'admin_menu', 'lef_inject_pending_reservation_bubble', 999 );
+
+// ─────────────────────────────────────────────────────────────
 // Admin Pages Callbacks
 // ─────────────────────────────────────────────────────────────
 
