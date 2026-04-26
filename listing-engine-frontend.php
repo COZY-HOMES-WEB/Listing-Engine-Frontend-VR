@@ -4,11 +4,11 @@
  * Plugin Name: Listing Engine Frontend
  * Plugin URI: https://arttechfuzion.com
  * Description: Replicates property listing engine UI with dynamic data.
- * Version:     2.1.5
+ * Version:     2.1.6
  * Author:      Art-Tech Fuzion
  * Author URI:  https://arttechfuzion.com
  * Text Domain: listing-engine-frontend
- * Last Modified: 2026-04-22 - Added My Listings property add/edit form (view-edit panel, AJAX handlers, CSS, JS).
+ * Last Modified: 2026-04-25 - Updated edit profile to save full_name as display_name in wp_users instead of user meta.
  *
  * @package ListingEngineFrontend
  */
@@ -18,7 +18,7 @@ if (! defined('ABSPATH')) {
 }
 
 // Define Constants.
-define('LEF_VERSION', '2.1.5');
+define('LEF_VERSION', '2.1.6');
 define('LEF_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('LEF_PLUGIN_URL', plugin_dir_url(__FILE__));
 

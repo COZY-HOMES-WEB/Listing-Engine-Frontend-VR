@@ -18,8 +18,15 @@
 }
 
 @keyframes lef-ve-fade-in {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* =====================================================
@@ -29,8 +36,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 14px 0;
-    margin-bottom: 24px;
+    padding: 0 0 1rem 0;
+    margin-bottom: 2rem;
     border-bottom: 1px solid var(--leb-border-default);
     background: var(--leb-white);
     position: sticky;
@@ -64,8 +71,8 @@
 }
 
 .lef-ve-nav-heading {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 500;
     color: var(--leb-secondary-color);
 }
 
@@ -73,14 +80,14 @@
    FORM SECTIONS
    ===================================================== */
 .lef-ve-section {
-    margin-bottom: 24px;
+    margin-bottom: 3rem;
 }
 
 /* Two-column grid for location + type */
 .lef-ve-two-col-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 1.6rem;
 }
 
 @media (max-width: 600px) {
@@ -92,10 +99,11 @@
 /* =====================================================
    LABELS
    ===================================================== */
-.lef-ve-label {
+.lef-ve-label,
+.lef-ve-field-label {
     display: block;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 1.4rem;
+    font-weight: 400;
     color: var(--leb-text-muted);
     margin-bottom: 6px;
 }
@@ -112,38 +120,21 @@
     margin-left: 6px;
 }
 
-.lef-ve-section-heading {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--leb-secondary-color);
-    margin-bottom: 16px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--leb-border-default);
-}
-
-.lef-ve-field-label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--leb-text-muted);
-    margin-bottom: 6px;
-}
-
 /* =====================================================
    TEXT INPUT & TEXTAREA
    ===================================================== */
 .lef-ve-input,
 .lef-ve-textarea {
-    width: 100%;
-    padding: 12px 16px;
-    font-size: 15px;
+    width: 100% !important;
+    padding: 8px 13px !important;
+    font-size: 1.4rem !important;
     font-family: inherit;
-    color: var(--leb-text-color);
+    color: var(--leb-text-color) !important;
     background: var(--leb-white);
-    border: 1px solid var(--leb-border-default);
-    border-radius: 10px;
+    border: 1px solid var(--leb-border-default) !important;
+    border-radius: 10px !important;
     outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
 }
 
 .lef-ve-input::placeholder,
@@ -178,7 +169,7 @@
 .lef-ve-details-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
+    gap: 1.4rem;
 }
 
 @media (max-width: 900px) {
@@ -191,24 +182,23 @@
     .lef-ve-details-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
     .lef-ve-detail-field:nth-child(5) {
         grid-column: 1 / -1;
     }
 }
 
 .lef-ve-number-input {
-    width: 100%;
-    padding: 10px 14px;
-    font-size: 15px;
+    min-width: 100% !important;
+    padding: 10px 14px !important;
+    font-size: 15px !important;
     font-family: inherit;
-    color: var(--leb-text-color);
+    color: var(--leb-text-color) !important;
     background: var(--leb-white);
-    border: 1px solid var(--leb-border-default);
-    border-radius: 8px;
+    border: 1px solid var(--leb-border-default) !important;
+    border-radius: 8px !important;
     outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    /* Hide spinner arrows */
-    -moz-appearance: textfield;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
 }
 
 .lef-ve-number-input::-webkit-outer-spin-button,
@@ -291,7 +281,7 @@
 .lef-ve-img-item {
     position: relative;
     aspect-ratio: 16 / 10;
-    border-radius: 10px;
+    border-radius: 2rem !important;
     border: 1px solid var(--leb-border-default);
     overflow: hidden;
     cursor: grab;
@@ -299,7 +289,7 @@
 
 .lef-ve-img-item img {
     width: 100%;
-    height: 100%;
+    height: 100% !important;
     object-fit: cover;
     display: block;
 }
@@ -518,8 +508,13 @@
     flex-shrink: 0;
 }
 
-.lef-ve-dot-draft   { background: var(--leb-text-muted); }
-.lef-ve-dot-pending { background: var(--leb-warning-color); }
+.lef-ve-dot-draft {
+    background: var(--leb-text-muted);
+}
+
+.lef-ve-dot-pending {
+    background: var(--leb-warning-color);
+}
 
 /* =====================================================
    CALENDAR
@@ -614,7 +609,9 @@
     gap: 2px;
 }
 
-.lef-ve-cal-day-names { margin-bottom: 4px; }
+.lef-ve-cal-day-names {
+    margin-bottom: 4px;
+}
 
 .lef-ve-day-name {
     text-align: center;
@@ -825,10 +822,12 @@
     transform: scale(0.95);
     border: 2px dashed var(--leb-primary-color);
 }
+
 .lef-ve-img-item.lef-ve-drag-over {
     border: 2px solid var(--leb-primary-color);
     box-shadow: 0 0 10px rgba(var(--leb-primary-color-rgb), 0.3);
 }
+
 .lef-ve-img-overlay {
     position: absolute;
     inset: 0;
@@ -840,6 +839,7 @@
     z-index: 5;
     border-radius: inherit;
 }
+
 .lef-ve-progress-bar {
     width: 100%;
     height: 6px;
@@ -847,9 +847,17 @@
     border-radius: 4px;
     overflow: hidden;
 }
+
 .lef-ve-progress-fill {
     height: 100%;
     background: var(--leb-primary-color);
     width: 0%;
     transition: width 0.2s ease;
+}
+
+
+@media (max-width :991px ) {
+    .lef-ve-cal-month-header{
+        display: none;
+    }
 }

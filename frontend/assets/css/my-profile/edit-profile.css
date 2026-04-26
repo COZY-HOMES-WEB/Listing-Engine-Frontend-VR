@@ -1,26 +1,49 @@
 /* ─────────────────────────────────────────────────────────
-   Edit Profile (Sub-page) Styles
+   Common property for edit profile template
    ───────────────────────────────────────────────────────── */
+.lef-edit-prof-p-m-b-common {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: solid 1px var(--leb-border-color);
+}
 
+/* ─────────────────────────────────────────────────────────
+   Edit Profile Title Style
+   ───────────────────────────────────────────────────────── */
+.lef-edit-prof-title-row {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+}
+
+.lef-edit-prof-panel-title {
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.lef-edit-prof-panel-subtitle {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--leb-secondary-color);
+}
+
+/* ─────────────────────────────────────────────────────────
+   Edit Profile Photo & Details
+   ───────────────────────────────────────────────────────── */
 .lef-edit-prof-photo-row {
     align-items: center;
-    border-bottom: 1px solid var(--leb-border-color);
     display: flex;
-    gap: 24px;
-    padding-bottom: 32px;
-    margin-bottom: 32px;
+    gap: 1.4rem;
 }
 
 .lef-edit-prof-photo-preview {
     align-items: center;
-    background: var(--leb-primary-light-bg);
-    border: 1px solid var(--leb-border-color);
-    border-radius: 12px;
-    color: var(--leb-primary-color);
+    border: 2px solid var(--leb-border-default);
+    border-radius: 100rem;
     display: flex;
     flex: 0 0 auto;
-    font-size: 1.5rem;
-    font-weight: 800;
     height: 100px;
     justify-content: center;
     overflow: hidden;
@@ -29,32 +52,29 @@
 }
 
 .lef-edit-prof-photo-preview img {
-    display: none;
-    height: 100%;
+    height: 100% !important;
     object-fit: cover;
     width: 100%;
 }
 
-.lef-edit-prof-photo-preview.lef-edit-prof-photo-has-image img {
-    display: block;
-}
-
-.lef-edit-prof-photo-preview.lef-edit-prof-photo-has-image span {
-    display: none;
+.lef-edit-prof-photo-content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
 }
 
 .lef-edit-prof-photo-title {
     color: var(--leb-secondary-color);
-    font-size: 1.1rem;
-    font-weight: 800;
-    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1;
 }
 
 .lef-edit-prof-photo-text {
     color: var(--leb-text-muted);
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin: 6px 0 16px;
+    font-size: 1.2rem;
+    font-weight: 400;
 }
 
 .lef-edit-prof-upload-btn {
@@ -64,14 +84,15 @@
     border-radius: 10px;
     color: var(--leb-secondary-color);
     display: inline-flex;
-    font-size: 0.9rem;
-    font-weight: 800;
+    font-size: 1.2rem;
+    font-weight: 500;
     gap: 10px;
     justify-content: center;
-    min-height: 44px;
-    padding: 10px 18px;
+    min-height: auto;
+    padding: 8px 15px;
     transition: all 0.2s ease;
     cursor: pointer;
+    margin-top: 1rem;
 }
 
 .lef-edit-prof-upload-btn:hover {
@@ -81,8 +102,8 @@
 }
 
 .lef-edit-prof-upload-btn svg {
-    height: 18px;
-    width: 18px;
+    height: 15px;
+    width: 15px;
 }
 
 /* ── Form Grid ── */
@@ -105,28 +126,28 @@
 .lef-edit-prof-label {
     color: var(--leb-text-muted);
     display: block;
-    font-size: 0.88rem;
-    font-weight: 800;
+    font-size: 1.4rem;
+    font-weight: 400;
     margin-bottom: 10px;
+    line-height: 1;
 }
 
 .lef-edit-prof-input {
     background: var(--leb-white);
-    border: 2px solid var(--leb-border-default);
-    border-radius: 10px;
-    color: var(--leb-text-color);
-    font-size: 1rem;
-    font-weight: 700;
-    min-height: 52px;
+    border: 2px solid var(--leb-border-default) !important;
+    border-radius: 10px !important;
+    color: var(--leb-text-color) !important;
+    font-size: 1.4rem !important;
+    font-weight: 500;
+    min-height: 50px !important;
     outline: 0;
-    padding: 12px 18px;
-    transition: all 0.2s ease;
-    width: 100%;
+    padding: 10px 15px !important;
+    transition: all 0.2s ease !important;
+    width: 100% !important;
 }
 
 .lef-edit-prof-input:focus {
-    border-color: var(--leb-primary-color);
-    box-shadow: 0 0 0 4px var(--leb-primary-light-bg);
+    border-color: var(--leb-primary-color) !important;
 }
 
 .lef-edit-prof-input:disabled {
@@ -138,8 +159,8 @@
 
 .lef-edit-prof-help {
     color: var(--leb-text-muted);
-    font-size: 0.82rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 400;
     margin-top: 8px;
 }
 
@@ -226,35 +247,31 @@
 }
 
 .lef-edit-prof-pass-hint {
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 400;
     margin-top: 8px;
 }
 
 .lef-edit-prof-actions {
-    border-top: 1px solid var(--leb-border-color);
     display: flex;
     justify-content: flex-end;
-    margin-top: 32px;
-    padding-top: 24px;
 }
 
 .lef-edit-prof-save-btn {
     align-items: center;
     background: var(--leb-primary-color);
-    border: none;
+    border: none !important;
     border-radius: 12px;
-    color: var(--leb-white);
-    display: inline-flex;
-    font-size: 1rem;
-    font-weight: 800;
+    color: var(--leb-white) !important;
+    display: inline-flex !important;
+    font-size: 1.4rem !important;
+    font-weight: 500 !important;
     gap: 10px;
     justify-content: center;
-    min-height: 54px;
     min-width: 180px;
-    padding: 12px 28px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
+    padding: 12px 28px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    cursor: pointer !important;
 }
 
 .lef-edit-prof-save-btn:hover {
@@ -381,8 +398,8 @@
 /* ── Field Errors ── */
 .lef-edit-prof-field-error {
     color: var(--leb-error-color);
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 400;
     margin-top: 6px;
     display: none;
 }
@@ -399,8 +416,8 @@
     gap: 12px;
     cursor: pointer;
     transition: background 0.2s ease;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 1.4rem;
+    font-weight: 500;
     color: var(--leb-secondary-color);
 }
 
@@ -456,4 +473,38 @@
     font-weight: 800;
     cursor: pointer;
     padding: 2px 0;
+}
+
+
+@media (max-width: 375px) {
+    .lef-edit-prof-photo-preview {
+        width: 95px;
+        height: 95px;
+    }
+
+    .lef-edit-prof-photo-text,
+    .lef-edit-prof-upload-btn {
+        font-size: 1.1rem;
+    }
+
+    .lef-edit-prof-upload-btn {
+        margin-top: 0.5rem;
+    }
+
+    .lef-edit-prof-label{
+        font-size: 1.25rem;
+    }
+
+    .lef-edit-prof-input{
+        font-size: 1.25rem;
+    }
+
+    .lef-edit-prof-help, .lef-edit-prof-field-error,  .lef-edit-prof-pass-hint{
+        font-size: 1.1rem;
+    }
+
+    .lef-edit-prof-save-btn{
+        width: 100%;
+        font-size: 1.3rem;
+    }
 }

@@ -6,17 +6,14 @@
  *
  * @package ListingEngineFrontend
  */
- 
+
 /* ─────────────────────────────────────────────────────────
    Layout & Scaffolding
    ───────────────────────────────────────────────────────── */
 
 .lef-prof-page {
-    margin: 0 auto;
-    max-width: 1440px;
+    margin: 4rem auto;
     min-height: 100vh;
-    padding: 24px 20px 48px;
-    width: 100%;
 }
 
 .lef-prof-shell {
@@ -31,7 +28,6 @@
     background: var(--leb-white);
     border: 1px solid var(--leb-border-color);
     border-radius: 12px;
-    box-shadow: var(--leb-card-shadow);
     display: flex;
     gap: 14px;
     margin-bottom: 22px;
@@ -43,14 +39,14 @@
     align-items: center;
     background: var(--leb-white);
     border: 1px solid var(--leb-border-default);
-    border-radius: 8px;
+    border-radius: 100rem;
     color: var(--leb-secondary-color);
     display: inline-flex;
     flex: 0 0 auto;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     justify-content: center;
     transition: all 0.2s ease;
-    width: 42px;
     cursor: pointer;
 }
 
@@ -69,8 +65,8 @@
 
 .lef-prof-topbar-title {
     color: var(--leb-secondary-color);
-    font-size: 1.05rem;
-    font-weight: 800;
+    font-size: 1.8rem;
+    font-weight: 500;
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -80,18 +76,17 @@
 .lef-prof-sidebar {
     background: var(--leb-white);
     border: 1px solid var(--leb-border-color);
-    border-radius: 0 12px 12px 0;
     box-shadow: var(--leb-card-shadow);
     bottom: 0;
     left: 0;
-    max-width: calc(100vw - 42px);
-    overflow-y: auto;
     position: fixed;
     top: 0;
+    max-width: calc(100vw - 42px);
+    overflow-y: auto;
     transform: translateX(-105%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     width: 320px;
-    z-index: 40;
+    z-index: 100;
 }
 
 .lef-prof-sidebar.lef-prof-sidebar-open {
@@ -138,25 +133,32 @@
     color: var(--leb-white);
     display: flex;
     flex: 0 0 auto;
-    font-size: 1.1rem;
+    font-size: 1.8rem;
     font-weight: 800;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     justify-content: center;
-    width: 48px;
+}
+
+.lef-prof-user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
 }
 
 .lef-prof-sidebar-title {
     color: var(--leb-secondary-color);
-    font-size: 1rem;
-    font-weight: 800;
-    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+    word-break: break-all;
+    line-height: 1;
 }
 
-.lef-myprofile-wrapper .lef-prof-sidebar-text {
-    color: var(--leb-text-muted);
-    font-size: 0.82rem;
-    font-weight: 600;
-    margin-top: 2px;
+.lef-prof-sidebar-text {
+    color: var(--leb-secondary-color);
+    font-size: 1.3rem;
+    font-weight: 500;
 }
 
 /* ── Menu ── */
@@ -173,8 +175,8 @@
     border-radius: 10px;
     color: var(--leb-secondary-color);
     display: flex;
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: 1.3rem;
+    font-weight: 400;
     gap: 12px;
     justify-content: flex-start;
     min-height: 48px;
@@ -207,20 +209,13 @@
     opacity: 1;
 }
 
-.lef-prof-logout-trigger {
+.lef-prof-logout-trigger-container {
     margin-top: 10px;
     border-top: 1px solid var(--leb-border-color);
-    padding-top: 18px;
-    border-radius: 0;
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 0;
+    padding-top: 12px;
 }
 
-.lef-prof-logout-trigger:hover {
-    color: var(--leb-error-color);
-    background: var(--leb-error-light-bg);
-}
+
 
 /* ─────────────────────────────────────────────────────────
    Content Panel & Bucket
@@ -231,56 +226,14 @@
     border: 1px solid var(--leb-border-color);
     border-radius: 12px;
     box-shadow: var(--leb-card-shadow);
-    min-height: 600px;
     position: relative;
-    padding: 32px;
+    padding: 20px;
+    overflow-x: hidden;
 }
 
-@media (max-width: 640px) {
-    .lef-prof-panel {
-        padding: 20px;
-    }
-}
 
-/* ── Panel Header ── */
-.lef-prof-panel-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 32px;
-    gap: 20px;
-}
 
-@media (max-width: 640px) {
-    .lef-prof-panel-head {
-        flex-direction: column;
-        align-items: stretch;
-    }
-}
 
-.lef-prof-panel-title {
-    color: var(--leb-secondary-color);
-    font-size: 1.5rem;
-    font-weight: 800;
-    margin: 0;
-}
-
-.lef-prof-panel-subtitle {
-    color: var(--leb-text-muted);
-    font-size: 0.95rem;
-    font-weight: 500;
-    margin-top: 6px;
-}
-
-.lef-prof-panel-badge {
-    background: var(--leb-primary-light-bg);
-    color: var(--leb-primary-color);
-    font-size: 0.85rem;
-    font-weight: 800;
-    padding: 8px 16px;
-    border-radius: 8px;
-    white-space: nowrap;
-}
 
 /* ─────────────────────────────────────────────────────────
    Loaders & State
@@ -304,7 +257,9 @@
 }
 
 @keyframes lef-spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .lef-prof-panel.is-loading {
@@ -320,6 +275,24 @@ body.lef-prof-sidebar-lock {
     overflow: hidden !important;
 }
 
-body.lef-prof-sidebar-lock {
-    overflow: hidden !important;
+@media (max-width: 640px) {
+    .lef-prof-panel {
+        padding: 20px 15px;
+    }
+}
+
+
+@media (max-width: 425px) {
+    .lef-prof-topbar {
+        gap: 10px;
+    }
+
+    .lef-prof-menu-toggle, .lef-prof-sidebar-close {
+        width: 30px;
+        height: 30px;
+    }
+
+    .lef-prof-topbar-title {
+        font-size: 1.6rem;
+    }
 }

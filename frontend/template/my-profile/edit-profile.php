@@ -17,22 +17,10 @@ $user    = wp_get_current_user();
 $user_id = $user->ID;
 
 // Fetch current details
-$full_name     = get_user_meta($user_id, 'full_name', true);
+$full_name     = $user->display_name;
 $mobile_number = get_user_meta($user_id, 'mobile_number', true);
 $profile_pic   = lef_get_user_profile_pic($user_id);
 
-// Initial fallback
-if (empty($full_name)) {
-    $full_name = $user->display_name;
-}
-
-// Initials for avatar fallback
-$names    = explode(' ', $full_name);
-$initials = '';
-foreach ($names as $n) {
-    $initials .= strtoupper(substr($n, 0, 1));
-}
-$initials = substr($initials, 0, 2);
 
 // Parse mobile number to split code and number
 $current_code  = '+91';
@@ -44,7 +32,7 @@ if (!empty($mobile_number)) {
     if (count($parts) === 2) {
         $current_code  = $parts[0];
         $phone_display = $parts[1];
-        
+
         // Match flag using library data
         $lib_countries = lef_get_country_data();
         foreach ($lib_countries as $c) {
@@ -60,17 +48,14 @@ if (!empty($mobile_number)) {
 
 <div class="lef-edit-prof-wrapper" id="lef-edit-prof-panel">
     <!-- Title  -->
-    <div class="lef-edit-prof-title-row">
+    <div class="lef-edit-prof-title-row lef-edit-prof-p-m-b-common">
         <h2 class="lef-edit-prof-panel-title">Edit Profile</h2>
         <p class="lef-edit-prof-panel-subtitle">Update your personal information and security settings.</p>
     </div>
     <!-- Profile Photo Section -->
-    <div class="lef-edit-prof-photo-row">
-        <div class="lef-edit-prof-photo-preview <?php echo $profile_pic ? 'lef-edit-prof-photo-has-image' : ''; ?>" id="lef-edit-prof-avatar-preview">
-            <span><?php echo esc_html($initials); ?></span>
-            <?php if ($profile_pic) : ?>
-                <img src="<?php echo esc_url($profile_pic); ?>" alt="Profile preview" onerror="this.onerror=null; this.src='<?php echo esc_url(lef_get_asset_url('global-assets/images/placeholder-avatar.png')); ?>';">
-            <?php endif; ?>
+    <div class="lef-edit-prof-photo-row lef-edit-prof-p-m-b-common">
+        <div class="lef-edit-prof-photo-preview" id="lef-edit-prof-avatar-preview">
+            <img src="<?php echo $profile_pic ? esc_url($profile_pic) : esc_url(lef_get_asset_url('global-assets/images/placeholder-avatar.png')); ?>" alt="Profile preview" onerror="this.onerror=null; this.src='<?php echo esc_url(lef_get_asset_url('global-assets/images/placeholder-avatar.png')); ?>';">
         </div>
         <div class="lef-edit-prof-photo-content">
             <p class="lef-edit-prof-photo-title">Profile Picture</p>
@@ -101,7 +86,7 @@ if (!empty($mobile_number)) {
     </div>
 
     <form class="lef-edit-prof-form" id="lef-edit-prof-form">
-        <div class="lef-edit-prof-grid">
+        <div class="lef-edit-prof-grid lef-edit-prof-p-m-b-common">
             <!-- Full Name -->
             <div class="lef-edit-prof-field">
                 <label class="lef-edit-prof-label">Full Name</label>

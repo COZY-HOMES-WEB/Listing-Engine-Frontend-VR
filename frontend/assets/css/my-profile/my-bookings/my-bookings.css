@@ -10,47 +10,49 @@
 
 .lef-my-book-header {
     align-items: center;
-    background: var(--leb-white);
-    border: 1px solid var(--leb-border-color);
-    border-radius: 12px;
-    box-shadow: var(--leb-card-shadow);
     display: flex;
     justify-content: space-between;
-    margin-bottom: 24px;
-    padding: 20px 24px;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border: solid var(--leb-border-color);
+    border-width: 0 0 1px 0;
 }
 
 .lef-my-book-title-wrap {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
 }
 
 .lef-my-book-title-icon {
     align-items: center;
     background: var(--leb-primary-color);
     border-radius: 10px;
-    box-shadow: 0 10px 25px var(--leb-primary-glow);
     color: var(--leb-white);
     display: flex;
-    height: 48px;
+    height: 45px;
+    width: 45px;
     justify-content: center;
-    width: 48px;
+}
+
+.lef-my-book-title-icon svg {
+    height: 50%;
+    width: 50%;
 }
 
 .lef-my-book-title {
     color: var(--leb-secondary-color);
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-size: 2.2rem;
+    font-weight: 500;
     margin: 0;
     line-height: 1.2;
 }
 
 .lef-my-book-subtitle {
     color: var(--leb-text-muted);
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-top: 4px;
+    font-size: 1.2rem;
+    font-weight: 400;
+    width: 90%;
 }
 
 .lef-my-book-summary {
@@ -60,19 +62,22 @@
     border-radius: 10px;
     color: var(--leb-secondary-color);
     display: inline-flex;
-    font-size: 0.95rem;
-    font-weight: 800;
+    font-size: 1.2rem;
+    font-weight: 500;
     gap: 10px;
-    padding: 10px 16px;
+    padding: 8px 12px;
 }
 
 .lef-my-book-summary-count {
     background: var(--leb-primary-color);
-    border-radius: 8px;
+    border-radius: 100rem;
     color: var(--leb-white);
     padding: 4px 10px;
-    min-width: 34px;
+    min-width: 20px;
     text-align: center;
+    height: auto;
+    font-size: 1rem;
+    ;
 }
 
 /* ── Search ── */
@@ -83,11 +88,10 @@
 .lef-my-book-search-box {
     align-items: center;
     background: var(--leb-white);
-    border: 2px solid var(--leb-border-color);
-    border-radius: 12px;
-    box-shadow: var(--leb-card-shadow);
+    border: 1px solid var(--leb-border-color);
+    border-radius: 1rem;
     display: flex;
-    gap: 12px;
+    gap: 0.6rem;
     padding: 6px 16px;
     transition: all 0.2s ease;
 }
@@ -102,28 +106,34 @@
     border: 0;
     color: var(--leb-text-color);
     flex: 1;
-    font-size: 0.95rem;
-    font-weight: 700;
+    font-size: 1.4rem;
+    font-weight: 400;
     outline: 0;
-    padding: 12px 0;
+    padding: 8px 0;
 }
 
 .lef-my-book-search-icon {
     color: var(--leb-text-muted);
     display: flex;
     align-items: center;
+    width: 20px;
+    height: 20px;
+}
+
+.lef-my-book-search-icon svg {
+    width: 100%;
+    height: 100%;
 }
 
 /* ── Tabs ── */
 .lef-my-book-tabs {
     background: var(--leb-white);
     border: 1px solid var(--leb-border-color);
-    border-radius: 12px;
+    border-radius: 1rem;
     display: grid;
     gap: 8px;
     grid-template-columns: repeat(3, 1fr);
-    margin-bottom: 24px;
-    padding: 8px;
+    margin-bottom: 2rem;
 }
 
 .lef-my-book-tab {
@@ -133,11 +143,10 @@
     border-radius: 10px;
     color: var(--leb-text-muted);
     display: flex;
-    font-size: 0.95rem;
-    font-weight: 800;
+    font-size: 1.4rem;
+    font-weight: 400;
     gap: 8px;
     justify-content: center;
-    min-height: 48px;
     padding: 10px;
     transition: all 0.2s ease;
     cursor: pointer;
@@ -154,20 +163,22 @@
 }
 
 .lef-my-book-tab-count {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    font-size: 0.8rem;
-    padding: 2px 8px;
+    background: var(--leb-white);
+    color: var(--leb-text-color);
+    border: 0;
+    border-radius: 100rem;
+    font-size: 1rem;
+    padding: 2px 6px;
 }
 
 /* ── List ── */
 .lef-my-book-list-shell {
     background: var(--leb-white);
     border: 1px solid var(--leb-border-color);
-    border-radius: 12px;
-    box-shadow: var(--leb-card-shadow);
+    border-radius: 1rem;
     overflow: hidden;
+    position: relative;
+    min-height: 140px;
 }
 
 .lef-my-book-list-head {
@@ -175,19 +186,20 @@
     border-bottom: 1px solid var(--leb-border-color);
     display: flex;
     justify-content: space-between;
-    padding: 20px 24px;
+    padding: 20px;
+    gap: 2rem;
 }
 
 .lef-my-book-list-title {
     color: var(--leb-secondary-color);
-    font-weight: 800;
-    margin: 0;
+    font-weight: 500;
+    font-size: 1.8rem;
 }
 
 .lef-my-book-card-list {
     display: grid;
-    gap: 16px;
-    padding: 20px;
+    gap: 1.5rem;
+    padding: 1rem;
 }
 
 .lef-my-book-card {
@@ -195,81 +207,95 @@
     border: 1px solid var(--leb-border-color);
     border-radius: 10px;
     display: grid;
-    gap: 16px;
+    gap: 1rem;
     grid-template-columns: 50px 1fr auto;
-    padding: 16px;
+    padding: 1.4rem;
     transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
 }
 
 .lef-my-book-card:hover {
     border-color: var(--leb-primary-color);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
 }
 
 .lef-my-book-sno {
     align-items: center;
     background: var(--leb-primary-light-bg);
-    border-radius: 8px;
+    border-radius: 100rem;
     color: var(--leb-primary-color);
     display: flex;
-    font-weight: 800;
-    height: 44px;
+    font-weight: 500;
+    height: 40px;
     justify-content: center;
-    width: 44px;
+    width: 40px;
 }
 
 .lef-my-book-card-info {
     display: grid;
-    gap: 12px;
+    gap: 1.2rem;
     grid-template-columns: repeat(3, 1fr);
 }
 
 .lef-my-book-field-label {
     color: var(--leb-text-muted);
     display: block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    margin-bottom: 4px;
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 0.6rem;
+    line-height: 1;
 }
 
 .lef-my-book-field-value {
     color: var(--leb-text-color);
-    font-size: 0.95rem;
-    font-weight: 800;
+    font-size: 1.35rem;
+    font-weight: 500;
+    line-height: 1;
+    word-break: break-all;
 }
 
 .lef-my-book-status-badge {
-    border-radius: 6px;
+    border-radius: 100rem;
     display: inline-block;
-    font-size: 0.8rem;
-    font-weight: 800;
-    padding: 6px 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 4px 10px;
 }
 
-.lef-my-book-status-badge[data-status="pending"] { background: var(--leb-warning-light-bg); color: var(--leb-warning-color); }
-.lef-my-book-status-badge[data-status="completed"] { background: var(--leb-success-light-bg); color: var(--leb-success-color); }
-.lef-my-book-status-badge[data-status="rejected"] { background: var(--leb-error-light-bg); color: var(--leb-error-color); }
+.lef-my-book-status-badge[data-status="pending"] {
+    background: var(--leb-warning-light-bg);
+    color: var(--leb-warning-color);
+}
+
+.lef-my-book-status-badge[data-status="completed"] {
+    background: var(--leb-success-light-bg);
+    color: var(--leb-success-color);
+}
+
+.lef-my-book-status-badge[data-status="rejected"] {
+    background: var(--leb-error-light-bg);
+    color: var(--leb-error-color);
+}
 
 .lef-my-book-view-btn {
     align-items: center;
     background: var(--leb-primary-color);
     border: 0;
-    border-radius: 8px;
+    border-radius: 1rem;
     color: var(--leb-white);
     display: flex;
-    font-size: 0.85rem;
-    font-weight: 800;
-    gap: 8px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    gap: 0.5rem;
     padding: 0 16px;
-    height: 42px;
+    min-height: 30px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .lef-my-book-view-btn:hover {
     background: var(--leb-primary-dark);
-    box-shadow: 0 8px 20px var(--leb-primary-glow);
 }
 
 /* ── Pagination ── */
@@ -315,11 +341,14 @@
 
 /* ── Empty State ── */
 .lef-my-book-empty {
-    padding: 60px 20px;
-    text-align: center;
     color: var(--leb-text-muted);
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: 1.4rem;
+    font-weight: 400;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 2.5rem;
+    text-align: center;
 }
 
 /* ── Loader (shown during AJAX fetch) ── */
@@ -345,7 +374,9 @@
 }
 
 @keyframes lef-spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ── Error message (shown on AJAX network error) ── */
@@ -370,8 +401,9 @@
 /* ── List meta text (right side of list header) ── */
 .lef-my-book-list-meta {
     color: var(--leb-text-muted);
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-align: right;
 }
 
 /* ── Card actions wrapper ── */
@@ -382,17 +414,94 @@
 
 
 /* ── Mobile ── */
-@media (max-width: 800px) {
+@media (max-width: 670px) {
     .lef-my-book-card {
-        grid-template-columns: 44px 1fr;
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
     }
+
     .lef-my-book-card-actions {
-        grid-column: 1 / -1;
+        position: absolute;
+        right: 10px;
+        top: 10px;
     }
+
+    .lef-my-book-sno {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lef-my-book-summary {
+        font-size: 1rem;
+        gap: 0.8rem;
+    }
+
+    .lef-my-book-title {
+        font-size: 1.8rem;
+    }
+
+    .lef-my-book-subtitle {
+        font-size: 1.1rem;
+        line-height: 1.2;
+        margin-top: 0.4rem;
+    }
+}
+
+@media (max-width: 425px) {
+
+    .lef-my-book-list-head {
+        gap: 3rem;
+    }
+
+    .lef-my-book-list-title {
+        font-size: 1.45rem;
+        line-height: 1.1;
+    }
+
+    .lef-my-book-summary {
+        display: none;
+    }
+
+    .lef-my-book-tab {
+        font-size: 1.2rem;
+    }
+
+    .lef-my-book-tab-count {
+        font-size: 0.8rem;
+    }
+
     .lef-my-book-card-info {
         grid-template-columns: 1fr;
     }
+
+    .lef-my-book-field {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .lef-my-book-field-label {
+        margin: 0;
+        font-size: 1.25rem;
+    }
+
+    .lef-my-book-field-value {
+        font-size: 1.25rem;
+    }
+
+    #lef-my-book-pagination-info {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 360px) {
     .lef-my-book-tabs {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lef-prof-panel {
+        padding: 20px 10px;
     }
 }

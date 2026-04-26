@@ -12,8 +12,15 @@
 }
 
 @keyframes lefFadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -22,26 +29,24 @@
 .lef-mb-view-header {
     display: flex;
     align-items: center;
-    gap: 20px;
-    background: var(--leb-white);
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: var(--leb-card-shadow);
-    margin-bottom: 24px;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
     position: relative;
+    border-bottom: 1px solid var(--leb-border-color);
 }
 
 .lef-mb-view-back-btn {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     background: transparent;
     border: 1.5px solid var(--leb-border-color);
-    padding: 8px 16px;
+    padding: 4px 15px;
     border-radius: 8px;
     color: var(--leb-secondary-color);
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -54,17 +59,17 @@
 .lef-mb-view-page-title {
     flex: 1;
     text-align: center;
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-size: 1.8rem;
+    font-weight: 500;
     color: var(--leb-secondary-color);
-    margin: 0;
+    line-height: 1.1;
 }
 
 .lef-mb-view-status-badge {
     padding: 6px 16px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 800;
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
     text-transform: capitalize;
 }
 
@@ -73,11 +78,13 @@
     background: var(--leb-warning-light-bg);
     color: var(--leb-warning-color);
 }
+
 .lef-mb-view-status-badge[data-status="completed"],
 .lef-mb-view-status-badge[data-status="approve"] {
     background: var(--leb-success-light-bg);
     color: var(--leb-success-color);
 }
+
 .lef-mb-view-status-badge[data-status="rejected"],
 .lef-mb-view-status-badge[data-status="cancel"] {
     background: var(--leb-error-light-bg);
@@ -91,36 +98,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--leb-white);
-    padding: 24px 30px;
-    border-radius: 12px;
-    box-shadow: var(--leb-card-shadow);
-    margin-bottom: 24px;
-    border-left: 5px solid var(--leb-primary-color);
-}
-
-.lef-mb-view-prop-main {
-    display: flex;
-    gap: 60px;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    gap: 2rem;
+    border-bottom: 1px solid var(--leb-border-color);
 }
 
 .lef-mb-view-label {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--leb-text-muted);
-    margin-bottom: 6px;
-}
-
-.lef-mb-view-prop-title {
     font-size: 1.2rem;
-    font-weight: 800;
-    color: var(--leb-secondary-color);
-    margin: 0;
+    font-weight: 400;
+    color: var(--leb-text-muted);
+    margin-bottom: 0.6rem;
 }
 
 .lef-mb-view-value {
-    font-size: 1.1rem;
-    font-weight: 800;
+    font-size: 1.4rem;
+    font-weight: 500;
     color: var(--leb-text-color);
 }
 
@@ -129,42 +122,36 @@
     background: transparent;
     border: 1.5px solid var(--leb-border-color);
     color: var(--leb-secondary-color);
-    padding: 12px 24px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 800;
-    font-size: 0.95rem;
+    padding: 8px 12px;
+    border-radius: 1rem;
+    text-decoration: none !important;
+    font-weight: 500;
+    font-size: 1.2rem;
     transition: all 0.2s ease;
 }
 
 .lef-mb-view-btn-primary:hover {
-    background: var(--leb-secondary-color);
+    background: var(--leb-primary-dark);
     color: var(--leb-white);
-    border-color: var(--leb-secondary-color);
+    border-color: var(--leb-primary-dark);
 }
 
 /* ─────────────────────────────────────────────────────────────
    Details Grid & Cards
    ───────────────────────────────────────────────────────────── */
-.lef-mb-view-details-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 24px;
-}
-
 .lef-mb-view-details-card {
-    background: var(--leb-white);
-    border-radius: 12px;
-    box-shadow: var(--leb-card-shadow);
-    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
 }
 
 .lef-mb-view-card-header {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 20px 24px;
-    border-bottom: 1.5px solid var(--leb-border-color);
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--leb-border-color);
+    margin-bottom: 1rem;
 }
 
 .lef-mb-view-icon-wrap {
@@ -179,14 +166,10 @@
 }
 
 .lef-mb-view-card-title {
-    font-size: 1.1rem;
-    font-weight: 800;
+    font-size: 1.8rem;
+    font-weight: 500;
     color: var(--leb-secondary-color);
     margin: 0;
-}
-
-.lef-mb-view-card-body {
-    padding: 24px;
 }
 
 .lef-mb-view-info-row {
@@ -202,14 +185,14 @@
 }
 
 .lef-mb-view-item-label {
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 1.3rem;
+    font-weight: 400;
     color: var(--leb-text-muted);
 }
 
 .lef-mb-view-item-value {
-    font-size: 0.95rem;
-    font-weight: 800;
+    font-size: 1.3rem;
+    font-weight: 500;
     color: var(--leb-text-color);
     text-align: right;
 }
@@ -217,15 +200,25 @@
 /* ─────────────────────────────────────────────────────────────
    Responsive Tweaks
    ───────────────────────────────────────────────────────────── */
-@media (max-width: 991px) {
-    .lef-mb-view-prop-main { gap: 30px; }
+
+@media (max-width: 650px) {
+    .lef-mb-view-property-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .lef-mb-view-prop-action {
+        width: 100%;
+        text-align: center;
+    }
+
+    .lef-mb-view-btn-primary{
+        width: 100%;
+    }
 }
 
-@media (max-width: 768px) {
-    .lef-mb-view-header { flex-wrap: wrap; justify-content: space-between; gap: 10px; }
-    .lef-mb-view-page-title { order: 3; width: 100%; text-align: left; font-size: 1.2rem; }
-    .lef-mb-view-property-card { flex-direction: column; align-items: flex-start; gap: 20px; }
-    .lef-mb-view-prop-main { flex-direction: column; gap: 15px; }
-    .lef-mb-view-prop-action { width: 100%; }
-    .lef-mb-view-btn-primary { display: block; text-align: center; }
+@media (max-width: 650px) {
+    .lef-mb-view-page-title {
+        font-size: 1.4rem;
+    }
 }

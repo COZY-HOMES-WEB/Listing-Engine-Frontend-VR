@@ -1,30 +1,36 @@
 /* ─────────────────────────────────────────────────────────
+   Common property for Payout profile template
+   ───────────────────────────────────────────────────────── */
+.lef-payout-p-m-b-common {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: solid 1px var(--leb-border-color);
+}
+
+/* ─────────────────────────────────────────────────────────
    Payout Details module Styles
    Prefix: lef-payout-
    ───────────────────────────────────────────────────────── */
 
 .lef-payout-head {
     align-items: center;
-    border-bottom: 1px solid var(--leb-border-color);
     display: flex;
     gap: 16px;
     justify-content: space-between;
-    padding: 24px 30px;
 }
 
 .lef-payout-title {
     color: var(--leb-secondary-color);
-    font-size: 1.5rem;
-    font-weight: 800;
-    line-height: 1.15;
-    margin: 0;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1;
 }
 
 .lef-payout-subtitle {
     color: var(--leb-text-muted);
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin: 6px 0 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-top: 6px;
 }
 
 .lef-payout-badge {
@@ -34,15 +40,10 @@
     border-radius: 8px;
     color: var(--leb-primary-color);
     display: inline-flex;
-    font-size: 0.84rem;
-    font-weight: 800;
-    min-height: 38px;
+    font-size: 1.4rem;
+    font-weight: 500;
     padding: 8px 16px;
     white-space: nowrap;
-}
-
-.lef-payout-body {
-    padding: 30px;
 }
 
 .lef-payout-info {
@@ -52,9 +53,9 @@
     border-radius: 10px;
     color: var(--leb-info-color);
     display: flex;
-    font-size: 0.9rem;
-    font-weight: 800;
-    gap: 12px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    gap: 10px;
     margin-bottom: 24px;
     padding: 14px 18px;
 }
@@ -82,23 +83,24 @@
 .lef-payout-label {
     color: var(--leb-text-muted);
     display: block;
-    font-size: 0.88rem;
-    font-weight: 800;
+    font-size: 1.4rem;
+    font-weight: 400;
     margin-bottom: 10px;
+    line-height: 1;
 }
 
 .lef-payout-input {
     background: var(--leb-white);
-    border: 2px solid var(--leb-border-default);
-    border-radius: 10px;
-    color: var(--leb-text-color);
-    font-size: 1rem;
-    font-weight: 700;
-    min-height: 52px;
+    border: 1.4px solid var(--leb-border-default) !important;
+    border-radius: 10px !important;
+    color: var(--leb-text-color) !important;
+    font-size: 1.4rem !important;
+    font-weight: 500;
+    min-height: 40px !important;
     outline: 0;
-    padding: 12px 18px;
-    transition: all 0.2s ease;
-    width: 100%;
+    padding: 8px 15px !important;
+    transition: all 0.2s ease !important;
+    width: 100% !important;
 }
 
 .lef-payout-input:focus {
@@ -114,8 +116,8 @@
 /* ── Validation Errors ── */
 .lef-payout-field-error {
     color: var(--leb-error-color);
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 500;
     margin-top: 8px;
     display: none;
     transition: all 0.2s ease;
@@ -127,35 +129,39 @@
 }
 
 @keyframes lefFadeInDown {
-    from { opacity: 0; transform: translateY(-5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .lef-payout-actions {
     align-items: center;
-    border-top: 1px solid var(--leb-border-color);
     display: flex;
     justify-content: flex-end;
-    margin-top: 32px;
-    padding-top: 24px;
+    margin-top: 2rem;
 }
 
 .lef-payout-save-btn {
     align-items: center;
     background: var(--leb-primary-color);
-    border: 1px solid var(--leb-primary-color);
+    border: 1px solid var(--leb-primary-color) !important;
     border-radius: 12px;
-    color: var(--leb-white);
-    display: inline-flex;
-    font-size: 1rem;
-    font-weight: 800;
+    color: var(--leb-white) !important;
+    display: inline-flex !important;
+    font-size: 1.3rem !important;
+    font-weight: 500 !important;
     gap: 10px;
     justify-content: center;
-    min-height: 54px;
     min-width: 180px;
-    padding: 12px 28px;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
+    padding: 12px 18px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    cursor: pointer !important;
 }
 
 .lef-payout-save-btn:hover {
@@ -175,7 +181,7 @@
     .lef-payout-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .lef-payout-field-full {
         grid-column: auto;
     }
@@ -186,5 +192,20 @@
 
     .lef-payout-save-btn {
         width: 100%;
+    }
+}
+
+@media (max-width: 375px) {
+    .lef-payout-badge {
+        display: none;
+    }
+
+    .lef-payout-info {
+        align-items: flex-start;
+        font-size: 1.25rem;
+    }
+
+    .lef-payout-label {
+        font-size: 1.25rem;
     }
 }

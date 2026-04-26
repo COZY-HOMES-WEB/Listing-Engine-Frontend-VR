@@ -1,6 +1,6 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php if (! defined('ABSPATH')) exit; ?>
 <div class="lef-host-list-page">
-    <header class="lef-host-list-header">
+    <header class="lef-host-list-header lef-host-list-p-m-b-common">
         <div class="lef-host-list-header-left">
             <div class="lef-host-list-header-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -26,27 +26,26 @@
         </button>
     </header>
 
-    <section class="lef-host-list-search-panel" id="lef-host-list-search-panel" aria-label="Property search">
-        <div class="lef-host-list-search-box">
-            <span class="lef-host-list-search-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.35-4.35"></path>
-                </svg>
-            </span>
-            <input class="lef-host-list-search-input" id="lef-host-list-search-input" type="search"
-                placeholder="Search by title..." autocomplete="off">
-            <button class="lef-host-list-clear-btn" id="lef-host-list-clear-btn" type="button"
-                aria-label="Clear search">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 6 6 18"></path>
-                    <path d="m6 6 12 12"></path>
-                </svg>
-            </button>
-        </div>
-    </section>
+
+    <div class="lef-host-list-search-box">
+        <span class="lef-host-list-search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+        </span>
+        <input class="lef-host-list-search-input" id="lef-host-list-search-input" type="search"
+            placeholder="Search by title..." autocomplete="off">
+        <button class="lef-host-list-clear-btn" id="lef-host-list-clear-btn" type="button"
+            aria-label="Clear search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+            </svg>
+        </button>
+    </div>
 
     <nav class="lef-host-list-tabs" aria-label="Property status tabs">
         <button class="lef-host-list-tab lef-host-list-tab-active" type="button" data-lef-host-list-status-tab="published"

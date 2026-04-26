@@ -1371,7 +1371,7 @@ function lef_edit_prof_save_changes() {
 
 	// Full Name
 	if ( ! empty( $full_name ) ) {
-		update_user_meta( $user_id, 'full_name', $full_name );
+		wp_update_user( array( 'ID' => $user_id, 'display_name' => $full_name ) );
 	}
 
 	// Email
@@ -1491,7 +1491,7 @@ function lef_edit_prof_save_direct() {
 
 	// Update Full Name
 	if ( ! empty( $full_name ) ) {
-		update_user_meta( $user_id, 'full_name', $full_name );
+		wp_update_user( array( 'ID' => $user_id, 'display_name' => $full_name ) );
 	}
 
 	wp_send_json_success( array( 'message' => 'Profile updated successfully.' ) );

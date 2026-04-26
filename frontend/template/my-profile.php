@@ -53,9 +53,9 @@ $profile_pic = lef_get_user_profile_pic($user_id);
                 <div class="lef-prof-sidebar-head">
                     <div class="lef-prof-sidebar-user">
                         <div class="lef-prof-avatar"><?php echo esc_html($initials); ?></div>
-                        <div>
+                        <div class="lef-prof-user-details">
                             <h1 class="lef-prof-sidebar-title"><?php echo esc_html($display_name); ?></h1>
-                            <p class="lef-prof-sidebar-text">Manage account details</p>
+                            <p class="lef-prof-sidebar-text"><?php echo esc_html($user_email); ?></p>
                         </div>
                     </div>
                     <button class="lef-prof-sidebar-close" id="lef-prof-sidebar-close" type="button" aria-label="Close menu">
@@ -66,18 +66,18 @@ $profile_pic = lef_get_user_profile_pic($user_id);
                     </button>
                 </div>
 
-<?php
-// Determine Role Flags
-$is_admin_or_host = array_intersect( ['administrator', 'host'], (array) $current_user->roles );
-$is_traveller     = in_array( 'traveller', (array) $current_user->roles );
+                <?php
+                // Determine Role Flags
+                $is_admin_or_host = array_intersect(['administrator', 'host'], (array) $current_user->roles);
+                $is_traveller     = in_array('traveller', (array) $current_user->roles);
 
-// Fetch dynamic logout URL
-global $wpdb;
-$logout_url = $wpdb->get_var( "SELECT value FROM wp_admin_management WHERE name = 'logout'" );
-if ( ! $logout_url ) {
-    $logout_url = wp_logout_url( home_url() );
-}
-?>
+                // Fetch dynamic logout URL
+                global $wpdb;
+                $logout_url = $wpdb->get_var("SELECT value FROM wp_admin_management WHERE name = 'logout'");
+                if (! $logout_url) {
+                    $logout_url = wp_logout_url(home_url());
+                }
+                ?>
                 <nav class="lef-prof-menu">
                     <button class="lef-prof-menu-btn lef-prof-menu-active" type="button" data-screen="edit-profile">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -86,8 +86,8 @@ if ( ! $logout_url ) {
                         </svg>
                         Edit Profile
                     </button>
-                    
-                    <?php if ( $is_admin_or_host ) : ?>
+
+                    <?php if ($is_admin_or_host) : ?>
                         <button class="lef-prof-menu-btn" type="button" data-screen="pay-out">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="2" y="5" width="20" height="14" rx="2"></rect>
@@ -97,7 +97,7 @@ if ( ! $logout_url ) {
                         </button>
                     <?php endif; ?>
 
-                    <?php if ( $is_traveller ) : ?>
+                    <?php if ($is_traveller) : ?>
                         <button class="lef-prof-menu-btn" type="button" data-screen="my-bookings">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M8 2v4"></path>
@@ -109,7 +109,7 @@ if ( ! $logout_url ) {
                         </button>
                     <?php endif; ?>
 
-                    <?php if ( $is_admin_or_host ) : ?>
+                    <?php if ($is_admin_or_host) : ?>
                         <button class="lef-prof-menu-btn" type="button" data-screen="my-listings">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M3 21h18"></path>
@@ -120,14 +120,16 @@ if ( ! $logout_url ) {
                         </button>
                     <?php endif; ?>
 
-                    <a href="<?php echo esc_url( $logout_url ); ?>" class="lef-prof-menu-btn lef-prof-logout-trigger" style="text-decoration: none;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                            <path d="m16 17 5-5-5-5"></path>
-                            <path d="M21 12H9"></path>
-                        </svg>
-                        Logout
-                    </a>
+                    <div class="lef-prof-logout-trigger-container">
+                        <a href="<?php echo esc_url($logout_url); ?>" class="lef-prof-menu-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <path d="m16 17 5-5-5-5"></path>
+                                <path d="M21 12H9"></path>
+                            </svg>
+                            Logout
+                        </a>
+                    </div>
                 </nav>
             </aside>
 

@@ -89,9 +89,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
         <!-- ===== SECTION 5: PROPERTY DETAILS GRID ===== -->
         <div class="lef-ve-section">
-            <div class="lef-ve-section-heading">
-                Property Details <span class="lef-ve-required" aria-hidden="true">*</span>
-            </div>
             <div class="lef-ve-details-grid">
                 <div class="lef-ve-detail-field">
                     <label for="lef-ve-guests" class="lef-ve-field-label">Guests <span class="lef-ve-required">*</span></label>

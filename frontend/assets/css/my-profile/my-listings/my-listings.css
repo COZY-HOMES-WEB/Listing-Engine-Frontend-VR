@@ -1,40 +1,36 @@
 /* Note: Global variables like --leb-primary-color come from global.css */
-.lef-host-list-page {
-    width: 100%;
+
+/* ─────────────────────────────────────────────────────────
+   Common property for edit profile template
+   ───────────────────────────────────────────────────────── */
+.lef-host-list-p-m-b-common {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: solid 1px var(--leb-border-color);
 }
 
-.lef-host-list-header,
-.lef-host-list-search-panel,
-.lef-host-list-tabs,
-.lef-host-list-list-panel {
-    background: var(--leb-white);
-    border: 1px solid var(--leb-border-color);
-    border-radius: 8px;
-    box-shadow: var(--leb-card-shadow);
-    width: 100%;
-}
 
+/* ─────────────────────────────────────────────────────────
+   MAIN property for edit profile template
+   ───────────────────────────────────────────────────────── */
 .lef-host-list-header {
     align-items: center;
     display: flex;
-    gap: 16px;
+    gap: 1rem;
     justify-content: space-between;
-    margin-bottom: 22px;
-    min-height: 70px;
-    padding: 16px 18px;
 }
 
 .lef-host-list-header-left {
     align-items: center;
     display: flex;
-    gap: 14px;
+    gap: 1rem;
     min-width: 0;
 }
 
 .lef-host-list-header-icon {
     align-items: center;
     background: var(--leb-primary-color);
-    border-radius: 8px;
+    border-radius: 100rem;
     color: var(--leb-white);
     display: flex;
     flex: 0 0 auto;
@@ -44,41 +40,46 @@
 }
 
 .lef-host-list-header-icon svg {
-    height: 23px;
-    width: 23px;
+    height: 60%;
+    width: 60%;
 }
 
 .lef-host-list-title {
+    font-size: 2.6rem;
+    font-weight: 500;
+}
+
+.lef-host-list-entry {
     color: var(--leb-secondary-color);
-    font-size: 1.5rem;
-    font-weight: 800;
-    line-height: 1.15;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
 }
 
 .lef-host-list-add-btn {
     align-items: center;
     background: var(--leb-primary-color);
-    border: 1px solid var(--leb-primary-color);
     border-radius: 8px;
     color: var(--leb-white);
     display: inline-flex;
-    font-size: 0.92rem;
-    font-weight: 800;
+    font-size: 1.4rem;
+    font-weight: 500;
     gap: 8px;
     justify-content: center;
-    min-height: 38px;
-    min-width: 168px;
-    padding: 8px 18px;
-    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 8px 15px;
     white-space: nowrap;
 }
 
 .lef-host-list-add-btn:hover,
 .lef-host-list-add-btn:focus-visible {
     background: var(--leb-primary-dark);
-    border-color: var(--leb-primary-dark);
-    box-shadow: 0 12px 30px var(--leb-primary-glow);
     outline: 0;
+    cursor: pointer;
+    transform: translateY(-2px);
+    transition: 0.2s ease-in-out;
 }
 
 .lef-host-list-add-btn svg {
@@ -86,20 +87,14 @@
     width: 16px;
 }
 
-.lef-host-list-search-panel {
-    margin-bottom: 18px;
-    padding: 13px 18px;
-}
-
 .lef-host-list-search-box {
     align-items: center;
     display: flex;
     gap: 12px;
-    min-height: 34px;
-}
-
-.lef-host-list-search-panel.lef-host-list-search-focused {
-    box-shadow: var(--leb-focus-shadow);
+    margin-bottom: 2rem;
+    border: solid 1px var(--leb-border-color);
+    border-radius: 1rem;
+    padding: 1rem;
 }
 
 .lef-host-list-search-icon {
@@ -111,8 +106,8 @@
 }
 
 .lef-host-list-search-icon svg {
-    height: 20px;
-    width: 20px;
+    height: 18px;
+    width: 18px;
 }
 
 .lef-host-list-search-input {
@@ -120,8 +115,8 @@
     border: 0;
     color: var(--leb-text-color);
     flex: 1;
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 1.4rem;
+    font-weight: 400;
     min-width: 0;
     outline: 0;
     width: 100%;
@@ -135,13 +130,11 @@
     align-items: center;
     background: var(--leb-bg-light);
     border: 1px solid var(--leb-border-color);
-    border-radius: 8px;
+    border-radius: 100rem;
+    padding: 2px;
     color: var(--leb-text-muted);
     display: none;
-    height: 32px;
     justify-content: center;
-    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    width: 32px;
 }
 
 .lef-host-list-clear-btn.lef-host-list-clear-visible {
@@ -161,24 +154,21 @@
 
 .lef-host-list-tabs {
     display: grid;
-    gap: 0;
+    gap: 1rem;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    margin-bottom: 18px;
-    padding: 8px;
 }
 
 .lef-host-list-tab {
     align-items: center;
     background: transparent;
-    border: 0;
+    border: solid 1px var(--leb-border-color);
     border-radius: 8px;
     color: var(--leb-text-color);
     display: inline-flex;
-    font-size: 0.9rem;
-    font-weight: 800;
+    font-size: 1.4rem;
+    font-weight: 400;
     gap: 8px;
     justify-content: center;
-    min-height: 40px;
     padding: 9px 12px;
     transition: background 0.2s ease, color 0.2s ease;
     white-space: nowrap;
@@ -201,53 +191,45 @@
     border-radius: 8px;
     color: var(--leb-text-muted);
     display: inline-flex;
-    font-size: 0.74rem;
-    font-weight: 800;
+    font-size: 1rem;
+    font-weight: 500;
     height: 22px;
     justify-content: center;
     min-width: 22px;
     padding: 0 6px;
 }
 
-.lef-host-list-tab-active .lef-host-list-tab-count {
-    background: var(--leb-white-alpha-40);
-    color: var(--leb-white);
-}
-
-.lef-host-list-list-panel {
-    overflow: hidden;
-    padding: 0 14px 22px;
-}
-
 .lef-host-list-select-row-wrap {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    min-height: 56px;
-    gap: 12px;
+    gap: 1rem;
     flex-wrap: wrap;
     border-bottom: 1px solid var(--leb-border-color);
-    margin-bottom: 15px;
+    margin: 2rem 0rem;
+    min-height: 60px;
 }
 
 .lef-host-list-select-row {
     align-items: center;
     display: flex;
-    gap: 12px;
+    gap: 1rem;
 }
 
 .lef-host-list-bulk-actions {
     align-items: center;
     display: flex;
-    gap: 8px;
+    gap: 1rem;
 }
 
 .lef-host-list-bulk-select {
-    padding: 6px 10px;
+    padding: 0 1rem;
     border-radius: 6px;
     border: 1px solid var(--leb-border-default);
-    font-size: 0.85rem;
+    font-size: 1.2rem;
     color: var(--leb-secondary-color);
+    width: 120px;
+    min-height: 30px;
 }
 
 .lef-host-list-bulk-btn {
@@ -255,11 +237,13 @@
     border: 1px solid var(--leb-border-default);
     border-radius: 6px;
     color: var(--leb-secondary-color);
-    padding: 6px 12px;
-    font-size: 0.82rem;
-    font-weight: 700;
+    padding: 0.4rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 400;
     cursor: pointer;
+    min-height: 30px;
 }
+
 .lef-host-list-bulk-btn:hover {
     background: var(--leb-primary-light-bg);
     border-color: var(--leb-primary-color);
@@ -269,6 +253,7 @@
 .lef-host-list-bulk-delete {
     color: var(--leb-error-color);
 }
+
 .lef-host-list-bulk-delete:hover {
     background: var(--leb-error-light-bg);
     border-color: var(--leb-error-color);
@@ -276,29 +261,16 @@
 }
 
 .lef-host-list-checkbox {
-    appearance: none;
+    appearance: none !important;
     background: var(--leb-white);
-    border: 2px solid var(--leb-border-default);
+    border: 2px solid var(--leb-border-default) !important;
     border-radius: 4px;
-    display: inline-grid;
+    display: inline-grid !important;
     flex: 0 0 auto;
-    height: 18px;
-    margin: 0;
+    height: 18px !important;
+    margin: 0 !important;
     place-content: center;
-    width: 18px;
-}
-
-.lef-host-list-checkbox::before {
-    background: var(--leb-primary-color);
-    content: "";
-    height: 9px;
-    transform: scale(0);
-    transition: transform 0.12s ease-in-out;
-    width: 9px;
-}
-
-.lef-host-list-checkbox:checked::before {
-    transform: scale(1);
+    width: 18px !important;
 }
 
 .lef-host-list-checkbox:focus-visible {
@@ -308,65 +280,61 @@
 
 .lef-host-list-select-label {
     color: var(--leb-text-muted);
-    font-size: 0.84rem;
-    font-weight: 800;
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1;
 }
 
 .lef-host-list-card-list {
     display: grid;
-    gap: 10px;
+    gap: 1.8rem;
 }
 
 .lef-host-list-card {
+    position: relative;
     background: var(--leb-white);
     border: 1px solid var(--leb-border-default);
-    border-radius: 8px;
-    min-height: 244px;
+    border-radius: 2rem;
     overflow: hidden;
     padding: 12px;
+}
+
+input.lef-host-list-row-checkbox {
+    position: absolute;
+    top: 14px;
+    left: 45px;
 }
 
 .lef-host-list-card-top {
     align-items: flex-start;
     display: flex;
     justify-content: space-between;
-    min-height: 42px;
 }
 
 .lef-host-list-thumb {
     background: var(--leb-primary-light-bg);
-    border: 1px solid var(--leb-border-color);
-    border-radius: 8px;
-    height: 48px;
+    border: 1px solid var(--leb-border-color) !important;
+    border-radius: 8px !important;
+    height: 50px !important;
     object-fit: cover;
-    width: 48px;
+    width: 50px;
 }
 
 .lef-host-list-card-body {
     display: grid;
-    gap: 18px;
-    grid-template-columns: minmax(160px, 0.9fr) minmax(280px, 2fr);
-    padding: 4px 0 20px;
-}
-
-.lef-host-list-labels,
-.lef-host-list-values {
-    display: grid;
-    gap: 10px;
-}
-
-.lef-host-list-values {
-    padding-top: 34px;
+    gap: 1.6rem;
+    grid-template-columns: repeat(1, 1fr);
+    padding: 1rem 0;
 }
 
 .lef-host-list-sno {
     align-items: center;
     background: var(--leb-primary-color);
-    border-radius: 8px;
+    border-radius: 100rem;
     color: var(--leb-white);
     display: inline-flex;
-    font-size: 0.78rem;
-    font-weight: 800;
+    font-size: 1.2rem;
+    font-weight: 500;
     height: 24px;
     justify-content: center;
     min-width: 24px;
@@ -374,27 +342,25 @@
     width: max-content;
 }
 
-.lef-host-list-mobile-sno {
-    display: none;
-}
-
 .lef-host-list-label {
     color: var(--leb-text-muted);
-    font-size: 0.82rem;
-    font-weight: 800;
-    min-height: 22px;
+    font-size: 1.3rem;
+    line-height: 1;
+    font-weight: 500;
+    width: 20%;
 }
 
 .lef-host-list-value {
     align-items: center;
     color: var(--leb-text-color);
     display: flex;
-    font-size: 0.84rem;
-    font-weight: 800;
+    font-size: 1.3rem;
+    font-weight: 500;
     justify-content: flex-end;
-    min-height: 22px;
     text-align: right;
     word-break: break-word;
+    line-height: 1.2;
+    width: 80%;
 }
 
 .lef-host-list-status {
@@ -402,11 +368,10 @@
     border: 1px solid var(--leb-border-default);
     border-radius: 8px;
     display: inline-flex;
-    font-size: 0.78rem;
-    font-weight: 800;
+    font-size: 1rem;
+    font-weight: 500;
     justify-content: center;
     line-height: 1;
-    min-height: 30px;
     padding: 7px 12px;
     text-transform: capitalize;
     white-space: nowrap;
@@ -445,11 +410,10 @@
     border-radius: 8px;
     color: var(--leb-secondary-color);
     display: inline-flex;
-    font-size: 0.82rem;
-    font-weight: 800;
+    font-size: 1.1rem;
+    font-weight: 500;
     gap: 6px;
     justify-content: center;
-    min-height: 32px;
     min-width: 82px;
     padding: 6px 12px;
     transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
@@ -498,14 +462,14 @@
 
 .lef-host-list-empty-title {
     color: var(--leb-secondary-color);
-    font-size: 1rem;
-    font-weight: 800;
+    font-size: 2rem;
+    font-weight: 600;
 }
 
 .lef-host-list-empty-text {
     color: var(--leb-text-muted);
-    font-size: 0.88rem;
-    font-weight: 700;
+    font-size: 1.3rem;
+    font-weight: 400;
 }
 
 .lef-host-list-pagination {
@@ -519,8 +483,8 @@
 
 .lef-host-list-pagination-text {
     color: var(--leb-text-muted);
-    font-size: 0.96rem;
-    font-weight: 700;
+    font-size: 1.4rem;
+    font-weight: 400;
 }
 
 .lef-host-list-pagination-controls {
@@ -538,8 +502,8 @@
     border-radius: 8px;
     color: var(--leb-text-muted);
     display: inline-flex;
-    font-size: 0.82rem;
-    font-weight: 800;
+    font-size: 1rem;
+    font-weight: 500;
     height: 34px;
     justify-content: center;
     min-width: 34px;
@@ -570,88 +534,57 @@
     width: 16px;
 }
 
-@media (max-width: 760px) {
-    .lef-host-list-select-row-wrap {
-        align-items: stretch;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-    }
-    .lef-host-list-header {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .lef-host-list-add-btn,
+@media (max-width:580px) {
     .lef-host-list-tabs {
-        width: 100%;
-    }
-
-    .lef-host-list-tabs {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .lef-host-list-card {
-        min-height: auto;
-    }
-
-    .lef-host-list-card-body {
-        grid-template-columns: 1fr;
-    }
-
-    .lef-host-list-labels {
-        display: none;
-    }
-
-    .lef-host-list-values {
-        padding-top: 0;
-    }
-
-    .lef-host-list-mobile-sno {
-        display: flex;
-    }
-
-    .lef-host-list-value {
-        border-bottom: 1px solid var(--leb-border-color);
-        justify-content: space-between;
-        text-align: right;
-    }
-
-    .lef-host-list-value::before {
-        color: var(--leb-text-muted);
-        content: attr(data-lef-host-list-label);
-        flex: 0 0 auto;
-        font-size: 0.82rem;
-        font-weight: 800;
-        padding-right: 12px;
-        text-align: left;
-    }
-
-    .lef-host-list-actions {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .lef-host-list-action-btn {
-        width: 100%;
-    }
-
-    .lef-host-list-pagination {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .lef-host-list-pagination-controls {
-        justify-content: center;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media (max-width: 420px) {
-    .lef-host-list-title {
-        font-size: 1.25rem;
+@media (max-width:425px) {
+
+    .lef-host-list-header-icon {
+        height: 36px;
+        width: 36px;
     }
 
-    .lef-host-list-tabs {
-        grid-template-columns: 1fr;
+    .lef-host-list-title {
+        font-size: 2rem;
+    }
+
+    .lef-host-list-add-btn,
+    .lef-host-list-tab {
+        font-size: 1.2rem;
+    }
+
+    .lef-host-list-tab-count {
+        height: auto;
+        min-width: auto;
+    }
+}
+
+@media (max-width:370px) {
+
+    .lef-host-list-title {
+        font-size: 1.7rem;
+        line-height: 1.2;
+    }
+
+    .lef-host-list-add-btn {
+        font-size: 0.9rem;
+    }
+
+    .lef-host-list-sno {
+        min-width: 20px;
+        height: 20px;
+    }
+
+    .lef-host-list-label,
+    .lef-host-list-value {
+        font-size: 1.2rem;
+    }
+
+    .lef-host-list-action-btn{
+        font-size: 1rem;
+        min-width: 75px;
     }
 }

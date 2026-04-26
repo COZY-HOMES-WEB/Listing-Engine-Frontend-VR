@@ -184,8 +184,8 @@
             <div class="lef-my-book-sno">${sNo}</div>
             <div class="lef-my-book-card-info">
               <div class="lef-my-book-field">
-                <span class="lef-my-book-field-label">Reservation #</span>
-                <span class="lef-my-book-field-value">${item.reservation_number}</span>
+                <span class="lef-my-book-field-label">Reservation</span>
+                <span class="lef-my-book-field-value">#${item.reservation_number}</span>
               </div>
               <div class="lef-my-book-field">
                 <span class="lef-my-book-field-label">Status</span>

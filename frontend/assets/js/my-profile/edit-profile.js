@@ -165,11 +165,7 @@
 
             const reader = new FileReader();
             reader.onload = (event) => {
-                this.$avatarPreview.addClass('lef-edit-prof-photo-has-image');
                 let $img = this.$avatarPreview.find('img');
-                if (!$img.length) {
-                    $img = $('<img alt="Profile Preview">').appendTo(this.$avatarPreview);
-                }
                 $img.attr('src', event.target.result);
             };
             reader.readAsDataURL(file);
@@ -380,11 +376,7 @@
                     }
 
                     if (res.success) {
-                        self.$avatarPreview.addClass('lef-edit-prof-photo-has-image');
                         let $img = self.$avatarPreview.find('img');
-                        if (!$img.length) {
-                             $img = $('<img alt="Profile Preview">').appendTo(self.$avatarPreview);
-                        }
                         $img.attr('src', res.data.url);
                         self.$progressWrapper.hide();
                         window.LEF_Toast ? window.LEF_Toast.show(res.data.message, 'success') : null;
