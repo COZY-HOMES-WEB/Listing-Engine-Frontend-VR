@@ -54,7 +54,7 @@ function lef_register_admin_menus() {
 	add_submenu_page(
 		'lef-main-menu',
 		'Manage Reservations',
-		'Manage Reservations',
+		'Manage Reserv',
 		'manage_options',
 		'lef-manage-reservations',
 		'lef_render_manage_reservations_page'
@@ -118,7 +118,7 @@ function lef_inject_pending_reservation_bubble() {
 	if ( isset( $submenu['lef-main-menu'] ) ) {
 		foreach ( $submenu['lef-main-menu'] as &$item ) {
 			if ( isset( $item[2] ) && $item[2] === 'lef-manage-reservations' ) {
-				$item[0] = 'Manage Reservations' . $bubble;
+				$item[0] = 'Manage Reserv' . $bubble;
 				break;
 			}
 		}
