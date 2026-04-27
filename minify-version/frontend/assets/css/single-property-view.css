@@ -792,12 +792,50 @@ span.lefdk-lf-price-unit {
     gap: 1rem;
 }
 
+.lefdk-sm-header-cont {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.lefdk-sm-nav {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.lefdk-sm-nav-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--leb-border-default);
+    background: var(--leb-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lefdk-sm-nav-btn:hover {
+    background: var(--leb-bg-light);
+    border-color: var(--leb-text-color);
+}
+
+.lefdk-sm-nav-btn svg {
+    width: 12px;
+    height: 12px;
+}
+
 .lefdk-sm-r-cards,
 .lefmb-sm-r-cards {
     display: flex;
     gap: 1.2rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
     padding: 0.5rem 0;
     width: 100%;
     -webkit-overflow-scrolling: touch;
