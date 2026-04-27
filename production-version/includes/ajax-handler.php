@@ -273,11 +273,8 @@ function lef_get_property_reviews() {
 		// Fetch reviewer profile pic using helper
 		$pic_url = lef_get_user_profile_pic( $rev->user_id );
 
-		// Fetch reviewer full name
-		$full_name = get_user_meta( $rev->user_id, 'full_name', true );
-		if ( empty( $full_name ) ) {
-			$full_name = $rev->display_name;
-		}
+		// Fetch reviewer display name
+		$full_name = $rev->display_name;
 
 		$result[] = array(
 			'id'         => $rev->id,
@@ -619,20 +616,14 @@ function lef_submit_reservation() {
 		"SELECT title, host_id, price FROM {$wpdb->prefix}ls_property WHERE id = %d", $property_id
 	) );
 
-	$user_info   = get_userdata( $user_id );
-	$user_name   = get_user_meta( $user_id, 'full_name', true );
-	if ( empty( $user_name ) ) {
-		$user_name = $user_info->display_name;
-	}
+	$user_info  = get_userdata( $user_id );
+	$user_name  = $user_info->display_name;
 	$user_email  = $user_info->user_email;
 	$user_phone  = get_user_meta( $user_id, 'mobile_number', true );
 
 	$host_id    = $property ? intval( $property->host_id ) : 0;
 	$host_info  = $host_id ? get_userdata( $host_id ) : null;
-	$host_name  = $host_id ? get_user_meta( $host_id, 'full_name', true ) : '';
-	if ( empty( $host_name ) && $host_info ) {
-		$host_name = $host_info->display_name;
-	}
+	$host_name  = $host_info ? $host_info->display_name : '';
 	$host_email = $host_info ? $host_info->user_email : '';
 	$host_phone = $host_id ? get_user_meta( $host_id, 'mobile_number', true ) : '';
 
@@ -1395,8 +1386,9 @@ function lef_edit_prof_save_changes() {
 	// Password
 	if ( ! empty( $password ) ) {
 		wp_set_password( $password, $user_id );
-		// Since wp_set_password logs the user out, we might need to re-auth if it's an SPA flow,
-		// but usually, a redirect or re-login is expected.
+		// Re-authenticate the user so they stay logged in
+		wp_set_auth_cookie( $user_id );
+		wp_set_current_user( $user_id );
 	}
 
 	if ( ! empty( $errors ) ) {
@@ -1409,7 +1401,7 @@ function lef_edit_prof_save_changes() {
 		require_once $success_template_path;
 		
 		$email_data = array(
-			'user_name' => !empty($full_name) ? $full_name : $user->display_name,
+			'user_name' => $user->display_name,
 			'username'  => $user->user_login,
 		);
 

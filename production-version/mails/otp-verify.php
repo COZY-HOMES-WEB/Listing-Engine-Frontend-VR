@@ -38,10 +38,10 @@ function lef_get_otp_verify_email_html( $data ) {
 		<style>
 			body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: <?php echo $bg_color; ?>; margin: 0; padding: 40px 20px; color: #1A1A1A; }
 			.container { max-width: 540px; margin: 0 auto; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-			.header { background-color: <?php echo $primary_color; ?>; padding: 45px 30px; text-align: center; }
-			.header h1 { color: #ffffff; margin: 0; font-size: 28px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
-			.content { padding: 45px 40px; text-align: center; }
-			.title { font-size: 24px; font-weight: 800; color: #000000; margin-bottom: 20px; }
+			.header { background-color: <?php echo $primary_color; ?>; padding: 30px 20px; text-align: center; }
+			.header h1 { color: #ffffff; margin: 0; font-size: 26px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+			.content { padding: 20px; text-align: center; }
+			.title { font-size: 24px; font-weight: 600; color: #000000; margin: 0 0 20px 0; }
 			.text { font-size: 16px; line-height: 1.6; color: #4B5563; margin-bottom: 30px; font-weight: 500; }
 			.otp-box { background: #FFF1F2; border: 2px solid <?php echo $primary_color; ?>; border-radius: 16px; padding: 24px; margin: 0 auto 30px; display: inline-block; min-width: 200px; }
 			.otp-code { font-size: 36px; font-weight: 800; letter-spacing: 10px; color: <?php echo $primary_color; ?>; margin: 0; }
@@ -67,11 +67,11 @@ function lef_get_otp_verify_email_html( $data ) {
 				</div>
 
 				<div class="note">
-					Note: If you did not request this update, please ignore this email or contact support at <a href="mailto:admin@gmail.com">admin@gmail.com</a>.
+					Note: If you did not request this update, please ignore this email or contact support at <a href="mailto:<?php echo esc_attr( get_option( 'admin_email' ) ); ?>"><?php echo esc_html( get_option( 'admin_email' ) ); ?></a>.
 				</div>
 			</div>
 			<div class="footer">
-				&copy; <?php echo date('Y'); ?> <?php echo esc_html(get_bloginfo('name')); ?> — Powered by AuthMe
+				&copy; <?php echo date('Y'); ?> <?php echo esc_html(get_bloginfo('name')); ?>
 			</div>
 		</div>
 	</body>

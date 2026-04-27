@@ -38,13 +38,13 @@ function lef_get_update_success_email_html( $data ) {
 			.container { max-width: 540px; margin: 0 auto; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
 			.header { background-color: <?php echo $primary_color; ?>; padding: 45px 30px; text-align: center; }
 			.header h1 { color: #ffffff; margin: 0; font-size: 28px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
-			.content { padding: 45px 40px; text-align: center; }
-			.title { font-size: 32px; font-weight: 900; color: #000000; margin-bottom: 20px; }
+			.content { padding: 20px; text-align: center; }
+			.title { font-size: 32px; font-weight: 900; color: #000000; margin: 0 0 20px 0; }
 			.text { font-size: 17px; line-height: 1.6; color: #4B5563; margin-bottom: 35px; font-weight: 500; }
 			.btn-wrapper { margin: 30px 0; }
 			.btn { background-color: <?php echo $primary_color; ?>; color: #ffffff !important; padding: 18px 35px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 16px; display: inline-block; transition: transform 0.2s ease; }
 			.note { color: #64748B; font-size: 14px; font-weight: 700; line-height: 1.5; margin-top: 35px; border-top: 1px solid #E5E7EB; padding-top: 25px; text-align: center; }
-			.footer { padding: 30px; text-align: center; font-size: 14px; color: #64748B; background: #F9FAFB; font-weight: 600; }
+			.footer { padding: 30px; text-align: center; font-size: 14px; color: #64748B; background: #F9FAFB; font-weight: 500; }
 		</style>
 	</head>
 	<body>
@@ -64,11 +64,11 @@ function lef_get_update_success_email_html( $data ) {
 				</div>
 
 				<div class="note">
-					Note: If you did not update your information, please contact support immediately at admin@gmail.com.
+					Note: If you did not update your information, please contact support immediately at <a href="mailto:<?php echo esc_attr( get_option( 'admin_email' ) ); ?>"><?php echo esc_html( get_option( 'admin_email' ) ); ?></a>.
 				</div>
 			</div>
 			<div class="footer">
-				&copy; <?php echo date('Y'); ?> <?php echo esc_html(get_bloginfo('name')); ?> — Powered by AuthMe
+				&copy; <?php echo date('Y'); ?> <?php echo esc_html(get_bloginfo('name')); ?>
 			</div>
 		</div>
 	</body>

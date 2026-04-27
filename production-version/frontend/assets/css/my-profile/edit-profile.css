@@ -327,16 +327,16 @@
 
 .lef-edit-prof-otp-title {
     color: var(--leb-secondary-color);
-    font-size: 1.4rem;
-    font-weight: 800;
+    font-size: 2rem;
+    font-weight: 500;
     margin: 0;
 }
 
 .lef-edit-prof-otp-text {
     color: var(--leb-text-muted);
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-top: 6px;
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-top: 3px;
 }
 
 .lef-edit-prof-otp-body {
@@ -345,22 +345,23 @@
 
 .lef-edit-prof-otp-input-field {
     text-align: center;
-    font-size: 1.5rem !important;
-    letter-spacing: 5px;
-    font-weight: 800 !important;
+    font-size: 1.6rem !important;
+    letter-spacing: 8px;
+    font-weight: 500 !important;
 }
 
 .lef-edit-prof-otp-timer {
-    font-size: 0.82rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 400;
     color: var(--leb-text-muted);
-    margin-top: 12px;
+    margin-top: 6px;
 }
 
 .lef-edit-prof-otp-close {
+    display: flex;
     background: var(--leb-bg-light);
     border: 1px solid var(--leb-border-color);
-    border-radius: 8px;
+    border-radius: 100rem;
     color: var(--leb-text-muted);
     cursor: pointer;
     padding: 6px;
@@ -381,14 +382,14 @@
 .lef-edit-prof-otp-submit {
     width: 100%;
     background: var(--leb-primary-color);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 800;
-    padding: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    color: white !important;
+    border: none !important;
+    border-radius: 1rem;
+    font-size: 1.3rem !important;
+    font-weight: 500 !important;
+    padding: 16px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
 }
 
 .lef-edit-prof-otp-submit:hover {
