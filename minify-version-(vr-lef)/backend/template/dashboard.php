@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Admin Dashboard Template
  *
@@ -8,7 +9,7 @@
  * @package ListingEngineFrontend
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (! defined('ABSPATH')) {
     exit;
 }
 
@@ -35,13 +36,8 @@ $display_name = $current_user->display_name ?: $current_user->user_login;
                 </div>
                 <div>
                     <h1 class="lef-dash-title">Listing Engine Frontend</h1>
-                    <p class="lef-dash-subtitle">Welcome back, <strong><?php echo esc_html( $display_name ); ?></strong> — your plugin control centre.</p>
+                    <p class="lef-dash-subtitle">Welcome back, <strong><?php echo esc_html($display_name); ?></strong> — your plugin control centre.</p>
                 </div>
-            </div>
-            <div class="lef-dash-header-meta">
-                <span class="lef-dash-version-badge">
-                    v<?php echo esc_html( defined( 'LEF_VERSION' ) ? LEF_VERSION : '1.0.0' ); ?>
-                </span>
             </div>
         </header>
 
@@ -57,7 +53,7 @@ $display_name = $current_user->display_name ?: $current_user->user_login;
             <div class="lef-dash-nav-grid">
 
                 <!-- Database -->
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=lef-database' ) ); ?>" class="lef-dash-nav-card" id="lef-dash-card-database">
+                <a href="<?php echo esc_url(admin_url('admin.php?page=lef-database')); ?>" class="lef-dash-nav-card" id="lef-dash-card-database">
                     <div class="lef-dash-nav-card-icon lef-dash-nav-card-icon--primary" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
@@ -77,7 +73,7 @@ $display_name = $current_user->display_name ?: $current_user->user_login;
                 </a>
 
                 <!-- Manage Reservations -->
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=lef-manage-reservations' ) ); ?>" class="lef-dash-nav-card" id="lef-dash-card-reservations">
+                <a href="<?php echo esc_url(admin_url('admin.php?page=lef-manage-reservations')); ?>" class="lef-dash-nav-card" id="lef-dash-card-reservations">
                     <div class="lef-dash-nav-card-icon lef-dash-nav-card-icon--success" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M8 2v4"></path>
@@ -217,7 +213,10 @@ $display_name = $current_user->display_name ?: $current_user->user_login;
                                 <div class="lef-dash-doc-code-wrap">
                                     <code class="lef-dash-doc-code" id="lef-dash-code-slv-1">[selected_list_view count="6"]</code>
                                     <button class="lef-dash-copy-btn" data-lef-copy="lef-dash-code-slv-1" aria-label="Copy shortcode">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
@@ -226,7 +225,10 @@ $display_name = $current_user->display_name ?: $current_user->user_login;
                                 <div class="lef-dash-doc-code-wrap">
                                     <code class="lef-dash-doc-code" id="lef-dash-code-slv-2">[selected_list_view view="carousel" location="Goa"]</code>
                                     <button class="lef-dash-copy-btn" data-lef-copy="lef-dash-code-slv-2" aria-label="Copy shortcode">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
@@ -235,7 +237,10 @@ $display_name = $current_user->display_name ?: $current_user->user_login;
                                 <div class="lef-dash-doc-code-wrap">
                                     <code class="lef-dash-doc-code" id="lef-dash-code-slv-3">[selected_list_view view="grid" location="Mumbai" type="Villa"]</code>
                                     <button class="lef-dash-copy-btn" data-lef-copy="lef-dash-code-slv-3" aria-label="Copy shortcode">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
@@ -262,7 +267,10 @@ $display_name = $current_user->display_name ?: $current_user->user_login;
                             <div class="lef-dash-doc-code-wrap">
                                 <code class="lef-dash-doc-code" id="lef-dash-code-psb">[premium_search_bar]</code>
                                 <button class="lef-dash-copy-btn" data-lef-copy="lef-dash-code-psb" aria-label="Copy shortcode">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -297,7 +305,10 @@ $display_name = $current_user->display_name ?: $current_user->user_login;
                             <div class="lef-dash-doc-code-wrap">
                                 <code class="lef-dash-doc-code" id="lef-dash-code-spv">[single_property_view]</code>
                                 <button class="lef-dash-copy-btn" data-lef-copy="lef-dash-code-spv" aria-label="Copy shortcode">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -332,7 +343,10 @@ $display_name = $current_user->display_name ?: $current_user->user_login;
                             <div class="lef-dash-doc-code-wrap">
                                 <code class="lef-dash-doc-code" id="lef-dash-code-profile">[lef_my_profile]</code>
                                 <button class="lef-dash-copy-btn" data-lef-copy="lef-dash-code-profile" aria-label="Copy shortcode">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
