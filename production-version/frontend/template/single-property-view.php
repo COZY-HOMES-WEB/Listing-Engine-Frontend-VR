@@ -200,6 +200,11 @@ $guests      = intval($property->guests);
 $bedrooms    = intval($property->bedroom);
 $beds        = intval($property->bed);
 $bathrooms   = intval($property->bathroom);
+ 
+ /* ── 11. User Role Check ── */
+ $current_user = wp_get_current_user();
+ $is_host = in_array('host', (array) $current_user->roles);
+
 
 // ─────────────────────────────────────────────────────────────
 // SVG Icons (reused across desktop & mobile)
@@ -254,7 +259,8 @@ $lef_review_char_limit = 250;
     data-price="<?php echo esc_attr($price); ?>"
     data-max-guests="<?php echo esc_attr($guests); ?>"
     data-is-wishlisted="<?php echo $is_wishlisted ? '1' : '0'; ?>"
-    data-is-logged-in="<?php echo is_user_logged_in() ? '1' : '0'; ?>">
+    data-is-logged-in="<?php echo is_user_logged_in() ? '1' : '0'; ?>"
+    data-is-host="<?php echo $is_host ? '1' : '0'; ?>">
 
 
 
@@ -446,7 +452,12 @@ $lef_review_char_limit = 250;
                             </div>
                         </div>
 
-                        <button class="lefdk-lf-btn" id="lef-spv-reserve-btn">Reserve</button>
+                        <?php if ($is_host) : ?>
+                            <button class="lefdk-lf-btn" style="opacity: 0.6; cursor: not-allowed;" disabled>Hosts cannot reserve</button>
+                        <?php else : ?>
+                            <button class="lefdk-lf-btn" id="lef-spv-reserve-btn">Reserve</button>
+                        <?php endif; ?>
+
                         <p class="lefdk-lf-info">You won't be charged yet</p>
                     </div>
                 </div>
@@ -513,7 +524,13 @@ $lef_review_char_limit = 250;
 
             <!-- ── Similar Properties ── -->
             <div class="lefdk-similar-results">
-                <h1 class="lefdk-sm-heading">More stays nearby</h1>
+                <div class="lefdk-sm-header-cont">
+                    <h1 class="lefdk-sm-heading">More stays nearby</h1>
+                    <div class="lefdk-sm-nav">
+                        <button class="lefdk-sm-nav-btn" id="lef-spv-sm-prev"><?php echo $slider_prev_svg; ?></button>
+                        <button class="lefdk-sm-nav-btn" id="lef-spv-sm-next"><?php echo $slider_next_svg; ?></button>
+                    </div>
+                </div>
                 <div class="lefdk-sm-r-cards" id="lef-spv-similar-dk"></div>
             </div>
         </div>
@@ -700,7 +717,13 @@ $lef_review_char_limit = 250;
 
                 <!-- Similar Properties -->
                 <div class="lefmb-similar-results">
-                    <h1 class="lefmb-sm-heading">More stays nearby</h1>
+                    <div class="lefdk-sm-header-cont">
+                        <h1 class="lefmb-sm-heading">More stays nearby</h1>
+                        <div class="lefdk-sm-nav">
+                            <button class="lefdk-sm-nav-btn" id="lef-spv-sm-prev-mb"><?php echo $slider_prev_svg; ?></button>
+                            <button class="lefdk-sm-nav-btn" id="lef-spv-sm-next-mb"><?php echo $slider_next_svg; ?></button>
+                        </div>
+                    </div>
                     <div class="lefmb-sm-r-cards" id="lef-spv-similar-mb"></div>
                 </div>
 
@@ -710,7 +733,12 @@ $lef_review_char_limit = 250;
                         <span class="lefmb-night-price" id="lef-spv-mb-price">Add dates for prices </span>
                         <span class="lefmb-night-info" id="lef-spv-mb-price-info"></span>
                     </div>
-                    <button class="lefmb-reserv-btn" id="lef-spv-mb-reserve-btn">Reserve</button>
+                    <?php if ($is_host) : ?>
+                        <button class="lefmb-reserv-btn" style="opacity: 0.6; cursor: not-allowed;" disabled>Restricted</button>
+                    <?php else : ?>
+                        <button class="lefmb-reserv-btn" id="lef-spv-mb-reserve-btn">Reserve</button>
+                    <?php endif; ?>
+
                 </div>
 
             </div>
@@ -948,7 +976,12 @@ $lef_review_char_limit = 250;
                     </div>
                 </div>
 
-                <button class="lefdk-lf-btn" id="lef-spv-mb-confirm-reserve">Reserve</button>
+                <?php if ($is_host) : ?>
+                    <button class="lefdk-lf-btn" style="opacity: 0.6; cursor: not-allowed;" disabled>Hosts cannot reserve</button>
+                <?php else : ?>
+                    <button class="lefdk-lf-btn" id="lef-spv-mb-confirm-reserve">Reserve</button>
+                <?php endif; ?>
+
                 <p class="lefdk-lf-info">You won't be charged yet</p>
             </div>
         </div>

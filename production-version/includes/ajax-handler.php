@@ -561,6 +561,11 @@ function lef_submit_reservation() {
 		wp_send_json_error( array( 'message' => 'You must be logged in to reserve.' ) );
 	}
 
+	$current_user = wp_get_current_user();
+	if ( in_array( 'host', (array) $current_user->roles ) ) {
+		wp_send_json_error( array( 'message' => 'Hosts are not allowed to send reservation requests.' ) );
+	}
+
 	global $wpdb;
 	$user_id     = get_current_user_id();
 	$property_id = isset( $_POST['property_id'] ) ? intval( $_POST['property_id'] ) : 0;

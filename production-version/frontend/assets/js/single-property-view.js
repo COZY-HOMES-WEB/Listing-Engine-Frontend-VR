@@ -697,8 +697,29 @@
                 $('#lef-spv-similar-dk').html(html);
                 $('#lef-spv-similar-mb').html(html);
                 $('.lefdk-similar-results, .lefmb-similar-results').show();
+
+                // Initialize navigation buttons after content is loaded
+                initSimilarNav();
             } else {
                 $('.lefdk-similar-results, .lefmb-similar-results').hide();
+            }
+        });
+    }
+
+    function initSimilarNav() {
+        $('#lef-spv-sm-prev, #lef-spv-sm-prev-mb').on('click', function () {
+            const $cont = $(this).closest('.lefdk-similar-results, .lefmb-similar-results').find('.lefdk-sm-r-cards, .lefmb-sm-r-cards');
+            if ($cont.length) {
+                const scrollAmt = $cont.width() * 0.8; // Scroll 80% of width
+                $cont[0].scrollBy({ left: -scrollAmt, behavior: 'smooth' });
+            }
+        });
+
+        $('#lef-spv-sm-next, #lef-spv-sm-next-mb').on('click', function () {
+            const $cont = $(this).closest('.lefdk-similar-results, .lefmb-similar-results').find('.lefdk-sm-r-cards, .lefmb-sm-r-cards');
+            if ($cont.length) {
+                const scrollAmt = $cont.width() * 0.8; // Scroll 80% of width
+                $cont[0].scrollBy({ left: scrollAmt, behavior: 'smooth' });
             }
         });
     }
