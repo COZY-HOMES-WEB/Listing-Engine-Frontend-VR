@@ -213,7 +213,7 @@ function lef_toggle_wishlist() {
 		wp_send_json_success( array( 'status' => 'added' ) );
 	}
 }
-add_action( 'wp_ajax_lef_toggle_wishlist', 'lef_toggle_wishlist' );
+add_action( 'wp_ajax_lef_spv_toggle_wishlist', 'lef_toggle_wishlist' );
 
 
 /* ==================== WISHLIST: CHECK STATUS ==================== */

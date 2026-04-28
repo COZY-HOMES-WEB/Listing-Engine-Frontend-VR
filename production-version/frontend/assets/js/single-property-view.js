@@ -152,7 +152,7 @@
             }
 
             $.post(AJAX_URL, {
-                action: 'lef_toggle_wishlist',
+                action: 'lef_spv_toggle_wishlist',
                 nonce: NONCE,
                 property_id: PROP_ID,
             }, function (res) {
