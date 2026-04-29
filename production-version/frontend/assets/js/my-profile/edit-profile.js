@@ -10,8 +10,6 @@
 
     const LefEditProf = {
         config: {
-            // Use countries from localized data (libphonenumber backed)
-            countries: lefMyProfileData.countries || [],
             otpTimeout: 60,
             uploadMaxMB: 1
         },
@@ -21,7 +19,7 @@
             currentOtpSeconds: 0,
             isUploading: false,
             passwordScore: 0,
-            selectedIso: 'in',
+            selectedCountry: null,
             phoneTimer: null,
             initialEmail: '',
             initialPhone: ''
@@ -30,6 +28,7 @@
         init: function() {
             this.cacheDOM();
             this.bindEvents();
+            this.initPhoneCore();
             this.populateCountries();
             this.captureInitialState();
         },
@@ -126,12 +125,40 @@
             $('#lef-edit-prof-otp-close').off('click').on('click', () => self.closeOTP());
         },
 
+        initPhoneCore: function() {
+            if (!window.PhoneCore) return;
+            const self = this;
+            const val = this.$phoneInput.val().trim();
+            if (val) {
+                const detected = PhoneCore.detectCountry(val);
+                if (detected) {
+                    this.state.selectedCountry = detected;
+                    this.$selectedFlag.text(detected.flag);
+                    this.$selectedCode.text(detected.code);
+                    
+                    // Remove the code from the input value if it's there
+                    const cleanVal = val.replace(/\D/g, "");
+                    const codeClean = detected.code.replace("+", "");
+                    if (cleanVal.startsWith(codeClean)) {
+                        this.$phoneInput.val(cleanVal.substring(codeClean.length));
+                    }
+                } else {
+                    // Default to India
+                    this.state.selectedCountry = PhoneCore.findCountry("+91");
+                }
+            } else {
+                this.state.selectedCountry = PhoneCore.findCountry("+91");
+            }
+        },
+
         populateCountries: function() {
             const self = this;
-            if (!this.$countryDropdown.length) return;
+            if (!this.$countryDropdown.length || !window.PhoneCore) return;
             
             this.$countryDropdown.empty();
-            this.config.countries.forEach(country => {
+            const countries = PhoneCore.getCountries();
+            
+            countries.forEach(country => {
                 const $item = $(`<div class="lef-edit-prof-country-item">
                     <span>${country.flag}</span>
                     <span>${country.name}</span>
@@ -142,7 +169,7 @@
                     e.stopPropagation();
                     self.$selectedFlag.text(country.flag);
                     self.$selectedCode.text(country.code);
-                    self.state.selectedIso = country.iso;
+                    self.state.selectedCountry = country;
                     self.$countryDropdown.hide();
                     self.validatePhone();
                 });
@@ -204,25 +231,30 @@
                 return true;
             }
 
-            if (!/^\d+$/.test(val)) {
-                $err.text('Numbers only.').show().addClass('is-visible');
+            if (!window.PhoneCore) return true;
+
+            const result = PhoneCore.validate(val, this.state.selectedCountry);
+            if (!result.valid) {
+                $err.text(result.error).show().addClass('is-visible');
                 return false;
             }
 
             $err.hide().removeClass('is-visible');
 
-            // Debounced AJAX check
+            // Format input
+            this.$phoneInput.val(PhoneCore.format(val));
+
+            // Debounced AJAX check for duplicates
             clearTimeout(this.state.phoneTimer);
             this.state.phoneTimer = setTimeout(() => {
-                const fullPhone = self.$selectedCode.text() + ' ' + val;
+                const fullPhone = self.$selectedCode.text() + ' ' + val.replace(/\D/g, "");
                 $.ajax({
                     url: lefMyProfileData.ajax_url,
                     type: 'POST',
                     data: {
                         action: 'lef_edit_prof_validate_phone',
                         nonce: lefMyProfileData.nonce,
-                        phone: fullPhone,
-                        iso: self.state.selectedIso
+                        phone: fullPhone
                     },
                     success: function(res) {
                         if (!res.success) {
@@ -414,8 +446,7 @@
                     action: 'lef_edit_prof_send_otp',
                     nonce: lefMyProfileData.nonce,
                     email: this.$emailInput.val(),
-                    phone: this.$selectedCode.text() + ' ' + this.$phoneInput.val().trim(),
-                    iso: this.state.selectedIso
+                    phone: this.$selectedCode.text() + ' ' + this.$phoneInput.val().trim().replace(/\D/g, "")
                 },
                 success: function(res) {
                     $('.lef-edit-prof-save-btn').prop('disabled', false).css('opacity', '1').html('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><path d="M17 21v-8H7v8"></path><path d="M7 3v5h8"></path></svg> Save Changes');
@@ -442,7 +473,7 @@
 
             $submitBtn.prop('disabled', true).text('Verifying...');
 
-            const fullPhone = this.$selectedCode.text() + ' ' + this.$phoneInput.val().trim();
+            const fullPhone = this.$selectedCode.text() + ' ' + this.$phoneInput.val().trim().replace(/\D/g, "");
 
             $.ajax({
                 url: lefMyProfileData.ajax_url,
@@ -474,7 +505,7 @@
             const $btn = $('.lef-edit-prof-save-btn');
             $btn.prop('disabled', true).css('opacity', '0.7').text('Saving...');
 
-            const fullPhone = this.$selectedCode.text() + ' ' + this.$phoneInput.val().trim();
+            const fullPhone = this.$selectedCode.text() + ' ' + this.$phoneInput.val().trim().replace(/\D/g, "");
 
             $.ajax({
                 url: lefMyProfileData.ajax_url,

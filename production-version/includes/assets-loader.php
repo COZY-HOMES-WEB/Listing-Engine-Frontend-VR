@@ -296,7 +296,6 @@ function lef_enqueue_assets() {
 				'ajax_url'   => admin_url( 'admin-ajax.php' ),
 				'nonce'      => wp_create_nonce( 'lef_myprofile_nonce' ),
 				'plugin_url' => LEF_PLUGIN_URL,
-				'countries'  => lef_get_country_data(),
 			) );
 		}
 
@@ -440,6 +439,15 @@ function lef_enqueue_global_components() {
 		LEF_PLUGIN_URL . 'global-assets/js/confirmation.js',
 		array(),
 		filemtime( LEF_PLUGIN_DIR . 'global-assets/js/confirmation.js' ),
+		true
+	);
+
+	// Phone Core Logic.
+	wp_enqueue_script(
+		'lef-phone-core-js',
+		LEF_PLUGIN_URL . 'global-assets/js/phone-core.js',
+		array(),
+		filemtime( LEF_PLUGIN_DIR . 'global-assets/js/phone-core.js' ),
 		true
 	);
 }

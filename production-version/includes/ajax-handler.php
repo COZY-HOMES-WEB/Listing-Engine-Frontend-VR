@@ -1262,12 +1262,12 @@ function lef_edit_prof_send_otp() {
 
 	// 2. Validate Phone
 	if ( ! empty( $new_phone ) ) {
-		// Format Check
-		if ( ! lef_validate_phone_number( $new_phone, $iso ) ) {
-			wp_send_json_error( array( 'message' => 'Invalid phone number for the selected country.' ) );
+		// Format Check (Basic regex since frontend handles strict format)
+		if ( ! preg_match( '/^\+?\d{8,15}$/', str_replace( ' ', '', $new_phone ) ) ) {
+			wp_send_json_error( array( 'message' => 'Invalid phone number format.' ) );
 		}
 		// Duplicate Check
-		if ( lef_is_contact_duplicate( 'mobile_number', $new_phone, $user_id ) ) {
+		if ( lef_is_contact_duplicate( 'mobile_number', str_replace( ' ', '', $new_phone ), $user_id ) ) {
 			wp_send_json_error( array( 'message' => 'This phone number is already registered with another account.' ) );
 		}
 	}
@@ -1442,9 +1442,9 @@ function lef_edit_prof_validate_phone() {
 	// If it doesn't start with +, maybe append the code? 
 	// But usually, we send the full string from JS.
 	
-	// 1. Format Check
-	if ( ! lef_validate_phone_number( $full_phone, $iso ) ) {
-		wp_send_json_error( array( 'message' => 'Invalid number for this country.' ) );
+	// 1. Format Check (Basic)
+	if ( ! preg_match( '/^\+?\d{8,15}$/', str_replace( ' ', '', $full_phone ) ) ) {
+		wp_send_json_error( array( 'message' => 'Invalid number format.' ) );
 	}
 
 	// 2. Duplicate Check

@@ -225,7 +225,6 @@
     background: var(--leb-white);
     border: 1px solid var(--leb-border-color);
     border-radius: 12px;
-    box-shadow: var(--leb-card-shadow);
     position: relative;
     padding: 20px;
 }

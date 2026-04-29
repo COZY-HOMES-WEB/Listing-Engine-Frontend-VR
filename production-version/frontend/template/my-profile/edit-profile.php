@@ -22,27 +22,8 @@ $mobile_number = get_user_meta($user_id, 'mobile_number', true);
 $profile_pic   = lef_get_user_profile_pic($user_id);
 
 
-// Parse mobile number to split code and number
-$current_code  = '+91';
-$current_flag  = '🇮🇳';
+// The phone number will be parsed and formatted by JS on the frontend
 $phone_display = $mobile_number;
-
-if (!empty($mobile_number)) {
-    $parts = explode(' ', $mobile_number, 2);
-    if (count($parts) === 2) {
-        $current_code  = $parts[0];
-        $phone_display = $parts[1];
-
-        // Match flag using library data
-        $lib_countries = lef_get_country_data();
-        foreach ($lib_countries as $c) {
-            if ($c['code'] === $current_code) {
-                $current_flag = $c['flag'];
-                break;
-            }
-        }
-    }
-}
 ?>
 
 
@@ -113,7 +94,7 @@ if (!empty($mobile_number)) {
                 <div class="lef-edit-prof-phone-input-group">
                     <div class="lef-edit-prof-country-select-wrapper">
                         <button type="button" class="lef-edit-prof-input" id="lef-edit-prof-country-btn">
-                            <span id="lef-edit-prof-selected-flag"><?php echo esc_html($current_flag); ?></span> <span id="lef-edit-prof-selected-code"><?php echo esc_html($current_code); ?></span>
+                            <span id="lef-edit-prof-selected-flag">🇮🇳</span> <span id="lef-edit-prof-selected-code">+91</span>
                         </button>
                         <div class="lef-edit-prof-country-dropdown" id="lef-edit-prof-country-dropdown">
                             <!-- Dropdown items will be populated by JS -->
