@@ -1,10 +1,5 @@
 .code-review-graph
 .vscode
 .DS_Store
-.agents
 .temp
 .env
-screens
-vendor
-composer.json
-composer.lock
