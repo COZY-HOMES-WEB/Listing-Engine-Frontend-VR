@@ -183,10 +183,19 @@ function lef_enqueue_assets() {
 				true
 			);
 
+			// Phone Core Logic.
+			wp_enqueue_script(
+				'lef-phone-core-js',
+				LEF_PLUGIN_URL . 'global-assets/js/phone-core.js',
+				array(),
+				filemtime( LEF_PLUGIN_DIR . 'global-assets/js/phone-core.js' ),
+				true
+			);
+
 			wp_enqueue_script(
 				'lef-edit-profile-js',
 				LEF_PLUGIN_URL . 'frontend/assets/js/my-profile/edit-profile.js',
-				array( 'jquery' ),
+				array( 'jquery', 'lef-phone-core-js' ),
 				LEF_VERSION . '.' . filemtime( LEF_PLUGIN_DIR . 'frontend/assets/js/my-profile/edit-profile.js' ),
 				true
 			);
@@ -439,15 +448,6 @@ function lef_enqueue_global_components() {
 		LEF_PLUGIN_URL . 'global-assets/js/confirmation.js',
 		array(),
 		filemtime( LEF_PLUGIN_DIR . 'global-assets/js/confirmation.js' ),
-		true
-	);
-
-	// Phone Core Logic.
-	wp_enqueue_script(
-		'lef-phone-core-js',
-		LEF_PLUGIN_URL . 'global-assets/js/phone-core.js',
-		array(),
-		filemtime( LEF_PLUGIN_DIR . 'global-assets/js/phone-core.js' ),
 		true
 	);
 }
