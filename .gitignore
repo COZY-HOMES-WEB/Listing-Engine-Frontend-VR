@@ -1,5 +1,4 @@
 .code-review-graph
 .vscode
 .DS_Store
-.temp
 .env
