@@ -423,7 +423,7 @@ Created/repaired via **LEF > Database**:
 1. Make changes in `production-version/`
 2. Sync to `minify-version/`: `cp -r production-version/* minify-version/`
 3. Create a ZIP of `minify-version/`
-4. Rename to `LEF-(VR).zip` (recommended for zero conflict, or use any custom name)
+4. Rename to `LEF-VR.zip` (recommended for zero conflict, or use any custom name)
 5. Upload via WP Admin > Plugins > Add New > Upload Plugin
 
 **Always keep `minify-version/` clean and deployment-ready.**
