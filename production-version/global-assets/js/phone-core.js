@@ -218,14 +218,28 @@ const countries = [
 
 window.PhoneCore = (function () {
 
+  /**
+   * Returns the complete array of all registered countries.
+   * @returns {Array} Array of country objects.
+   */
   function getCountries() {
     return countries;
   }
 
+  /**
+   * Finds a specific country by its exact dial code.
+   * @param {string} code - The dial code (e.g., "+91").
+   * @returns {Object|undefined} The matching country object.
+   */
   function findCountry(code) {
     return countries.find(c => c.code === code);
   }
 
+  /**
+   * Auto-detects the country by reading the dial code prefix from a full phone number string.
+   * @param {string} number - The full phone number (e.g., "919876543210").
+   * @returns {Object|undefined} The detected country object.
+   */
   function detectCountry(number) {
     const clean = number.replace(/\D/g, "");
     return countries.find(c =>
@@ -233,6 +247,12 @@ window.PhoneCore = (function () {
     );
   }
 
+  /**
+   * Validates a phone number based on the minimum and maximum length rules of the selected country.
+   * @param {string} number - The raw phone number input.
+   * @param {Object} country - The country object to validate against.
+   * @returns {Object} Result object containing { valid: boolean, error: string|null }.
+   */
   function validate(number, country) {
     const clean = number.replace(/\D/g, "");
 
@@ -243,15 +263,30 @@ window.PhoneCore = (function () {
     return { valid: true, error: null };
   }
 
+  /**
+   * Formats a raw number string into a cleaner visual format with spaces (e.g., 123 456 7890).
+   * @param {string} number - The raw phone number string.
+   * @returns {string} The visually formatted phone number.
+   */
   function format(number) {
     const clean = number.replace(/\D/g, "");
     return clean.replace(/(\d{3})(\d{3})(\d+)/, "$1 $2 $3");
   }
 
+  /**
+   * Returns a new array of all countries sorted alphabetically by their name.
+   * @returns {Array} Sorted array of country objects.
+   */
   function getCountriesSorted() {
     return [...countries].sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  /**
+   * Dynamically filters countries based on user input. 
+   * Supports direct name match, dial code match, initials match (e.g., "us" -> United States), and multi-word matching.
+   * @param {string} query - The search string typed by the user.
+   * @returns {Array} Array of matching country objects.
+   */
   function searchCountries(query) {
     if (!query) return getCountriesSorted();
     const lowerQuery = query.toLowerCase().trim();
