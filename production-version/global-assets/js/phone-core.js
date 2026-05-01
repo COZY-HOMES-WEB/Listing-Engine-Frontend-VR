@@ -254,11 +254,36 @@ window.PhoneCore = (function () {
 
   function searchCountries(query) {
     if (!query) return getCountriesSorted();
-    const lowerQuery = query.toLowerCase();
-    return getCountriesSorted().filter(c => 
-      c.name.toLowerCase().includes(lowerQuery) || 
-      c.code.includes(lowerQuery)
-    );
+    const lowerQuery = query.toLowerCase().trim();
+    
+    return getCountriesSorted().filter((c) => {
+      const nameLower = c.name.toLowerCase();
+      
+      // 1. Direct match in name or code
+      if (nameLower.includes(lowerQuery) || c.code.includes(lowerQuery)) {
+        return true;
+      }
+      
+      // 2. Generic Initials match (e.g., "us" -> United States, "sa" -> South Africa)
+      const words = nameLower.split(/[\s-]+/);
+      if (words.length > 1) {
+        const initials = words.map(w => w[0]).join("");
+        if (initials.startsWith(lowerQuery)) {
+          return true;
+        }
+      }
+      
+      // 3. Multi-word partial match (e.g., "unit sta" -> United States)
+      const queryParts = lowerQuery.split(/\s+/);
+      if (queryParts.length > 1) {
+        const allPartsMatch = queryParts.every(part => nameLower.includes(part));
+        if (allPartsMatch) {
+          return true;
+        }
+      }
+      
+      return false;
+    });
   }
 
   return {

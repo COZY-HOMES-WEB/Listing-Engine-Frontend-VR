@@ -89,6 +89,30 @@
             // ── Real-time Checks ──
             this.$emailInput.off('input').on('input', () => self.validateEmail());
             this.$phoneInput.off('input').on('input', () => self.validatePhone());
+            
+            // Auto-detect country on paste
+            this.$phoneInput.off('paste.lef_autodetect').on('paste.lef_autodetect', function(e) {
+                const pastedData = (e.originalEvent || e).clipboardData.getData('text/plain');
+                if (!pastedData || !window.PhoneCore) return;
+                
+                const detected = PhoneCore.detectCountry(pastedData);
+                if (detected) {
+                    self.state.selectedCountry = detected;
+                    self.$selectedFlag.text(detected.flag);
+                    self.$selectedCode.text(detected.code);
+                    
+                    const cleanVal = pastedData.replace(/\D/g, "");
+                    const codeClean = detected.code.replace("+", "");
+                    if (cleanVal.startsWith(codeClean)) {
+                        const stripped = cleanVal.substring(codeClean.length);
+                        setTimeout(() => {
+                            self.$phoneInput.val(stripped);
+                            self.validatePhone();
+                        }, 10);
+                    }
+                }
+            });
+
             this.$passInput.off('input').on('input', () => self.checkPasswordStrength());
             this.$confirmInput.off('input').on('input', () => self.checkPasswordMatch());
 
