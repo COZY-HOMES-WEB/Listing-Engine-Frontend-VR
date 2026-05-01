@@ -108,10 +108,7 @@
             });
 
             // ── Country Select ──
-            this.$countryBtn.off('click').on('click', (e) => {
-                e.stopPropagation();
-                self.$countryDropdown.toggle();
-            });
+            // Toggle logic is now in populateCountries to handle focus
             $(document).off('click.lefprofdropdown').on('click.lefprofdropdown', () => self.$countryDropdown.hide());
 
             // ── Image Upload & Preview ──
@@ -156,8 +153,48 @@
             if (!this.$countryDropdown.length || !window.PhoneCore) return;
             
             this.$countryDropdown.empty();
-            const countries = PhoneCore.getCountries();
             
+            // Inject search box
+            const $searchWrap = $('<div class="lef-edit-prof-country-search-wrap"></div>');
+            const $searchInput = $('<input type="text" class="lef-edit-prof-input-country-search" placeholder="Search country..." >');
+            
+            $searchInput.on('click', e => e.stopPropagation());
+            $searchInput.on('input', function(e) {
+                self.renderCountryItems($(this).val());
+            });
+
+            $searchWrap.append($searchInput);
+            this.$countryDropdown.append($searchWrap);
+            
+            // Inject list container
+            this.$listContainer = $('<div class="lef-edit-prof-country-list"></div>');
+            this.$countryDropdown.append(this.$listContainer);
+
+            // Initial render
+            this.renderCountryItems("");
+            
+            // Focus search box when dropdown opens
+            this.$countryBtn.off('click').on('click', (e) => {
+                e.stopPropagation();
+                self.$countryDropdown.toggle();
+                if (self.$countryDropdown.is(':visible')) {
+                    $searchInput.focus();
+                }
+            });
+        },
+
+        renderCountryItems: function(query) {
+            const self = this;
+            if (!this.$listContainer) return;
+            
+            this.$listContainer.empty();
+            const countries = window.PhoneCore.searchCountries ? window.PhoneCore.searchCountries(query) : window.PhoneCore.getCountries();
+            
+            if(countries.length === 0) {
+                 this.$listContainer.append('<div style="padding: 10px; text-align: center; color: #777; font-size: 14px;">No results found</div>');
+                 return;
+            }
+
             countries.forEach(country => {
                 const $item = $(`<div class="lef-edit-prof-country-item">
                     <span>${country.flag}</span>
@@ -174,7 +211,7 @@
                     self.validatePhone();
                 });
 
-                this.$countryDropdown.append($item);
+                this.$listContainer.append($item);
             });
         },
 

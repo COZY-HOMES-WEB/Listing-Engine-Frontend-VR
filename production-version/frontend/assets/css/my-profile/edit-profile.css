@@ -158,6 +158,28 @@
     border-style: dashed;
 }
 
+.lef-edit-prof-country-search-wrap {
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    background: var(--lef-bg-color, #fff);
+    z-index: 2;
+    border-bottom: 1px solid var(--lef-border-color, #eee);
+}
+
+.lef-edit-prof-input-country-search {
+    width: 100% !important;
+    border: 1px solid var(--lef-border-color, #ddd) !important;
+    padding: 8px !important;
+    border-radius: 1rem !important;
+    outline: none;
+    margin-bottom: 0;
+    min-height: 40px !important;
+    height: 40px;
+    font-weight: 400;
+    font-size: 1.35rem !important;
+}
+
 .lef-edit-prof-help {
     color: var(--leb-text-muted);
     font-size: 1.2rem;
@@ -418,7 +440,7 @@
     gap: 12px;
     cursor: pointer;
     transition: background 0.2s ease;
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 500;
     color: var(--leb-secondary-color);
 }
@@ -430,7 +452,7 @@
 .lef-edit-prof-country-item span:last-child {
     margin-left: auto;
     color: var(--leb-text-muted);
-    font-size: 0.85rem;
+    font-size: 1rem;
 }
 
 /* ── Upload Progress ── */
